@@ -1,0 +1,17 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "rules": {
+    // General rules
+    "indent": ["error", 4], // Use 4 spaces for indentation
+    "quotes": ["error", "double"], // Use double quotes for strings
+    "semi": ["error", "always"], // Require semicolons at the end of statements
+    "no-console": "warn" // Warn when using console.log()
+  }
+}
