@@ -78,13 +78,9 @@ export const getAboutMeApi = async () => {
 };
 
 // Update about me api
-export const updateAboutMeApi = async (description: string, id: number) => {
+export const updateAboutMeApi = async (description: string) => {
   const config = await generateConfig();
-  const response = await axios.put(
-    `${URL_API_ABOUT_ME}/${id}`,
-    { description: description },
-    config
-  );
+  const response = await axios.post(`${URL_API_ABOUT_ME}`, { description: description }, config);
   return response.data;
 };
 

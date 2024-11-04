@@ -28,7 +28,7 @@ const initialState: UserState = {
     location: "",
   },
   userProfile: {
-    aboutMe: { description: "", id: null },
+    aboutMe: { description: "", id: 0 },
     education: [],
     workExperience: [],
     skills: {},
@@ -95,9 +95,7 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           education: [
-            ...state.userProfile.education.filter(
-              (ele) => ele.id !== education.id
-            ),
+            ...state.userProfile.education.filter((ele) => ele.id !== education.id),
             education,
           ],
         },
@@ -108,9 +106,7 @@ export const userSlice = createSlice({
         ...state,
         userProfile: {
           ...state.userProfile,
-          education: state.userProfile.education.filter(
-            (ele) => ele.id !== action.payload
-          ),
+          education: state.userProfile.education.filter((ele) => ele.id !== action.payload),
         },
       };
     },
@@ -130,9 +126,7 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           workExperience: [
-            ...state.userProfile.workExperience.filter(
-              (ele) => ele.id !== workExperience.id
-            ),
+            ...state.userProfile.workExperience.filter((ele) => ele.id !== workExperience.id),
             workExperience,
           ],
         },
@@ -155,10 +149,7 @@ export const userSlice = createSlice({
         ...state,
         userProfile: {
           ...state.userProfile,
-          personalProjects: [
-            ...state.userProfile.personalProjects,
-            personalProject,
-          ],
+          personalProjects: [...state.userProfile.personalProjects, personalProject],
         },
       };
     },
@@ -169,9 +160,7 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           personalProjects: [
-            ...state.userProfile.personalProjects.filter(
-              (ele) => ele.id !== personalProject.id
-            ),
+            ...state.userProfile.personalProjects.filter((ele) => ele.id !== personalProject.id),
             personalProject,
           ],
         },
@@ -211,9 +200,7 @@ export const userSlice = createSlice({
         ...state,
         userProfile: {
           ...state.userProfile,
-          awards: state.userProfile.awards.filter(
-            (ele) => ele.id !== action.payload
-          ),
+          awards: state.userProfile.awards.filter((ele) => ele.id !== action.payload),
         },
       };
     },
@@ -233,9 +220,7 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           certificates: [
-            ...state.userProfile.certificates.filter(
-              (ele) => ele.id !== certificate.id
-            ),
+            ...state.userProfile.certificates.filter((ele) => ele.id !== certificate.id),
             certificate,
           ],
         },
@@ -246,9 +231,7 @@ export const userSlice = createSlice({
         ...state,
         userProfile: {
           ...state.userProfile,
-          certificates: state.userProfile.certificates.filter(
-            (ele) => ele.id !== action.payload
-          ),
+          certificates: state.userProfile.certificates.filter((ele) => ele.id !== action.payload),
         },
       };
     },
@@ -280,10 +263,8 @@ export const {
 // Other code such as selectors can use the imported `RootState` type
 export const getUserAuthentication = (state: RootState) => state.user;
 export const getUserProfile = (state: RootState) => state.user.userProfile;
-export const getUserInformation = (state: RootState) =>
-  state.user.userInformation;
-export const getUserEducation = (state: RootState) =>
-  state.user.userProfile.education;
+export const getUserInformation = (state: RootState) => state.user.userInformation;
+export const getUserEducation = (state: RootState) => state.user.userProfile.education;
 export const getToken = (state: RootState) => state.user.token;
 
 export default userSlice.reducer;
