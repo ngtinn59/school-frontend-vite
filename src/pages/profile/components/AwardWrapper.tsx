@@ -8,14 +8,11 @@ import Modal from "../../../components/Modal";
 import { PROFILE_DATA_CATEGORY } from "../../../utils/constants";
 import Input from "../../../components/Input";
 import { useState } from "react";
-import {
-  deleteAwardApi,
-  updateAwardApi,
-} from "../../../services/api/profileApi";
+import { deleteAwardApi, updateAwardApi } from "../../../services/api/profileApi";
 import toast from "react-hot-toast";
 import TextArea from "../../../components/TextArea";
 import { useDispatch } from "react-redux";
-import { deleteAward } from "../../../services/redux/user";
+import { deleteAward, updateAward } from "../../../services/redux/user";
 
 type Props = {
   award: AwardType;
@@ -25,9 +22,7 @@ type Props = {
 export default function AwardWrapper({ award, type }: Props) {
   const [newAward, setNewAward] = useState<AwardType>(award);
   function handleChangeAward(
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) {
     const { name, value } = e.target;
     setNewAward({ ...newAward, [name]: value });
@@ -41,7 +36,8 @@ export default function AwardWrapper({ award, type }: Props) {
       .then((res) => {
         if (res.success) {
           toast.success(res.message);
-          // dispatch(updateExperience({ workExperience: newWorkExperience }));
+          dispatch(updateAward({ award: newAward }));
+
           setNewAward(res.data);
         } else {
           toast.error(res.message);
@@ -79,8 +75,7 @@ export default function AwardWrapper({ award, type }: Props) {
                   title={PROFILE_DATA_CATEGORY.awards.title}
                   handleSave={handleSaveWorkExperience}
                   buttonContent={<EditIcon className="text-lg  mx-2" />}
-                  buttonClassName="!p-2 "
-                >
+                  buttonClassName="!p-2 ">
                   <div>
                     <div className="container mx-auto">
                       <form>
@@ -129,20 +124,14 @@ export default function AwardWrapper({ award, type }: Props) {
                   </div>
                 </Modal>
                 <span onClick={handleDeleteAward}>
-                  <FontAwesomeIcon
-                    icon={faTrashCan}
-                    className="text-gray-500 hover:text-red-500"
-                  />
+                  <FontAwesomeIcon icon={faTrashCan} className="text-gray-500 hover:text-red-500" />
                 </span>
               </span>
             </div>
           </div>
           <div className="text-base text-bold ">{award.provider}</div>
           <div className="text-base  text-bold">{award.issueDate}</div>
-          <Interweave
-            content={award.description}
-            className=" text-base text-bold"
-          />
+          <Interweave content={award.description} className=" text-base text-bold" />
         </div>
       );
   }

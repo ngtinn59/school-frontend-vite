@@ -27,9 +27,7 @@ export default function Award({ awardList }: Props) {
   const [newAward, setNewAward] = useState<AwardType>(initialAward);
   const dispatch = useDispatch();
   function handleChangeAward(
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) {
     const { name, value } = e.target;
     setNewAward({ ...newAward, [name]: value });
@@ -39,7 +37,7 @@ export default function Award({ awardList }: Props) {
       .then((res) => {
         if (res.status_code === 200 || res.success) {
           // Update redux store
-          dispatch(addAward({ ...newAward, id: res.award.id }));
+          dispatch(addAward({ ...newAward, id: res.data.id }));
           toast.success(res.message);
           // Clear form
           setNewAward(initialAward);
@@ -56,14 +54,12 @@ export default function Award({ awardList }: Props) {
       title={PROFILE_DATA_CATEGORY.awards.title}
       titleType="h3"
       description={PROFILE_DATA_CATEGORY.awards.description}
-      icon={profile_awards}
-    >
+      icon={profile_awards}>
       <Modal
         title={PROFILE_DATA_CATEGORY.personalProjects.title}
         handleSave={handleSaveAward}
         buttonContent={<PlusIcon className="text-lg  mx-2" />}
-        buttonClassName="absolute right-4 top-4 !p-2 "
-      >
+        buttonClassName="absolute right-4 top-4 !p-2 ">
         <div>
           <div className="container mx-auto">
             <form>

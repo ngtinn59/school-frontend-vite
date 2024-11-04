@@ -195,6 +195,16 @@ export const userSlice = createSlice({
         },
       };
     },
+    updateAward(state, action) {
+      const { award } = action.payload;
+      return {
+        ...state,
+        userProfile: {
+          ...state.userProfile,
+          awards: [...state.userProfile.awards.filter((ele) => ele.id !== award.id), award],
+        },
+      };
+    },
     deleteAward: (state, action) => {
       return {
         ...state,
@@ -254,6 +264,7 @@ export const {
   deleteProject,
   updateSkill,
   addAward,
+  updateAward,
   deleteAward,
   addCertificate,
   updateCertificate,
