@@ -32,15 +32,14 @@ export default function SignUp() {
               />
               By signing up with Google, I agree to ITviec’s{" "}
               <Link to="terms-conditions"> Terms & Conditions</Link> and{" "}
-              <Link to="privacy-policy">Privacy Policy</Link> in relation to
-              your privacy information.
+              <Link to="privacy-policy">Privacy Policy</Link> in relation to your privacy
+              information.
             </div>
             <div>
               <Button
                 buttonType={isAgreeGoogle ? "disabled" : "outline"}
                 type="button"
-                className="w-full h-12 rounded-md"
-              >
+                className="w-full h-12 rounded-md">
                 <div className="flex flex-row justify-center items-center gap-4">
                   <span>
                     <img src={icon_google} className="h-8" />
@@ -98,15 +97,14 @@ export default function SignUp() {
                 />{" "}
                 I have read and agree to ITviec’s{" "}
                 <Link to="terms-conditions"> Terms & Conditions</Link> and{" "}
-                <Link to="privacy-policy">Privacy Policy</Link> in relation to
-                your privacy information.
+                <Link to="privacy-policy">Privacy Policy</Link> in relation to your privacy
+                information.
               </div>
               <span>
                 <Button
                   type="submit"
                   buttonType={isAgreeTerms ? "disabled" : "primary"}
-                  className="w-full h-12 rounded-md"
-                >
+                  className="w-full h-12 rounded-md">
                   Sign Up
                 </Button>
               </span>
@@ -118,10 +116,7 @@ export default function SignUp() {
             </div>
           </div>
           <div className="flex-1 gap-4 lg:block hidden">
-            <img
-              src="src/assets/sign-up-robot-image.png"
-              className=" w-full max-w-96"
-            />
+            <img src="src/assets/sign-up-robot-image.png" className=" w-full max-w-96" />
           </div>
         </div>
       </div>
@@ -142,21 +137,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const name = formToJSON.name.toString();
     const res = await signUpApi(email, password, name);
     if (res.status === 200) {
-      document.cookie = `token=${res.data.token}`;
-      document.cookie = `token_type=${res.data.token_type}`;
-      document.cookie = `name=${res.data.name}`;
-      console.log("res", res.data);
       toast.success(res.data.message as string);
       return redirect("/");
     } else {
       res.errors &&
         Object.keys(res.errors).forEach((key) => {
           res.errors &&
-            toast.error(
-              `${key[0].toUpperCase() + key.slice(1)}: ${res.errors[key].join(
-                ", "
-              )}`
-            );
+            toast.error(`${key[0].toUpperCase() + key.slice(1)}: ${res.errors[key].join(", ")}`);
         });
       return redirect("/sign-up");
     }

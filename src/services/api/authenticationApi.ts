@@ -3,10 +3,7 @@ import { URL_API_LOGIN } from "../../utils/constants";
 import { ApiLoginResponse } from "../../utils/type";
 import { generateConfig } from "./profileApi";
 
-export const signInApi = async (
-    email: string,
-    password: string
-): Promise<ApiLoginResponse> => {
+export const signInApi = async (email: string, password: string): Promise<ApiLoginResponse> => {
   try {
     const res = await fetch(`${URL_API_LOGIN}/login`, {
       method: "POST",
@@ -46,9 +43,9 @@ export const signInApi = async (
 };
 
 export const signUpApi = async (
-    email: string,
-    password: string,
-    name: string
+  email: string,
+  password: string,
+  name: string
 ): Promise<ApiLoginResponse> => {
   try {
     const res = await fetch(`${URL_API_LOGIN}/register`, {
@@ -63,11 +60,8 @@ export const signUpApi = async (
 
     if (res.ok) {
       return {
-        status: 200,
+        status: data.status_code,
         data: {
-          name: data.user.name,
-          token: data.access_token,
-          token_type: data.token_type,
           message: data.message, // Message indicating successful registration
         },
       };
