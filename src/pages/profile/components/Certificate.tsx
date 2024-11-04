@@ -13,7 +13,6 @@ import { addCertificateApi } from "../../../services/api/profileApi";
 import toast from "react-hot-toast";
 import { addCertificate } from "../../../services/redux/user";
 
-
 type Props = { certificateList: CertificateType[] };
 
 const initialCertificate: CertificateType = {
@@ -26,13 +25,10 @@ const initialCertificate: CertificateType = {
 };
 
 export default function Certificate({ certificateList }: Props) {
-  const [newCertificate, setNewCertificate] =
-    useState<CertificateType>(initialCertificate);
+  const [newCertificate, setNewCertificate] = useState<CertificateType>(initialCertificate);
   const dispatch = useDispatch();
   function handleChangeCertificate(
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) {
     const { name, value } = e.target;
     setNewCertificate({ ...newCertificate, [name]: value });
@@ -42,9 +38,7 @@ export default function Certificate({ certificateList }: Props) {
       .then((res) => {
         if (res.status_code === 200 || res.success) {
           // Update redux store
-          dispatch(
-            addCertificate({ ...newCertificate, id: res.certificate.id })
-          );
+          dispatch(addCertificate({ ...newCertificate, id: res.data.id }));
           toast.success(res.message);
           // Clear form
           setNewCertificate(initialCertificate);
@@ -61,14 +55,12 @@ export default function Certificate({ certificateList }: Props) {
       title={PROFILE_DATA_CATEGORY.certificates.title}
       titleType="h3"
       description={PROFILE_DATA_CATEGORY.certificates.description}
-      icon={profile_certificates}
-    >
+      icon={profile_certificates}>
       <Modal
         title={PROFILE_DATA_CATEGORY.certificates.title}
         handleSave={handleSaveCertificate}
         buttonContent={<PlusIcon className="text-lg  mx-2" />}
-        buttonClassName="absolute right-4 top-4 !p-2 "
-      >
+        buttonClassName="absolute right-4 top-4 !p-2 ">
         <div>
           <div className="container mx-auto">
             <form>
@@ -128,10 +120,7 @@ export default function Certificate({ certificateList }: Props) {
       </Modal>
       {certificateList &&
         certificateList.map((certificate: CertificateType, index: number) => (
-          <CertificateWrapper
-            certificate={certificate}
-            key={`certificate-${index}`}
-          />
+          <CertificateWrapper certificate={certificate} key={`certificate-${index}`} />
         ))}
     </CardWithTitle>
   );
