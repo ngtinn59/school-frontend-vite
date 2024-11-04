@@ -14,20 +14,13 @@ import {
   getUserProfileApi,
   getWorkExperienceApi,
 } from "../services/api/profileApi";
-import {
-  signIn,
-  updateUserInformation,
-  updateUserProfile,
-} from "../services/redux/user";
+import { signIn, updateUserInformation, updateUserProfile } from "../services/redux/user";
 import { LoaderLoginResponse } from "../utils/type";
 
-export default function LoadUserAuthenticationData({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LoadUserAuthenticationData({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
   const loginData: LoaderLoginResponse = useLoaderData() as LoaderLoginResponse;
+
   useEffect(() => {
     if (loginData.isLogin) {
       dispatch(
@@ -53,7 +46,7 @@ export default function LoadUserAuthenticationData({
     if (loginData.isLogin) {
       getUserInformationApi()
         .then((res) => {
-          dispatch(updateUserInformation(res.data));
+          dispatch(updateUserInformation(res.data[0]));
         })
         .catch((err) => {
           if (isAxiosError(err)) {
@@ -65,18 +58,14 @@ export default function LoadUserAuthenticationData({
                   axiosErr.response.data.message
               );
             } else {
-              toast.error(
-                "Failed to fetch user information: An unexpected error occurred."
-              );
+              toast.error("Failed to fetch user information: An unexpected error occurred.");
             }
           } else {
-            toast.error(
-              "Failed to fetch user information: An unexpected error occurred."
-            );
+            toast.error("Failed to fetch user information: An unexpected error occurred.");
           }
         });
 
-      // Cal api to get user profile
+      // Call api to get user profile
       const aboutMePromise = getAboutMeApi().catch((err) =>
         toast.error("Error when get 'about me' data: " + err)
       );
@@ -110,10 +99,9 @@ export default function LoadUserAuthenticationData({
         .then((res) => {
           dispatch(updateUserProfile(res));
         })
-        .catch((err) =>
-          toast.error("Error when get user profile data: " + err)
-        );
+        .catch((err) => toast.error("Error when get user profile data: " + err));
     }
-  }, []);
+  }, [dispatch, loginData.isLogin]);
+
   return <>{children}</>;
 }

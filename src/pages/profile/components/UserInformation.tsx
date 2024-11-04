@@ -16,17 +16,11 @@ import EditIcon from "../../../components/EditIcon";
 import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
 import Title from "../../../components/Title";
-import {
-  srcToFile,
-  updateUserInformationApi,
-} from "../../../services/api/profileApi";
+import { srcToFile, updateUserInformationApi } from "../../../services/api/profileApi";
 
 import { useDispatch, useSelector } from "react-redux";
 import PROFILE_NO_IMAGE_FILE from "../../../assets/profile_no_image.png";
-import {
-  getUserInformation,
-  updateUserInformation,
-} from "../../../services/redux/user";
+import { getUserInformation, updateUserInformation } from "../../../services/redux/user";
 import formatDateToDDMMYYYY from "../../../utils/function/formatDateToDDMMYYYY";
 
 export default function UserInformation() {
@@ -35,9 +29,7 @@ export default function UserInformation() {
   const [selectedImage, setSelectedImage] = useState<File | undefined>();
 
   const handleChangeProfileInformation = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     if (e.target.name == "image-url") {
       if (e.target instanceof HTMLInputElement && e.target.files) {
@@ -70,9 +62,7 @@ export default function UserInformation() {
         if (res.success) {
           toast.success("Profile information updated successfully");
         } else {
-          toast.error(
-            "Failed to update profile information: " + res.data.message
-          );
+          toast.error("Failed to update profile information: " + res.data.message);
         }
       })
       .catch((err) => {
@@ -89,8 +79,7 @@ export default function UserInformation() {
             backgroundImage: `url(${userData.image_url})`,
             height: "120px",
             width: "120px",
-          }}
-        ></div>
+          }}></div>
         <div className="gap-2 flex flex-col w-full">
           <div>
             <Title type="h2" className="text-center md:text-start">
@@ -123,7 +112,7 @@ export default function UserInformation() {
                 <FontAwesomeIcon icon={faGift} />
               </span>
               <span className="font-medium text-base text-gray-700 line-clamp-1">
-                {formatDateToDDMMYYYY(new Date(userData.birthday))}
+                {userData.birthday && formatDateToDDMMYYYY(new Date(userData.birthday))}
               </span>
             </div>
             <div className="flex flex-row gap-2 flex-nowrap items-center">
@@ -164,8 +153,7 @@ export default function UserInformation() {
         title="Personal details"
         handleSave={handleSaveProfileInformation}
         buttonContent={<EditIcon className="text-lg  " />}
-        buttonClassName="absolute right-4 top-4"
-      >
+        buttonClassName="absolute right-4 top-4">
         <div>
           <div className="container mx-auto">
             <form>
@@ -176,16 +164,11 @@ export default function UserInformation() {
                     backgroundImage: `url(${userData.image_url})`,
                     height: "120px",
                     width: "120px",
-                  }}
-                ></div>
+                  }}></div>
                 <div className="flex flex-row gap-4 text-base py-3">
                   <div>
-                    <label
-                      htmlFor="image-url"
-                      className="cursor-pointer text-primary"
-                    >
-                      <FontAwesomeIcon icon={faCameraRotate} />{" "}
-                      <span>Edit</span>
+                    <label htmlFor="image-url" className="cursor-pointer text-primary">
+                      <FontAwesomeIcon icon={faCameraRotate} /> <span>Edit</span>
                     </label>
                     <input
                       type="file"
@@ -200,10 +183,7 @@ export default function UserInformation() {
                       }}
                     />
                   </div>
-                  <label
-                    htmlFor="image-url_delete"
-                    className="cursor-pointer text-normal"
-                  >
+                  <label htmlFor="image-url_delete" className="cursor-pointer text-normal">
                     <FontAwesomeIcon icon={faTrash} /> <span>Delete</span>
                   </label>
                   <input
@@ -212,10 +192,7 @@ export default function UserInformation() {
                     name="image-url_delete"
                     className="hidden"
                     onClick={() => {
-                      srcToFile(
-                        PROFILE_NO_IMAGE_FILE,
-                        "no-profile-image.png"
-                      ).then((res) => {
+                      srcToFile(PROFILE_NO_IMAGE_FILE, "no-profile-image.png").then((res) => {
                         dispatch(
                           updateUserInformation({
                             ...userData,
