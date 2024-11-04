@@ -62,12 +62,11 @@ export const updateUserInformationApi = async (
   data.gender && formDataToSend.append("gender", data.gender);
   data.location && formDataToSend.append("location", data.location);
   if (image) {
-    const imageRes = await uploadToCloudflare(image);
-    console.log(imageRes);
+    formDataToSend.append("image", image);
   }
 
   const config = await generateConfig();
-  const response = await axios.put(`${URL_API_PROFILE}`, data, config);
+  const response = await axios.post(`${URL_API_PROFILE}`, formDataToSend, config);
   return response.data;
 };
 
@@ -133,10 +132,7 @@ export const updateEducationApi = async (education: EducationType) => {
 // Delete user education api
 export const deleteEducationApi = async (educationId: string) => {
   const config = await generateConfig();
-  const response = await axios.delete(
-    `${URL_API_EDUCATION}/${educationId}`,
-    config
-  );
+  const response = await axios.delete(`${URL_API_EDUCATION}/${educationId}`, config);
   return response.data;
 };
 
@@ -148,9 +144,7 @@ export const getWorkExperienceApi = async () => {
 };
 
 // add user experiences api
-export const addWorkExperienceApi = async (
-  workExperience: WorkExperienceType
-) => {
+export const addWorkExperienceApi = async (workExperience: WorkExperienceType) => {
   const config = await generateConfig();
   const response = await axios.post(
     `${URL_API_EXPERIENCE}`,
@@ -167,9 +161,7 @@ export const addWorkExperienceApi = async (
 };
 
 // Update user experiences api
-export const updateWorkExperienceApi = async (
-  workExperience: WorkExperienceType
-) => {
+export const updateWorkExperienceApi = async (workExperience: WorkExperienceType) => {
   const config = await generateConfig();
   const response = await axios.put(
     `${URL_API_EXPERIENCE}/${workExperience.id}`,
@@ -182,10 +174,7 @@ export const updateWorkExperienceApi = async (
 // Delete user experiences api
 export const deleteWorkExperienceApi = async (workExperienceId: string) => {
   const config = await generateConfig();
-  const response = await axios.delete(
-    `${URL_API_EXPERIENCE}/${workExperienceId}`,
-    config
-  );
+  const response = await axios.delete(`${URL_API_EXPERIENCE}/${workExperienceId}`, config);
   return response.data;
 };
 
@@ -197,9 +186,7 @@ export const getSkillApi = async () => {
 };
 
 // Update skill api
-export const updateSkillApi = async (
-  skill: { name: string; level: string }[]
-) => {
+export const updateSkillApi = async (skill: { name: string; level: string }[]) => {
   const config = await generateConfig();
   const response = await axios.post(`${URL_API_SKILLS}`, skill, config);
   return response.data;
@@ -213,9 +200,7 @@ export const getPersonalProjectApi = async () => {
 };
 
 // Add project api
-export const addPersonalProjectApi = async (
-  personalProject: PersonalProjectType
-) => {
+export const addPersonalProjectApi = async (personalProject: PersonalProjectType) => {
   const config = await generateConfig();
   const response = await axios.post(
     `${URL_API_PERSONAL_PROJECT}`,
@@ -231,9 +216,7 @@ export const addPersonalProjectApi = async (
 };
 
 // update project api
-export const updatePersonalProjectApi = async (
-  personalProject: PersonalProjectType
-) => {
+export const updatePersonalProjectApi = async (personalProject: PersonalProjectType) => {
   const config = await generateConfig();
   const response = await axios.put(
     `${URL_API_PERSONAL_PROJECT}/${personalProject.id}`,
@@ -246,10 +229,7 @@ export const updatePersonalProjectApi = async (
 // Delete project api
 export const deletePersonalProjectApi = async (personalProjectId: string) => {
   const config = await generateConfig();
-  const response = await axios.delete(
-    `${URL_API_PERSONAL_PROJECT}/${personalProjectId}`,
-    config
-  );
+  const response = await axios.delete(`${URL_API_PERSONAL_PROJECT}/${personalProjectId}`, config);
   return response.data;
 };
 
@@ -297,10 +277,7 @@ export const updateCertificateApi = async (certificate: CertificateType) => {
 // Delete certificate api
 export const deleteCertificateApi = async (certificateId: string) => {
   const config = await generateConfig();
-  const response = await axios.delete(
-    `${URL_API_CERTIFICATES}/${certificateId}`,
-    config
-  );
+  const response = await axios.delete(`${URL_API_CERTIFICATES}/${certificateId}`, config);
   return response.data;
 };
 

@@ -39,6 +39,9 @@ export default function UserInformation() {
         };
         dispatch(updateUserInformation(newProfileImage));
       }
+    } else if (e.target.name === "gender") {
+      const newUserData = { ...userData, gender: e.target.value === "1" ? "Male" : "Female" };
+      dispatch(updateUserInformation(newUserData));
     } else {
       const newUserData = { ...userData, [e.target.name]: e.target.value };
       dispatch(updateUserInformation(newUserData));
@@ -121,7 +124,7 @@ export default function UserInformation() {
               </span>
               {userData.gender && (
                 <span className="font-medium text-base text-gray-700 line-clamp-1">
-                  {userData.gender === "1" ? "Male" : "Female"}
+                  {userData.gender}
                 </span>
               )}
             </div>
@@ -210,7 +213,7 @@ export default function UserInformation() {
                   type="text"
                   name="name"
                   label="Name"
-                  value={userData.name}
+                  value={userData.name || ""}
                   onChange={handleChangeProfileInformation}
                   containerClassName="flex flex-col gap-1"
                   required
@@ -220,7 +223,7 @@ export default function UserInformation() {
                   type="text"
                   name="title"
                   label="Title"
-                  value={userData.title}
+                  value={userData.title || ""}
                   onChange={handleChangeProfileInformation}
                   containerClassName="flex flex-col gap-1"
                   required
@@ -230,7 +233,7 @@ export default function UserInformation() {
                   type="email"
                   name="email"
                   label="Email"
-                  value={userData.email}
+                  value={userData.email || ""}
                   onChange={handleChangeProfileInformation}
                   containerClassName="flex flex-col gap-1"
                   required
@@ -240,7 +243,7 @@ export default function UserInformation() {
                   type="text"
                   name="phone"
                   label="Phone"
-                  value={userData.phone}
+                  value={userData.phone || ""}
                   onChange={handleChangeProfileInformation}
                   containerClassName="flex flex-col gap-1"
                   required
@@ -257,9 +260,9 @@ export default function UserInformation() {
                 />
                 <Input
                   inputGroupType="styled-dropdown"
-                  name="birthday"
+                  name="gender"
                   label="Gender"
-                  value={userData.gender}
+                  value={userData.gender === "Male" ? "1" : "0"}
                   options={[
                     { value: "1", label: "Male" },
                     { value: "0", label: "Female" },
@@ -274,7 +277,7 @@ export default function UserInformation() {
                   type="text"
                   name="location"
                   label="Location"
-                  value={userData.location}
+                  value={userData.location || ""}
                   onChange={handleChangeProfileInformation}
                   containerClassName="flex flex-col gap-1"
                   required
@@ -284,7 +287,7 @@ export default function UserInformation() {
                   type="text"
                   name="website"
                   label="Personal website"
-                  value={userData.website}
+                  value={userData.website || ""}
                   onChange={handleChangeProfileInformation}
                   containerClassName="flex flex-col gap-1"
                   required
