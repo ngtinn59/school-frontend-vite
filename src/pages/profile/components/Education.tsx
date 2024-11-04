@@ -5,18 +5,13 @@ import Modal from "../../../components/Modal";
 import PlusIcon from "../../../components/PlusIcon";
 import TextArea from "../../../components/TextArea";
 import CardWithTitle from "../../../ui/Card/CardWithTitle";
-import {
-  PROFILE_DATA_CATEGORY,
-  SELECT_MONTH_OF_YEAR,
-  SELECT_YEAR,
-} from "../../../utils/constants";
+import { PROFILE_DATA_CATEGORY, SELECT_MONTH_OF_YEAR, SELECT_YEAR } from "../../../utils/constants";
 import { EducationType } from "../../../utils/type";
 import { addEducationApi } from "../../../services/api/profileApi";
 import toast from "react-hot-toast";
 import { addEducation } from "../../../services/redux/user";
 import { useDispatch } from "react-redux";
 import EducationWrapper from "./EducationWrapper";
-
 
 type Props = {
   educationList: EducationType[];
@@ -32,14 +27,10 @@ const educationInitialState = {
 };
 
 export const Education = ({ educationList }: Props) => {
-  const [newEducation, setNewEducation] = useState<EducationType>(
-    educationInitialState
-  );
+  const [newEducation, setNewEducation] = useState<EducationType>(educationInitialState);
   const dispatch = useDispatch();
   const handleChangeEducation = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     if (
@@ -103,7 +94,7 @@ export const Education = ({ educationList }: Props) => {
           if (res.status_code === 200 || res.success) {
             // Update redux store
             console.log(res);
-            dispatch(addEducation({ ...newEducation, id: res.project.id }));
+            dispatch(addEducation({ ...newEducation, id: res.profile_id }));
             toast.success(res.message);
             // Clear form
             setNewEducation(educationInitialState);
@@ -121,14 +112,12 @@ export const Education = ({ educationList }: Props) => {
       title={PROFILE_DATA_CATEGORY.education.title}
       titleType="h3"
       description={PROFILE_DATA_CATEGORY.education.description}
-      icon={profile_education}
-    >
+      icon={profile_education}>
       <Modal
         title={PROFILE_DATA_CATEGORY.education.title}
         handleSave={handleAddEducation}
         buttonContent={<PlusIcon className="text-lg  " />}
-        buttonClassName="absolute right-4 top-4"
-      >
+        buttonClassName="absolute right-4 top-4">
         <div>
           <div className="container mx-auto">
             <form>
@@ -214,12 +203,7 @@ export const Education = ({ educationList }: Props) => {
       {educationList &&
         educationList.map((education, index) => {
           console.log(education);
-          return (
-            <EducationWrapper
-              key={`education-${index}`}
-              education={education}
-            />
-          );
+          return <EducationWrapper key={`education-${index}`} education={education} />;
         })}
     </CardWithTitle>
   );
