@@ -1,9 +1,5 @@
 import CardWithTitle from "../../../ui/Card/CardWithTitle";
-import {
-  PROFILE_DATA_CATEGORY,
-  SELECT_MONTH_OF_YEAR,
-  SELECT_YEAR,
-} from "../../../utils/constants";
+import { PROFILE_DATA_CATEGORY, SELECT_MONTH_OF_YEAR, SELECT_YEAR } from "../../../utils/constants";
 import { PersonalProjectType } from "../../../utils/type";
 import profile_personal_project from "../../../assets/profile_personal_project.svg";
 import PersonalProjectWrapper from "./PersonalProjectWrapper";
@@ -29,24 +25,17 @@ const initialProject = {
 };
 
 export default function PersonalProject({ personalProjectList }: Props) {
-  const [newPersonalProject, setNewPersonalProject] =
-    useState<PersonalProjectType>(initialProject);
+  const [newPersonalProject, setNewPersonalProject] = useState<PersonalProjectType>(initialProject);
   const dispatch = useDispatch();
 
   const handleChangePersonalProject = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     if (name === "start-month" || name === "start-year") {
       setNewPersonalProject({
         ...newPersonalProject,
-        start_date: convertDateFormat(
-          name,
-          value,
-          newPersonalProject.start_date
-        ),
+        start_date: convertDateFormat(name, value, newPersonalProject.start_date),
       });
     } else if (name === "end-month" || name === "end-year") {
       setNewPersonalProject({
@@ -64,7 +53,9 @@ export default function PersonalProject({ personalProjectList }: Props) {
       .then((res) => {
         if (res.success) {
           toast.success(res.message);
-          dispatch(addPersonalProject({ personalProject: newPersonalProject }));
+          dispatch(
+            addPersonalProject({ personalProject: { ...newPersonalProject, id: res.data.id } })
+          );
           setNewPersonalProject(initialProject);
         } else {
           toast.error(res.message);
@@ -79,14 +70,12 @@ export default function PersonalProject({ personalProjectList }: Props) {
       title={PROFILE_DATA_CATEGORY.personalProjects.title}
       titleType="h3"
       description={PROFILE_DATA_CATEGORY.personalProjects.description}
-      icon={profile_personal_project}
-    >
+      icon={profile_personal_project}>
       <Modal
         title={PROFILE_DATA_CATEGORY.workExperience.title}
         handleSave={handleAddPersonalProject}
         buttonContent={<PlusIcon className="text-lg  " />}
-        buttonClassName="absolute right-4 top-4"
-      >
+        buttonClassName="absolute right-4 top-4">
         <div>
           <div className="container mx-auto">
             <form>
@@ -161,15 +150,13 @@ export default function PersonalProject({ personalProjectList }: Props) {
         </div>
       </Modal>
       {personalProjectList &&
-        personalProjectList.map(
-          (project: PersonalProjectType, index: number) => (
-            <PersonalProjectWrapper
-              project={project}
-              type="personal-project"
-              key={`project-${index}`}
-            />
-          )
-        )}
+        personalProjectList.map((project: PersonalProjectType, index: number) => (
+          <PersonalProjectWrapper
+            project={project}
+            type="personal-project"
+            key={`project-${index}`}
+          />
+        ))}
     </CardWithTitle>
   );
 }

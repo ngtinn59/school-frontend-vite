@@ -115,6 +115,7 @@ export const updateEducationApi = async (education: EducationType) => {
   const response = await axios.put(
     `${URL_API_EDUCATION}/${education.id}`,
     {
+      profiles_id: education.id,
       institution: education.institution,
       degree: education.degree,
       start_date: education.start_date,
