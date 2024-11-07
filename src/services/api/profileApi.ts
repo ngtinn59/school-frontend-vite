@@ -61,6 +61,7 @@ export const updateUserInformationApi = async (
   formDataToSend.append("birthday", data.birthday);
   data.gender && formDataToSend.append("gender", data.gender);
   data.location && formDataToSend.append("location", data.location);
+  data.website && formDataToSend.append("website", data.website);
   if (image) {
     formDataToSend.append("image", image);
   }

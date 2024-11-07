@@ -57,6 +57,7 @@ export default function UserInformation() {
       birthday: userData.birthday,
       gender: userData.gender === "Male" ? "1" : "0",
       location: userData.location,
+      website: userData.website,
       image_url: "",
     };
 
