@@ -1,7 +1,7 @@
 import axios from "axios";
 import { URL_API_LOGIN } from "../../utils/constants";
 import { ApiLoginResponse } from "../../utils/type";
-import { generateConfig } from "./profileApi";
+import { generateConfig } from "./common";
 
 export const signInApi = async (email: string, password: string): Promise<ApiLoginResponse> => {
   try {

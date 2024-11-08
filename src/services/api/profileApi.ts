@@ -10,7 +10,6 @@ import {
   URL_API_SKILLS,
 } from "../../utils/constants";
 import { convertSkillsToSkillType } from "../../utils/function/convertSkillsToSkillType";
-import { loadLoginStatus } from "../../utils/loadersFunction";
 import {
   AwardType,
   CertificateType,
@@ -20,17 +19,7 @@ import {
   WorkExperienceType,
 } from "../../utils/type";
 import { UserInformationType } from "../../utils/type/profileType";
-import { uploadToCloudflare } from "./uploadToCloudflare";
-
-// Generate config to use in api
-export const generateConfig = async () => {
-  const token = await loadLoginStatus().then((res) => {
-    return res.token;
-  });
-  return {
-    headers: { Authorization: `Bearer ${token}` },
-  };
-};
+import { generateConfig } from "./common";
 
 // Api use to remove image and use default no avatar image
 export const srcToFile = async (src: string, fileName: string) => {
