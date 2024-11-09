@@ -105,7 +105,7 @@ export default function PersonalProject({ personalProjectList }: Props) {
                   <Input
                     inputGroupType="styled-dropdown"
                     name="start-year"
-                    value={newPersonalProject.start_date.split("-")[2]}
+                    value={newPersonalProject.start_date.split("-")[0]}
                     placeholder="major"
                     options={SELECT_YEAR}
                     onChange={handleChangePersonalProject}
@@ -127,7 +127,7 @@ export default function PersonalProject({ personalProjectList }: Props) {
                   <Input
                     inputGroupType="styled-dropdown"
                     name="end-year"
-                    value={newPersonalProject.end_date.split("-")[2]}
+                    value={newPersonalProject.end_date.split("-")[0]}
                     options={SELECT_YEAR}
                     onChange={handleChangePersonalProject}
                     containerClassName="flex flex-col gap-1 justify-end"
