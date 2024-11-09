@@ -20,7 +20,6 @@ import toast from "react-hot-toast";
 import { updateSkill } from "../../../services/redux/user";
 import { useDispatch } from "react-redux";
 
-
 type Props = { skills: SkillType };
 
 export default function Skill({ skills }: Props) {
@@ -64,20 +63,14 @@ export default function Skill({ skills }: Props) {
       title={PROFILE_DATA_CATEGORY.skills.title}
       titleType="h3"
       description={PROFILE_DATA_CATEGORY.skills.description}
-      icon={profile_skills}
-    >
+      icon={profile_skills}>
       <Modal
         title={PROFILE_DATA_CATEGORY.workExperience.title}
         handleSave={handleUpdateSkill}
         buttonContent={
-          isSkillEmpty ? (
-            <PlusIcon className="text-lg  " />
-          ) : (
-            <EditIcon className="text-lg  mx-2" />
-          )
+          isSkillEmpty ? <PlusIcon className="text-lg  " /> : <EditIcon className="text-lg  mx-2" />
         }
-        buttonClassName="absolute right-4 top-4"
-      >
+        buttonClassName="absolute right-4 top-4">
         <div>
           <div className="container mx-auto">
             <form>
@@ -104,13 +97,10 @@ export default function Skill({ skills }: Props) {
                         className=" px-3 py-1 text-base font-medium  border border-solid border-disabled bg-gray-50 rounded-full cursor-default flex items-center gap-1 "
                         onClick={() => {
                           const newSkills = currSkills.excellent.filter(
-                            (s) =>
-                              s.toLowerCase().trim() !==
-                              skill.toLowerCase().trim()
+                            (s) => s.toLowerCase().trim() !== skill.toLowerCase().trim()
                           );
                           handleChangeSkill(newSkills, "excellent");
-                        }}
-                      >
+                        }}>
                         <span>{skill}</span>
                         <FontAwesomeIcon
                           icon={faClose}
@@ -144,13 +134,10 @@ export default function Skill({ skills }: Props) {
                         className=" px-3 py-1 text-base font-medium  border border-solid border-disabled bg-gray-50 rounded-full cursor-default flex items-center gap-1 "
                         onClick={() => {
                           const newSkills = currSkills.intermediate.filter(
-                            (s) =>
-                              s.toLowerCase().trim() !==
-                              skill.toLowerCase().trim()
+                            (s) => s.toLowerCase().trim() !== skill.toLowerCase().trim()
                           );
                           handleChangeSkill(newSkills, "intermediate");
-                        }}
-                      >
+                        }}>
                         <span>{skill}</span>
                         <FontAwesomeIcon
                           icon={faClose}
@@ -184,13 +171,10 @@ export default function Skill({ skills }: Props) {
                         className=" px-3 py-1 text-base font-medium  border border-solid border-disabled bg-gray-50 rounded-full cursor-default flex items-center gap-1 "
                         onClick={() => {
                           const newSkills = currSkills.beginner.filter(
-                            (s) =>
-                              s.toLowerCase().trim() !==
-                              skill.toLowerCase().trim()
+                            (s) => s.toLowerCase().trim() !== skill.toLowerCase().trim()
                           );
                           handleChangeSkill(newSkills, "beginner");
-                        }}
-                      >
+                        }}>
                         <span>{skill}</span>
                         <FontAwesomeIcon
                           icon={faClose}
@@ -204,11 +188,9 @@ export default function Skill({ skills }: Props) {
           </div>
         </div>
       </Modal>
-      {Boolean(
-        skills.beginner?.length &&
-          skills.intermediate?.length &&
-          skills.excellent?.length
-      ) && <SkillsWrapper skills={skills} />}
+      {!!(skills.beginner?.length && skills.intermediate?.length && skills.excellent?.length) && (
+        <SkillsWrapper skills={skills} />
+      )}
     </CardWithTitle>
   );
 }
