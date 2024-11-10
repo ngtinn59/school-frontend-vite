@@ -61,6 +61,12 @@ export const updateObjectiveApi = async (data: ObjectiveType, cvFile?: File) => 
   return response.data;
 };
 
+export const deleteObjectiveApi = async (id: number) => {
+  const config = await generateConfig();
+  const response = await axios.delete(`${URL_API_OBJECTIVES}/${id}`, config);
+  return response.data;
+};
+
 export const getDesiredLevelsApi = async () => {
   const response = await axios.get(`${BASE_URL_API}/api/desired-levels`);
   return response.data;

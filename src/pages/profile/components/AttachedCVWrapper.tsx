@@ -7,6 +7,7 @@ import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
 import Switch from "../../../components/Switch";
 import {
+  deleteObjectiveApi,
   getCitiesApi,
   getCountriesApi,
   getDesiredLevelsApi,
@@ -163,6 +164,21 @@ const AttachedCVWrapper: React.FC<Props> = ({ objective }) => {
     },
   });
 
+  const { mutate: deleteObjective } = useMutation({
+    mutationFn: (id: number) => deleteObjectiveApi(id),
+    onSuccess: () => {
+      toast.success("Objective deleted successfully");
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          return query.queryKey.includes("objectives");
+        },
+      });
+    },
+    onError: () => {
+      toast.error("Failed to delete objective");
+    },
+  });
+
   const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
     setNewObjective((prevObjective) => {
@@ -232,6 +248,13 @@ const AttachedCVWrapper: React.FC<Props> = ({ objective }) => {
       toast.error("Please upload your CV");
     }
   };
+
+  const handleDeleteObjective = () => {
+    if (objective.id) {
+      deleteObjective(objective.id);
+    }
+  };
+
   return (
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center gap-2">
@@ -473,6 +496,7 @@ const AttachedCVWrapper: React.FC<Props> = ({ objective }) => {
         <FontAwesomeIcon
           icon={faTrashCan}
           className="text-gray-500 cursor-pointer hover:text-red-500"
+          onClick={handleDeleteObjective}
         />
       </div>
     </div>
