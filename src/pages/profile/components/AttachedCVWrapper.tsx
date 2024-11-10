@@ -259,7 +259,12 @@ const AttachedCVWrapper: React.FC<Props> = ({ objective }) => {
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center gap-2">
         <div>
-          <h3 className="text-lg font-semibold mb-1">{objective.desired_position}</h3>
+          <h3
+            className={`text-lg font-semibold mb-1 ${
+              objective.status === "1" ? "text-[var(--color-primary)]" : ""
+            }`}>
+            {objective.desired_position}
+          </h3>
           <p className="text-sm text-gray-400">
             Last updated {dayjs(objective.updated_at).format("DD/MM/YYYY HH:mm:ss")}
           </p>
