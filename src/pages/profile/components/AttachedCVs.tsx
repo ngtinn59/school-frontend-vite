@@ -1,12 +1,26 @@
 import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
 import Switch from "../../../components/Switch";
-import { COLOR_PRIMARY } from "../../../utils/constants";
+import {
+  addObjectiveApi,
+  getCitiesApi,
+  getCountriesApi,
+  getDesiredLevelsApi,
+  getDistrictsApi,
+  getEducationLevelsApi,
+  getEmploymentTypesApi,
+  getExperienceLevelsApi,
+  getObjectivesApi,
+  getProfessionsApi,
+  getWorkplacesApi,
+} from "../../../services/api/objectiveApi";
 import {
   CityType,
   CountryType,
@@ -19,20 +33,7 @@ import {
   ProfessionType,
   WorkplaceType,
 } from "../../../utils/type";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  addObjectiveApi,
-  getCitiesApi,
-  getCountriesApi,
-  getDesiredLevelsApi,
-  getDistrictsApi,
-  getEducationLevelsApi,
-  getEmploymentTypesApi,
-  getExperienceLevelsApi,
-  getProfessionsApi,
-  getWorkplacesApi,
-} from "../../../services/api/objectiveApi";
-import toast from "react-hot-toast";
+import AttachedCVWrapper from "./AttachedCVWrapper";
 
 const objectiveInitialState: ObjectiveType = {
   desired_position: "",
@@ -60,6 +61,12 @@ interface AddObjectiveArgs {
 const AttachedCVs: React.FC = () => {
   const [uploadedFile, setUploadedFiles] = useState<File | undefined>();
   const [objective, setObjective] = useState<ObjectiveType>(objectiveInitialState);
+  const queryClient = useQueryClient();
+
+  const { data: objectiveData } = useQuery({
+    queryKey: ["objectives"],
+    queryFn: () => getObjectivesApi(),
+  });
 
   const { data: desiredLevelData } = useQuery({
     queryKey: ["desiredLevels"],
@@ -166,6 +173,11 @@ const AttachedCVs: React.FC = () => {
     mutationFn: ({ objective, file }: AddObjectiveArgs) => addObjectiveApi(objective, file),
     onSuccess: () => {
       toast.success("Objective added successfully");
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          return query.queryKey.includes("objectives");
+        },
+      });
     },
     onError: () => {
       toast.error("Failed to add objective");
@@ -246,29 +258,24 @@ const AttachedCVs: React.FC = () => {
     <Card className="md:col-span-3 bg-white md:flex hidden flex-col h-fit">
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <h3 className="text-lg font-semibold">
-          Attached CVs ({<span className="text-red-500">2</span>})
+          Attached CVs{" "}
+          {objectiveData && (
+            <>
+              <span>(</span>
+              <span className="text-red-500">{objectiveData.data.length}</span>
+              <span>)</span>
+            </>
+          )}
         </h3>
       </div>
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div>
-              <h3 className="text-lg font-semibold">Cover Letter</h3>
-              <p className="text-sm text-gray-400">Last updated 2 days ago</p>
-            </div>
-          </div>
-          <button className="text-blue-500">View</button>
+      {objectiveData?.data && (
+        <div className="p-4">
+          {objectiveData.data.map((objective: ObjectiveType, index: number) => (
+            <AttachedCVWrapper key={index} objective={objective} />
+          ))}
         </div>
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div>
-              <h3 className="text-lg font-semibold">Resume</h3>
-              <p className="text-sm text-gray-400">Last updated 2 days ago</p>
-            </div>
-          </div>
-          <button className="text-blue-500">View</button>
-        </div>
-      </div>
+      )}
+
       <Modal
         title="Objectives"
         handleSave={handleSave}
@@ -286,12 +293,7 @@ const AttachedCVs: React.FC = () => {
                 Your CV <span className="text-red-600">*</span>
               </label>
               <div className="flex items-center justify-between gap-4 relative">
-                <button
-                  style={{
-                    backgroundColor: COLOR_PRIMARY,
-                    color: "white",
-                  }}
-                  className="py-2 px-3 border-none cursor-pointer text-base">
+                <button className="py-2 text-[white] bg-[var(--color-primary)] px-3 border-none cursor-pointer text-base">
                   <FontAwesomeIcon icon={faArrowUpFromBracket} /> Upload file
                 </button>
                 <div className="text-base">
