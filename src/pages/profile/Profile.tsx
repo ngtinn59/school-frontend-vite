@@ -12,6 +12,7 @@ import ProfileQuality from "./components/ProfileQuality";
 import Skill from "./components/Skill";
 import UserInformation from "./components/UserInformation";
 import WorkExperience from "./components/WorkExperience";
+import AttachedCVs from "./components/AttachedCVs";
 // import profile_cover_letter from "../assets/profile_cover_letter.svg";
 
 export default function Profile() {
@@ -49,7 +50,10 @@ export default function Profile() {
     !loading && (
       <Wrapper className="">
         <div className="grid grid-cols-10 gap-6">
-          <ProfileQuality profileCTA={profileCTA} />
+          <div className="md:col-span-3  md:flex hidden flex-col h-fit gap-6">
+            <ProfileQuality profileCTA={profileCTA} />
+            <AttachedCVs />
+          </div>
           <div className="md:col-span-7 col-span-10 gap-6 grid">
             <UserInformation />
             <AboutMe aboutMe={profileForCV.aboutMe} />

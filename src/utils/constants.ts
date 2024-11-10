@@ -38,22 +38,19 @@ export const HOMEPAGE_USPS = [
   {
     title: "User Profile",
     iconId: "user-profile",
-    description:
-      "Create an excellent profile with a well-structured format and specific guide",
+    description: "Create an excellent profile with a well-structured format and specific guide",
     cta: "Update profile",
   },
   {
     title: "CV Templates",
     iconId: "cv-templates",
-    description:
-      "Generate professional IT CV with new templates - recommended by recruiters",
+    description: "Generate professional IT CV with new templates - recommended by recruiters",
     cta: "View templates",
   },
   {
     title: "Blog",
     iconId: "blog",
-    description:
-      "Updates about salary, benefits, working policies, and careers in IT",
+    description: "Updates about salary, benefits, working policies, and careers in IT",
     cta: "Explore blog",
   },
 ];
@@ -74,8 +71,7 @@ export const HOMEPAGE_TOP_EMPLOYERS = [
 
 export const HOMEPAGE_FEATURE_ARTICLES = [
   {
-    title:
-      'ITviec releases "IT Salary Report 2023-2024: Data-driven for better decision making"',
+    title: 'ITviec releases "IT Salary Report 2023-2024: Data-driven for better decision making"',
     description:
       "Đọc bản tiếng Việt tại đây. ITviec is excited to announce the launch of our IT salary report: “Salary & Job Expectation of IT Professionals...",
     link: "itviec-it-salary-report-2023-2024-press-release",
@@ -103,8 +99,7 @@ export const HOMEPAGE_FEATURE_ARTICLES = [
     isHighlight: false,
   },
   {
-    title:
-      "Những điều cần biết về jQuery – Thư viện Javascript hàng đầu thế giới",
+    title: "Những điều cần biết về jQuery – Thư viện Javascript hàng đầu thế giới",
     description:
       "jQuery là gì? Trong danh sách các công cụ và thư viện cho lập trình viên, jQuery nổi bật là một thư viện JavaScript mạnh mẽ và linh hoạt, được sử dụng rộng rãi trong cộng đồng phát triển web. Với khả năng giảm độ phức tạp của mã nguồn, jQuery đã trở thành một công cụ hữu ích cho việc thao tác DOM, xử lý sự kiện, và tương tác Ajax một cách hiệu quả.",
     link: "jquery-la-gi",
@@ -113,8 +108,7 @@ export const HOMEPAGE_FEATURE_ARTICLES = [
     isHighlight: false,
   },
   {
-    title:
-      "Salesforce Developer là gì? Lộ trình sự nghiệp Salesforce Developer 2024",
+    title: "Salesforce Developer là gì? Lộ trình sự nghiệp Salesforce Developer 2024",
     description:
       "Với nhu cầu tuyển dụng ngày càng tăng đối với vị trí Salesforce Developer, cơ hội phát triển tại vị trí Salesforce Developer là không giới hạn. Trong bài viết này, hãy cùng khám phá cơ hội nghề nghiệp hấp dẫn dành cho các nhà phát triển Salesforce, cũng như vai trò và trách nhiệm, những kỹ năng cần thiết, các chứng chỉ cần theo đuổi và roadmap để bạn có thể bắt đầu hành trình Salesforce thú vị vào năm 2024!.",
     link: "itviec-it-salary-report-2023-2024-press-release",
@@ -198,23 +192,22 @@ export const PROFILE_DATA_CATEGORY: ProfileCategoryType = {
   },
 };
 
-export const PROFILE_JOB_PREFERENCES_SKILLS: ComponentSelectionWithSearchType[] =
-  [
-    { id: 1, name: "JavaScript" },
-    { id: 2, name: "Python" },
-    { id: 3, name: "Java" },
-    { id: 4, name: "C++" },
-    { id: 5, name: "C#" },
-    { id: 6, name: "Ruby" },
-    { id: 7, name: "Go" },
-    { id: 8, name: "Swift" },
-    { id: 9, name: "TypeScript" },
-    { id: 10, name: "Kotlin" },
-    { id: 11, name: "Rust" },
-    { id: 12, name: "PHP" },
-    { id: 13, name: "HTML" },
-    { id: 14, name: "CSS" },
-  ];
+export const PROFILE_JOB_PREFERENCES_SKILLS: ComponentSelectionWithSearchType[] = [
+  { id: 1, name: "JavaScript" },
+  { id: 2, name: "Python" },
+  { id: 3, name: "Java" },
+  { id: 4, name: "C++" },
+  { id: 5, name: "C#" },
+  { id: 6, name: "Ruby" },
+  { id: 7, name: "Go" },
+  { id: 8, name: "Swift" },
+  { id: 9, name: "TypeScript" },
+  { id: 10, name: "Kotlin" },
+  { id: 11, name: "Rust" },
+  { id: 12, name: "PHP" },
+  { id: 13, name: "HTML" },
+  { id: 14, name: "CSS" },
+];
 
 export const PROFILE_JOB_PREFERENCES_SKILLS_STRING: string[] = [
   "JavaScript",
@@ -332,3 +325,4 @@ export const URL_API_SKILLS = `${BASE_URL_API}/api/profiles/skills`;
 export const URL_API_PERSONAL_PROJECT = `${BASE_URL_API}/api/profiles/projects`;
 export const URL_API_AWARDS = `${BASE_URL_API}/api/profiles/awards`;
 export const URL_API_CERTIFICATES = `${BASE_URL_API}/api/profiles/certificates`;
+export const URL_API_OBJECTIVES = `${BASE_URL_API}/api/profiles/objectives`;

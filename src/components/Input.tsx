@@ -123,6 +123,9 @@ const Input: React.FC<Props> = ({
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                 if (onChange) onChange(e);
               }}>
+              <option value="" disabled hidden>
+                {placeholder}
+              </option>
               {options &&
                 options.map((option, index) => (
                   <option key={index} value={option.value}>
