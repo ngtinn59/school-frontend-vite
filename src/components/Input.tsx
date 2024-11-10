@@ -49,9 +49,10 @@ box-shadow: var(--tw-ring-inset) 0 0 0
 
 const NoStyleInput = styled.input``;
 
-const PrimaryStyleInput = styled.input`
+const PrimaryStyleInput = styled.input<{ $isIcon?: boolean }>`
   ${inputStyle}
   ${primaryInputStyle}
+  ${(props) => props.$isIcon && `padding-left: 2.5rem;`}
 `;
 
 const StyledSelect = styled.select<{ $isIcon?: boolean }>`
@@ -171,16 +172,24 @@ const Input: React.FC<Props> = ({
               {label} {required && <span className="text-red-600">*</span>}
             </label>
           )}
-          <PrimaryStyleInput
-            id={id ? id : name}
-            type={type ? type : "text"}
-            required={required ? required : false}
-            name={name}
-            value={value}
-            placeholder={placeholder}
-            onChange={onChange}
-            className={` ${inputClassName}`}
-          />
+          <div className={`${containerClassName} relative w-full overflow-hidden`}>
+            {icon && (
+              <span className="pointer-events-none absolute left-4 top-2 pt-0.5 text-lg font-bold text-gray-400 z-10">
+                {icon}
+              </span>
+            )}
+            <PrimaryStyleInput
+              id={id ? id : name}
+              type={type ? type : "text"}
+              required={required ? required : false}
+              name={name}
+              value={value}
+              placeholder={placeholder}
+              onChange={onChange}
+              $isIcon={!!icon && type !== "date" && type !== "checkbox"}
+              className={` ${inputClassName}`}
+            />
+          </div>
         </div>
       );
   }

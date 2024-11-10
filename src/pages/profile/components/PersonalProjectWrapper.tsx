@@ -103,7 +103,7 @@ export default function PersonalProjectWrapper({ project }: Props) {
                         value={newPersonalProject.title}
                         type="text"
                         onChange={handleChangePersonalProject}
-                        containerClassName="flex flex-col gap-1 pb-4"
+                        containerClassName="flex flex-col gap-1 pb-2"
                         required
                       />
 

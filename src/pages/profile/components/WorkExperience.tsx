@@ -89,7 +89,7 @@ export default function WorkExperience({ workExperienceList }: Props) {
                   value={newWorkExperience.position}
                   type="text"
                   onChange={handleChangeNewEducation}
-                  containerClassName="flex flex-col gap-1 pb-4"
+                  containerClassName="flex flex-col gap-1 pb-2"
                   required
                 />
                 <Input
@@ -99,7 +99,7 @@ export default function WorkExperience({ workExperienceList }: Props) {
                   value={newWorkExperience.company}
                   type="text"
                   onChange={handleChangeNewEducation}
-                  containerClassName="flex flex-col gap-1 pb-4"
+                  containerClassName="flex flex-col gap-1 pb-2"
                   required
                 />
                 <div className="grid grid-cols-2 gap-4 ">

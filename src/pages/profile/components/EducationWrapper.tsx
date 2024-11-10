@@ -106,7 +106,7 @@ export default function EducationWrapper({ education }: props) {
                     value={institution}
                     type="text"
                     onChange={handleChangeEducation}
-                    containerClassName="flex flex-col gap-1 pb-4"
+                    containerClassName="flex flex-col gap-1 pb-2"
                     required
                   />
                   <Input
@@ -116,7 +116,7 @@ export default function EducationWrapper({ education }: props) {
                     value={degree}
                     type="text"
                     onChange={handleChangeEducation}
-                    containerClassName="flex flex-col gap-1 pb-4"
+                    containerClassName="flex flex-col gap-1 pb-2"
                     required
                   />
                   <div className="grid grid-cols-2 gap-4 ">

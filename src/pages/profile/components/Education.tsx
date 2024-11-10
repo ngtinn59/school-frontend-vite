@@ -129,7 +129,7 @@ export const Education = ({ educationList }: Props) => {
                   value={newEducation.institution}
                   type="text"
                   onChange={handleChangeEducation}
-                  containerClassName="flex flex-col gap-1 pb-4"
+                  containerClassName="flex flex-col gap-1 pb-2"
                   required
                 />
                 <Input
@@ -139,7 +139,7 @@ export const Education = ({ educationList }: Props) => {
                   value={newEducation.degree}
                   type="text"
                   onChange={handleChangeEducation}
-                  containerClassName="flex flex-col gap-1 pb-4"
+                  containerClassName="flex flex-col gap-1 pb-2"
                   required
                 />
                 <div className="grid grid-cols-2 gap-4 ">

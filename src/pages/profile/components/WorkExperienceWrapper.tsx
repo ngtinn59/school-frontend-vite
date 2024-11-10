@@ -98,7 +98,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
                         value={newWorkExperience.position}
                         type="text"
                         onChange={handleChangeNewWorkExperience}
-                        containerClassName="flex flex-col gap-1 pb-4"
+                        containerClassName="flex flex-col gap-1 pb-2"
                         required
                       />
                       <Input
@@ -108,7 +108,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
                         value={newWorkExperience.company}
                         type="text"
                         onChange={handleChangeNewWorkExperience}
-                        containerClassName="flex flex-col gap-1 pb-4"
+                        containerClassName="flex flex-col gap-1 pb-2"
                         required
                       />
                       <div className="grid grid-cols-2 gap-4 ">
