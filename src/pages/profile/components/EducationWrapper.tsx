@@ -4,21 +4,14 @@ import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
 import TextArea from "../../../components/TextArea";
 import Title from "../../../components/Title";
-import {
-  PROFILE_DATA_CATEGORY,
-  SELECT_MONTH_OF_YEAR,
-  SELECT_YEAR,
-} from "../../../utils/constants";
+import { PROFILE_DATA_CATEGORY, SELECT_MONTH_OF_YEAR, SELECT_YEAR } from "../../../utils/constants";
 import { EducationType } from "../../../utils/type";
 import { useDispatch } from "react-redux";
 import { deleteEducation, updateEducation } from "../../../services/redux/user";
 import formatDateToDDMMYYYY from "../../../utils/function/formatDateToDDMMYYYY";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import {
-  deleteEducationApi,
-  updateEducationApi,
-} from "../../../services/api/profileApi";
+import { deleteEducationApi, updateEducationApi } from "../../../services/api/profileApi";
 import toast from "react-hot-toast";
 import convertDateFormat from "../../../utils/function/convertDateFormat";
 
@@ -29,13 +22,10 @@ type props = {
 export default function EducationWrapper({ education }: props) {
   const [newEducation, setNewEducation] = useState<EducationType>(education);
 
-  const { institution, degree, start_date, end_date, additionalDetail } =
-    newEducation;
+  const { institution, degree, start_date, end_date, additionalDetail } = newEducation;
   const dispatch = useDispatch();
   const handleChangeEducation = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     if (name === "start-month" || name === "start-year") {
@@ -93,19 +83,8 @@ export default function EducationWrapper({ education }: props) {
         </div>
         <div className="flex flex-col  flex-nowrap">
           <div className="text-base  text-bold  ">
-            <span>
-              {formatDateToDDMMYYYY(new Date(start_date))
-                .split("/")
-                .slice(1)
-                .join("/")}
-            </span>{" "}
-            -{" "}
-            <span>
-              {formatDateToDDMMYYYY(new Date(end_date))
-                .split("/")
-                .slice(1)
-                .join("/")}
-            </span>
+            <span>{formatDateToDDMMYYYY(new Date(start_date)).split("/").slice(1).join("/")}</span>{" "}
+            - <span>{formatDateToDDMMYYYY(new Date(end_date)).split("/").slice(1).join("/")}</span>
           </div>
           <div className=" text-base text-bold   ">{additionalDetail}</div>
         </div>
@@ -115,8 +94,7 @@ export default function EducationWrapper({ education }: props) {
           title={PROFILE_DATA_CATEGORY.education.title}
           handleSave={handleSaveEducation}
           buttonContent={<EditIcon className="text-lg  " />}
-          buttonClassName="!p-2 "
-        >
+          buttonClassName="!p-2 ">
           <div>
             <div className="container mx-auto">
               <form>
@@ -128,7 +106,7 @@ export default function EducationWrapper({ education }: props) {
                     value={institution}
                     type="text"
                     onChange={handleChangeEducation}
-                    containerClassName="flex flex-col gap-1 pb-4"
+                    containerClassName="flex flex-col gap-1 pb-2"
                     required
                   />
                   <Input
@@ -138,7 +116,7 @@ export default function EducationWrapper({ education }: props) {
                     value={degree}
                     type="text"
                     onChange={handleChangeEducation}
-                    containerClassName="flex flex-col gap-1 pb-4"
+                    containerClassName="flex flex-col gap-1 pb-2"
                     required
                   />
                   <div className="grid grid-cols-2 gap-4 ">
@@ -146,6 +124,7 @@ export default function EducationWrapper({ education }: props) {
                       inputGroupType="styled-dropdown"
                       name="start-month"
                       label="Start"
+                      value={start_date.split("-")[1].replace(/^0+/, "")}
                       options={SELECT_MONTH_OF_YEAR}
                       onChange={handleChangeEducation}
                       containerClassName="flex flex-col gap-1 justify-end"
@@ -155,6 +134,7 @@ export default function EducationWrapper({ education }: props) {
                       inputGroupType="styled-dropdown"
                       name="start-year"
                       placeholder="major"
+                      value={start_date.split("-")[0]}
                       options={SELECT_YEAR}
                       onChange={handleChangeEducation}
                       containerClassName="flex flex-col gap-1 justify-end"
@@ -167,6 +147,7 @@ export default function EducationWrapper({ education }: props) {
                       name="end-month"
                       label="End"
                       options={SELECT_MONTH_OF_YEAR}
+                      value={end_date.split("-")[1].replace(/^0+/, "")}
                       onChange={handleChangeEducation}
                       containerClassName="flex flex-col gap-1  justify-end"
                       required
@@ -175,6 +156,7 @@ export default function EducationWrapper({ education }: props) {
                       inputGroupType="styled-dropdown"
                       name="end-year"
                       options={SELECT_YEAR}
+                      value={end_date.split("-")[0]}
                       onChange={handleChangeEducation}
                       containerClassName="flex flex-col gap-1 justify-end"
                       required

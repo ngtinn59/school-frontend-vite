@@ -343,7 +343,6 @@ export const getUserProfileApi = async (
       skillsPromise,
     ]);
     const aboutMeData = aboutMeRes.data[0];
-    console.log(aboutMeData);
     const educationData = educationRes.data;
     const workExperienceData = workExperienceRes.data;
     const personalProjectData = personalProjectRes.data;

@@ -8,47 +8,31 @@ import EditIcon from "../../../components/EditIcon";
 import Modal from "../../../components/Modal";
 import { useState } from "react";
 import Input from "../../../components/Input";
-import {
-  PROFILE_DATA_CATEGORY,
-  SELECT_MONTH_OF_YEAR,
-  SELECT_YEAR,
-} from "../../../utils/constants";
+import { PROFILE_DATA_CATEGORY, SELECT_MONTH_OF_YEAR, SELECT_YEAR } from "../../../utils/constants";
 import TextArea from "../../../components/TextArea";
 import convertDateFormat from "../../../utils/function/convertDateFormat";
-import {
-  deleteWorkExperienceApi,
-  updateWorkExperienceApi,
-} from "../../../services/api/profileApi";
+import { deleteWorkExperienceApi, updateWorkExperienceApi } from "../../../services/api/profileApi";
 import toast from "react-hot-toast";
-import {
-  deleteExperience,
-  updateExperience,
-} from "../../../services/redux/user";
+import { deleteExperience, updateExperience } from "../../../services/redux/user";
 import { useDispatch } from "react-redux";
+import { formatDateToMMYYYY } from "../../../utils/function/formatDateToMMYYYY";
 
 type Props = {
   workExperience: WorkExperienceType;
 };
 
 export default function WorkExperienceWrapper({ workExperience }: Props) {
-  const [newWorkExperience, setNewWorkExperience] =
-    useState<WorkExperienceType>(workExperience);
+  const [newWorkExperience, setNewWorkExperience] = useState<WorkExperienceType>(workExperience);
   const dispatch = useDispatch();
 
   const handleChangeNewWorkExperience = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     if (name === "start-month" || name === "start-year") {
       setNewWorkExperience({
         ...newWorkExperience,
-        start_date: convertDateFormat(
-          name,
-          value,
-          newWorkExperience.start_date
-        ),
+        start_date: convertDateFormat(name, value, newWorkExperience.start_date),
       });
     } else if (name === "end-month" || name === "end-year") {
       setNewWorkExperience({
@@ -67,7 +51,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
         if (res.success) {
           toast.success(res.message);
           dispatch(updateExperience({ workExperience: newWorkExperience }));
-          setNewWorkExperience(workExperience);
+          setNewWorkExperience(newWorkExperience);
         } else {
           toast.error(res.message);
         }
@@ -102,8 +86,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
               title={PROFILE_DATA_CATEGORY.workExperience.title}
               handleSave={handleSaveWorkExperience}
               buttonContent={<EditIcon className="text-lg  mx-2" />}
-              buttonClassName="!p-2 "
-            >
+              buttonClassName="!p-2 ">
               <div>
                 <div className="container mx-auto">
                   <form>
@@ -115,7 +98,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
                         value={newWorkExperience.position}
                         type="text"
                         onChange={handleChangeNewWorkExperience}
-                        containerClassName="flex flex-col gap-1 pb-4"
+                        containerClassName="flex flex-col gap-1 pb-2"
                         required
                       />
                       <Input
@@ -125,7 +108,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
                         value={newWorkExperience.company}
                         type="text"
                         onChange={handleChangeNewWorkExperience}
-                        containerClassName="flex flex-col gap-1 pb-4"
+                        containerClassName="flex flex-col gap-1 pb-2"
                         required
                       />
                       <div className="grid grid-cols-2 gap-4 ">
@@ -133,7 +116,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
                           inputGroupType="styled-dropdown"
                           name="start-month"
                           label="Start"
-                          value={newWorkExperience.start_date.split("-")[1]}
+                          value={newWorkExperience.start_date.split("-")[1].replace(/^0+/, "")}
                           options={SELECT_MONTH_OF_YEAR}
                           onChange={handleChangeNewWorkExperience}
                           containerClassName="flex flex-col gap-1 justify-end"
@@ -142,7 +125,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
                         <Input
                           inputGroupType="styled-dropdown"
                           name="start-year"
-                          value={newWorkExperience.start_date.split("-")[2]}
+                          value={newWorkExperience.start_date.split("-")[0]}
                           placeholder="major"
                           options={SELECT_YEAR}
                           onChange={handleChangeNewWorkExperience}
@@ -155,7 +138,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
                           inputGroupType="styled-dropdown"
                           name="end-month"
                           label="End"
-                          value={newWorkExperience.end_date.split("-")[1]}
+                          value={newWorkExperience.end_date.split("-")[1].replace(/^0+/, "")}
                           options={SELECT_MONTH_OF_YEAR}
                           onChange={handleChangeNewWorkExperience}
                           containerClassName="flex flex-col gap-1  justify-end"
@@ -164,7 +147,7 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
                         <Input
                           inputGroupType="styled-dropdown"
                           name="end-year"
-                          value={newWorkExperience.end_date.split("-")[2]}
+                          value={newWorkExperience.end_date.split("-")[0]}
                           options={SELECT_YEAR}
                           onChange={handleChangeNewWorkExperience}
                           containerClassName="flex flex-col gap-1 justify-end"
@@ -187,21 +170,16 @@ export default function WorkExperienceWrapper({ workExperience }: Props) {
               </div>
             </Modal>
             <span onClick={handleDeleteWorkExperience}>
-              <FontAwesomeIcon
-                icon={faTrashCan}
-                className="text-gray-500 hover:text-red-600"
-              />
+              <FontAwesomeIcon icon={faTrashCan} className="text-gray-500 hover:text-red-600" />
             </span>
           </span>
         </div>
-        <div className="text-base text-bold font-medium">
-          {workExperience?.company}
-        </div>
+        <div className="text-base text-bold font-medium">{workExperience?.company}</div>
       </div>
       <div className="flex flex-col  flex-nowrap">
         <div className="text-base font-medium text-bold">
-          <span>{workExperience?.start_date.replace(/-/g, "/")}</span> -{" "}
-          <span>{workExperience?.end_date.replace(/-/g, "/")}</span>
+          <span>{formatDateToMMYYYY(new Date(workExperience.start_date))}</span> -{" "}
+          <span>{formatDateToMMYYYY(new Date(workExperience.end_date))}</span>
         </div>
         <div className="font-medium text-base text-bold list-disc list-inside ">
           <Interweave content={workExperience?.responsibilities} />

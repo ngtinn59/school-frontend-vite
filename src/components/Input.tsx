@@ -8,12 +8,7 @@ type Props = {
   placeholder?: string;
   type?: "text" | "checkbox" | "email" | "password" | "number" | "date";
 
-  inputGroupType?:
-    | "checkbox"
-    | "no-style"
-    | "styled-dropdown"
-    | "no-style-dropdown"
-    | string;
+  inputGroupType?: "checkbox" | "no-style" | "styled-dropdown" | "no-style-dropdown" | string;
   name: string;
   required?: boolean | undefined;
   label?: string;
@@ -24,9 +19,7 @@ type Props = {
   inputClassName?: string;
   labelClassName?: string;
   icon?: React.ReactNode;
-  onChange?: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 };
 
 export const inputStyle = `
@@ -56,9 +49,10 @@ box-shadow: var(--tw-ring-inset) 0 0 0
 
 const NoStyleInput = styled.input``;
 
-const PrimaryStyleInput = styled.input`
+const PrimaryStyleInput = styled.input<{ $isIcon?: boolean }>`
   ${inputStyle}
   ${primaryInputStyle}
+  ${(props) => props.$isIcon && `padding-left: 2.5rem;`}
 `;
 
 const StyledSelect = styled.select<{ $isIcon?: boolean }>`
@@ -114,9 +108,7 @@ const Input: React.FC<Props> = ({
               {label} {required && <span className="text-red-600">*</span>}
             </label>
           )}
-          <div
-            className={`${containerClassName} relative w-full overflow-hidden`}
-          >
+          <div className={`${containerClassName} relative w-full overflow-hidden`}>
             {icon && (
               <span className="pointer-events-none absolute left-4 top-2 pt-0.5 text-lg font-bold text-gray-400 z-10">
                 {icon}
@@ -125,12 +117,15 @@ const Input: React.FC<Props> = ({
             <StyledSelect
               id={name}
               name={name}
+              value={value}
               className="w-full"
               $isIcon={!!icon}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              if (onChange) onChange(e);
-              }}
-            >
+                if (onChange) onChange(e);
+              }}>
+              <option value="" disabled hidden>
+                {placeholder}
+              </option>
               {options &&
                 options.map((option, index) => (
                   <option key={index} value={option.value}>
@@ -152,20 +147,13 @@ const Input: React.FC<Props> = ({
               {label} {required && <span className="text-red-600">*</span>}
             </label>
           )}
-          <div
-            className={`${containerClassName} relative w-full overflow-hidden`}
-          >
+          <div className={`${containerClassName} relative w-full overflow-hidden`}>
             {icon && (
               <span className="pointer-events-none absolute left-4 top-2 pt-0.5 text-lg font-bold text-gray-400 z-10">
                 {icon}
               </span>
             )}
-            <NoStyleSelect
-              id={name}
-              name={name}
-              className="w-full"
-              $isIcon={!!icon}
-            >
+            <NoStyleSelect id={name} name={name} className="w-full" $isIcon={!!icon}>
               {options &&
                 options.map((option, index) => (
                   <option key={index} value={option.value}>
@@ -187,16 +175,24 @@ const Input: React.FC<Props> = ({
               {label} {required && <span className="text-red-600">*</span>}
             </label>
           )}
-          <PrimaryStyleInput
-            id={id ? id : name}
-            type={type ? type : "text"}
-            required={required ? required : false}
-            name={name}
-            value={value}
-            placeholder={placeholder}
-            onChange={onChange}
-            className={` ${inputClassName}`}
-          />
+          <div className={`${containerClassName} relative w-full overflow-hidden`}>
+            {icon && (
+              <span className="pointer-events-none absolute left-4 top-2 pt-0.5 text-lg font-bold text-gray-400 z-10">
+                {icon}
+              </span>
+            )}
+            <PrimaryStyleInput
+              id={id ? id : name}
+              type={type ? type : "text"}
+              required={required ? required : false}
+              name={name}
+              value={value}
+              placeholder={placeholder}
+              onChange={onChange}
+              $isIcon={!!icon && type !== "date" && type !== "checkbox"}
+              className={` ${inputClassName}`}
+            />
+          </div>
         </div>
       );
   }

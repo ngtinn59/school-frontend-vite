@@ -7,11 +7,7 @@ import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
 import TextArea from "../../../components/TextArea";
 import Title from "../../../components/Title";
-import {
-  PROFILE_DATA_CATEGORY,
-  SELECT_MONTH_OF_YEAR,
-  SELECT_YEAR,
-} from "../../../utils/constants";
+import { PROFILE_DATA_CATEGORY, SELECT_MONTH_OF_YEAR, SELECT_YEAR } from "../../../utils/constants";
 import convertDateFormat from "../../../utils/function/convertDateFormat";
 import { PersonalProjectType } from "../../../utils/type";
 import {
@@ -19,11 +15,9 @@ import {
   updatePersonalProjectApi,
 } from "../../../services/api/profileApi";
 import toast from "react-hot-toast";
-import {
-  deleteProject,
-  updatePersonalProject,
-} from "../../../services/redux/user";
+import { deleteProject, updatePersonalProject } from "../../../services/redux/user";
 import { useDispatch } from "react-redux";
+import { formatDateToMMYYYY } from "../../../utils/function/formatDateToMMYYYY";
 
 type Props = {
   project: PersonalProjectType;
@@ -33,23 +27,16 @@ type Props = {
 export default function PersonalProjectWrapper({ project }: Props) {
   const dispatch = useDispatch();
   const { title, start_date, end_date, description } = project;
-  const [newPersonalProject, setNewPersonalProject] =
-    useState<PersonalProjectType>(project);
+  const [newPersonalProject, setNewPersonalProject] = useState<PersonalProjectType>(project);
 
   const handleChangePersonalProject = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     if (name === "start-month" || name === "start-year") {
       setNewPersonalProject({
         ...newPersonalProject,
-        start_date: convertDateFormat(
-          name,
-          value,
-          newPersonalProject.start_date
-        ),
+        start_date: convertDateFormat(name, value, newPersonalProject.start_date),
       });
     } else if (name === "end-month" || name === "end-year") {
       setNewPersonalProject({
@@ -68,10 +55,8 @@ export default function PersonalProjectWrapper({ project }: Props) {
       .then((res) => {
         if (res.success) {
           toast.success(res.message);
-          dispatch(
-            updatePersonalProject({ personalProject: newPersonalProject })
-          );
-          setNewPersonalProject(project);
+          dispatch(updatePersonalProject({ personalProject: newPersonalProject }));
+          setNewPersonalProject(newPersonalProject);
         } else {
           toast.error(res.message);
         }
@@ -106,8 +91,7 @@ export default function PersonalProjectWrapper({ project }: Props) {
               title={PROFILE_DATA_CATEGORY.personalProjects.title}
               handleSave={handleSavePersonalProject}
               buttonContent={<EditIcon className="text-lg  mx-2" />}
-              buttonClassName="!p-2 "
-            >
+              buttonClassName="!p-2 ">
               <div>
                 <div className="container mx-auto">
                   <form>
@@ -119,7 +103,7 @@ export default function PersonalProjectWrapper({ project }: Props) {
                         value={newPersonalProject.title}
                         type="text"
                         onChange={handleChangePersonalProject}
-                        containerClassName="flex flex-col gap-1 pb-4"
+                        containerClassName="flex flex-col gap-1 pb-2"
                         required
                       />
 
@@ -128,7 +112,7 @@ export default function PersonalProjectWrapper({ project }: Props) {
                           inputGroupType="styled-dropdown"
                           name="start-month"
                           label="Start"
-                          value={newPersonalProject.start_date.split("-")[1]}
+                          value={newPersonalProject.start_date.split("-")[1].replace(/^0+/, "")}
                           options={SELECT_MONTH_OF_YEAR}
                           onChange={handleChangePersonalProject}
                           containerClassName="flex flex-col gap-1 justify-end"
@@ -137,7 +121,7 @@ export default function PersonalProjectWrapper({ project }: Props) {
                         <Input
                           inputGroupType="styled-dropdown"
                           name="start-year"
-                          value={newPersonalProject.start_date.split("-")[2]}
+                          value={newPersonalProject.start_date.split("-")[0]}
                           placeholder="major"
                           options={SELECT_YEAR}
                           onChange={handleChangePersonalProject}
@@ -150,7 +134,7 @@ export default function PersonalProjectWrapper({ project }: Props) {
                           inputGroupType="styled-dropdown"
                           name="end-month"
                           label="End"
-                          value={newPersonalProject.end_date.split("-")[1]}
+                          value={newPersonalProject.end_date.split("-")[1].replace(/^0+/, "")}
                           options={SELECT_MONTH_OF_YEAR}
                           onChange={handleChangePersonalProject}
                           containerClassName="flex flex-col gap-1  justify-end"
@@ -159,7 +143,7 @@ export default function PersonalProjectWrapper({ project }: Props) {
                         <Input
                           inputGroupType="styled-dropdown"
                           name="end-year"
-                          value={newPersonalProject.end_date.split("-")[2]}
+                          value={newPersonalProject.end_date.split("-")[0]}
                           options={SELECT_YEAR}
                           onChange={handleChangePersonalProject}
                           containerClassName="flex flex-col gap-1 justify-end"
@@ -192,13 +176,10 @@ export default function PersonalProjectWrapper({ project }: Props) {
       </div>
       <div className="flex flex-col  flex-nowrap">
         <div className="text-base font-medium text-bold">
-          <span>{start_date.replace(/-/g, "/")}</span> -{" "}
-          <span>{end_date.replace(/-/g, "/")}</span>
+          <span>{formatDateToMMYYYY(new Date(start_date))}</span> -{" "}
+          <span>{formatDateToMMYYYY(new Date(end_date))}</span>
         </div>
-        <Markup
-          content={description}
-          className="font-medium text-base text-bold  "
-        />
+        <Markup content={description} className="font-medium text-base text-bold  " />
       </div>
     </div>
   );

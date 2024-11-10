@@ -124,3 +124,69 @@ export type ProfileDataForCV = {
   certificates: CertificateType[] | [];
   awards: AwardType[] | [];
 };
+
+export type ObjectiveType = {
+  id?: number;
+  desired_position: string;
+  desired_level: DesiredLevelType;
+  education_level: EducationLevelType;
+  profession: ProfessionType;
+  employment_type: EmploymentTypeType;
+  experience_level: ExperienceLevelType;
+  workplace: WorkplaceType;
+  work_address: string;
+  salary_from: string;
+  salary_to: string;
+  file: string;
+  status: string;
+  country: CountryType;
+  city: CityType;
+  district: DistrictType;
+  created_at?: string;
+  updated_at?: string;
+};
+
+export type DesiredLevelType = {
+  id: number;
+  name: string;
+};
+
+export type EducationLevelType = {
+  id: number;
+  name: string;
+};
+
+export type ProfessionType = {
+  id: number;
+  name: string;
+};
+
+export type EmploymentTypeType = {
+  id: number;
+  name: string;
+};
+
+export type ExperienceLevelType = {
+  id: number;
+  name: string;
+};
+
+export type WorkplaceType = {
+  id: number;
+  name: string;
+};
+
+export type CountryType = {
+  id: number;
+  name: string;
+};
+
+export type CityType = {
+  id: number;
+  name: string;
+};
+
+export type DistrictType = {
+  id: number;
+  name: string;
+};
