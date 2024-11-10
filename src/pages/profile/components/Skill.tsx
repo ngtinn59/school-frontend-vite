@@ -57,7 +57,7 @@ export default function Skill({ skills }: Props) {
         toast.error(err.message);
       });
   }
-  console.log(currSkills, "skills");
+
   return (
     <CardWithTitle
       title={PROFILE_DATA_CATEGORY.skills.title}

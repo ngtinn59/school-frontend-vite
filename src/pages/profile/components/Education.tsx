@@ -202,7 +202,6 @@ export const Education = ({ educationList }: Props) => {
       </Modal>
       {educationList &&
         educationList.map((education, index) => {
-          console.log(education);
           return <EducationWrapper key={`education-${index}`} education={education} />;
         })}
     </CardWithTitle>
