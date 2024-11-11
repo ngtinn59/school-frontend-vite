@@ -68,106 +68,97 @@ const AttachedCVs: React.FC = () => {
     queryFn: () => getObjectivesApi(),
   });
 
-  const { data: desiredLevelData } = useQuery({
+  const { data: desiredLevelOptions } = useQuery({
     queryKey: ["desiredLevels"],
     queryFn: () => getDesiredLevelsApi(),
+    select: (desiredLevelData) =>
+      desiredLevelData.data.map((item: DesiredLevelType) => ({
+        value: item.id,
+        label: item.name,
+      })),
   });
 
-  const desiredLevelOptions =
-    desiredLevelData?.data.map((item: DesiredLevelType) => ({
-      value: item.id,
-      label: item.name,
-    })) || [];
-
-  const { data: educationLevelData } = useQuery({
+  const { data: educationLevelOptions } = useQuery({
     queryKey: ["educationLevels"],
     queryFn: () => getEducationLevelsApi(),
+    select: (educationLevelData) =>
+      educationLevelData.data.map((item: EducationLevelType) => ({
+        value: item.id,
+        label: item.name,
+      })),
   });
 
-  const educationLevelOptions =
-    educationLevelData?.data.map((item: EducationLevelType) => ({
-      value: item.id,
-      label: item.name,
-    })) || [];
-
-  const { data: experienceLevelData } = useQuery({
+  const { data: experienceLevelOptions } = useQuery({
     queryKey: ["experienceLevels"],
     queryFn: () => getExperienceLevelsApi(),
+    select: (experienceLevelData) =>
+      experienceLevelData.data.map((item: ExperienceLevelType) => ({
+        value: item.id,
+        label: item.name,
+      })),
   });
 
-  const experienceLevelOptions =
-    experienceLevelData?.data.map((item: ExperienceLevelType) => ({
-      value: item.id,
-      label: item.name,
-    })) || [];
-
-  const { data: professionData } = useQuery({
+  const { data: professionOptions } = useQuery({
     queryKey: ["professions"],
     queryFn: () => getProfessionsApi(),
+    select: (professionData) =>
+      professionData.data.map((item: ProfessionType) => ({
+        value: item.id,
+        label: item.name,
+      })),
   });
 
-  const professionOptions =
-    professionData?.data.map((item: ProfessionType) => ({
-      value: item.id,
-      label: item.name,
-    })) || [];
-
-  const { data: countryData } = useQuery({
+  const { data: countryOptions } = useQuery({
     queryKey: ["countries"],
     queryFn: () => getCountriesApi(),
+    select: (countryData) =>
+      countryData.data.map((item: CountryType) => ({
+        value: item.id,
+        label: item.name,
+      })),
   });
 
-  const countryOptions =
-    countryData?.data.map((item: CountryType) => ({
-      value: item.id,
-      label: item.name,
-    })) || [];
-
-  const { data: cityData } = useQuery({
+  const { data: cityOptions } = useQuery({
     queryKey: ["cities", objective?.country.id],
     queryFn: () => getCitiesApi(objective.country.id),
     enabled: !!objective?.country.id && objective.country.id !== 0,
+    select: (cityData) =>
+      cityData.data.map((item: CityType) => ({
+        value: item.id,
+        label: item.name,
+      })),
   });
 
-  const cityOptions =
-    cityData?.data.map((item: CityType) => ({
-      value: item.id,
-      label: item.name,
-    })) || [];
-
-  const { data: districtData } = useQuery({
+  const { data: districtOptions } = useQuery({
     queryKey: ["districts", objective?.city.id],
     queryFn: () => getDistrictsApi(objective.city.id),
     enabled: !!objective?.city.id && objective.city.id !== 0,
+    select: (districtData) =>
+      districtData.data.map((item: DistrictType) => ({
+        value: item.id,
+        label: item.name,
+      })),
   });
 
-  const districtOptions =
-    districtData?.data.map((item: DistrictType) => ({
-      value: item.id,
-      label: item.name,
-    })) || [];
-
-  const { data: workplaceData } = useQuery({
+  const { data: workplaceOptions } = useQuery({
     queryKey: ["workplaces"],
     queryFn: () => getWorkplacesApi(),
+    select: (workplaceData) =>
+      workplaceData.data.map((item: WorkplaceType) => ({
+        value: item.id,
+        label: item.name,
+      })),
   });
 
-  const workplaceOptions =
-    workplaceData?.data.map((item: WorkplaceType) => ({
-      value: item.id,
-      label: item.name,
-    })) || [];
-
-  const { data: employmentTypeData } = useQuery({
+  const { data: employmentTypeOptions } = useQuery({
     queryKey: ["employmentTypes"],
     queryFn: () => getEmploymentTypesApi(),
+    select: (employmentTypeData) =>
+      employmentTypeData.data.map((item: EmploymentTypeType) => ({
+        value: item.id,
+        label: item.name,
+      })),
   });
-
-  const employmentTypeOptions =
-    employmentTypeData?.data.map((item: EmploymentTypeType) => ({
-      value: item.id,
-      label: item.name,
-    })) || [];
 
   const { mutate: addObjective } = useMutation({
     mutationFn: ({ objective, file }: AddObjectiveArgs) => addObjectiveApi(objective, file),
