@@ -6,8 +6,8 @@ import { useState } from "react";
 import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
 import Switch from "../../../components/Switch";
+import { deleteObjectiveApi, updateObjectiveApi } from "../../../services/api/objectiveApi";
 import {
-  deleteObjectiveApi,
   getCitiesApi,
   getCountriesApi,
   getDesiredLevelsApi,
@@ -17,8 +17,7 @@ import {
   getExperienceLevelsApi,
   getProfessionsApi,
   getWorkplacesApi,
-  updateObjectiveApi,
-} from "../../../services/api/objectiveApi";
+} from "../../../services/api/publicApi";
 import {
   CityType,
   CountryType,

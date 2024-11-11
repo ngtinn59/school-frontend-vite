@@ -8,8 +8,8 @@ import Card from "../../../components/Card";
 import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
 import Switch from "../../../components/Switch";
+import { addObjectiveApi, getObjectivesApi } from "../../../services/api/objectiveApi";
 import {
-  addObjectiveApi,
   getCitiesApi,
   getCountriesApi,
   getDesiredLevelsApi,
@@ -17,10 +17,9 @@ import {
   getEducationLevelsApi,
   getEmploymentTypesApi,
   getExperienceLevelsApi,
-  getObjectivesApi,
   getProfessionsApi,
   getWorkplacesApi,
-} from "../../../services/api/objectiveApi";
+} from "../../../services/api/publicApi";
 import {
   CityType,
   CountryType,
