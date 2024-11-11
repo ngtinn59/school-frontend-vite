@@ -72,7 +72,7 @@ export type EducationType = {
   start_date: string;
   end_date: string;
   additionalDetail: string;
-  id: string;
+  id: number;
 };
 
 export type WorkExperienceType = {

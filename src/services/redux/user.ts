@@ -31,7 +31,11 @@ const initialState: UserState = {
     aboutMe: { description: "", id: 0 },
     education: [],
     workExperience: [],
-    skills: {},
+    skills: {
+      excellent: [],
+      intermediate: [],
+      beginner: [],
+    },
     personalProjects: [],
     certificates: [],
     awards: [],

@@ -104,7 +104,6 @@ export const updateEducationApi = async (education: EducationType) => {
   const response = await axios.put(
     `${URL_API_EDUCATION}/${education.id}`,
     {
-      profiles_id: education.id,
       institution: education.institution,
       degree: education.degree,
       start_date: education.start_date,
@@ -117,7 +116,7 @@ export const updateEducationApi = async (education: EducationType) => {
 };
 
 // Delete user education api
-export const deleteEducationApi = async (educationId: string) => {
+export const deleteEducationApi = async (educationId: number) => {
   const config = await generateConfig();
   const response = await axios.delete(`${URL_API_EDUCATION}/${educationId}`, config);
   return response.data;

@@ -23,7 +23,7 @@ const educationInitialState = {
   start_date: "2000-01-01", //YYYY/MM/DD
   end_date: "2000-01-01", //YYYY/MM/DD
   additionalDetail: "",
-  id: "",
+  id: 0,
 };
 
 export const Education = ({ educationList }: Props) => {
@@ -93,8 +93,7 @@ export const Education = ({ educationList }: Props) => {
         .then((res) => {
           if (res.status_code === 200 || res.success) {
             // Update redux store
-            console.log(res);
-            dispatch(addEducation({ ...newEducation, id: res.profile_id }));
+            dispatch(addEducation({ ...newEducation, id: res.data.id }));
             toast.success(res.message);
             // Clear form
             setNewEducation(educationInitialState);
@@ -156,7 +155,7 @@ export const Education = ({ educationList }: Props) => {
                   <Input
                     inputGroupType="styled-dropdown"
                     name="start-year"
-                    value={newEducation.start_date.split("-")[2]}
+                    value={newEducation.start_date.split("-")[0]}
                     placeholder="major"
                     options={SELECT_YEAR}
                     onChange={handleChangeEducation}
@@ -178,7 +177,7 @@ export const Education = ({ educationList }: Props) => {
                   <Input
                     inputGroupType="styled-dropdown"
                     name="end-year"
-                    value={newEducation.end_date.split("-")[2]}
+                    value={newEducation.end_date.split("-")[0]}
                     options={SELECT_YEAR}
                     onChange={handleChangeEducation}
                     containerClassName="flex flex-col gap-1 justify-end"
