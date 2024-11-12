@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import {
   getCitiesApi,
+  getCompanySizesApi,
   getCompanyTypesApi,
   getCountriesApi,
   getDistrictsApi,
@@ -41,7 +42,7 @@ const RegisterFormInforCompany: React.FC<RegisterFormInforCompanyProps> = ({
 
   const { data: companySizes } = useQuery({
     queryKey: ["companySizes"],
-    queryFn: () => getCompanyTypesApi(),
+    queryFn: () => getCompanySizesApi(),
     select: (companySizesData) =>
       companySizesData.data.map((item: CompanySizeType) => ({
         value: item.id,

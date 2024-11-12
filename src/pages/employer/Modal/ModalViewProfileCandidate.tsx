@@ -1,80 +1,128 @@
-import { Avatar, Modal } from "antd";
+import { Avatar, Button, Divider, Modal } from "antd";
 import { ICandidateProfileSaved } from "../profile-saved";
 import { getInformationResume } from "../../../services/api/employer/profileSaved";
 import { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
-export interface ICandidateProfile {
+import { FaEnvelope, FaGlobe, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+interface Profile {
   id: number;
-  profile: {
+  name: string;
+  title: string;
+  phone: string;
+  email: string;
+  age: number;
+  image_url: string;
+  gender: number;
+  location: string;
+  website: string;
+}
+
+interface Objective {
+  desired_position: string;
+  desiredLevel: {
     id: number;
     name: string;
-    title: string | null;
-    phone: string | null;
-    email: string;
-    age: number | null;
-    image_url: string | null;
-    gender: string | null;
-    location: string | null;
-    website: string | null;
-    objective: {
-      desired_position: string;
-      desired_level: string;
-      profession: string;
-      employment_type: string;
-      experience_level: string;
-      work_address: string;
-      education_level: string;
-      salary_from: number;
-      salary_to: number;
-      file: string;
-      status: string;
-      country: string;
-      city: string;
-      district: string;
-    };
   };
-  aboutme: string[];
+  profession: {
+    id: number;
+    name: string;
+  };
+  employmentType: {
+    id: number;
+    name: string;
+  };
+  experienceLevel: {
+    id: number;
+    name: string;
+  };
+  work_address: string;
+  educationLevel: {
+    id: number;
+    name: string;
+  };
+  salary_from: number;
+  salary_to: number;
+  file: string;
+  status: string;
+  country: {
+    id: number;
+    name: string;
+  };
+  city: {
+    id: number;
+    name: string;
+  };
+  district: {
+    id: number;
+    name: string;
+  };
+}
+
+interface AboutMe {
+  id: number;
+  description: string;
+}
+
+interface Education {
+  id: number;
+  degree: string;
+  institution: string;
+  start_date: string;
+  end_date: string;
+  additionalDetail: string;
+}
+
+interface Skill {
+  id: number;
+  name: string;
+  level: string;
+}
+
+interface PersonalProject {
+  id: number;
+  title: string;
+  start_date: string;
+  end_date: string;
+  description: string;
+}
+
+interface Certificate {
+  id: number;
+  title: string;
+  provider: string;
+  issueDate: string;
+  description: string;
+  certificateUrl: string;
+}
+
+interface WorkExperience {
+  id: number;
+  position: string;
+  company: string;
+  start_date: string;
+  end_date: string;
+  responsibilities: string;
+}
+
+interface Award {
+  id: number;
+  title: string;
+  provider: string;
+  issueDate: string;
+  description: string;
+}
+
+interface UserProfile {
+  id: number;
+  profile: Profile;
+  objective: Objective;
+  aboutme: AboutMe[];
   educations: Education[];
   skills: Skill[];
-  PersonalProject: Project[];
+  PersonalProject: PersonalProject[];
   Certificate: Certificate[];
   WorkExperience: WorkExperience[];
   Award: Award[];
-}
-
-export interface Education {
-  institution: string;
-  degree: string;
-  year: number;
-}
-
-export interface Skill {
-  name: string;
-  proficiency: string;
-}
-
-export interface Project {
-  name: string;
-  description: string;
-}
-
-export interface Certificate {
-  name: string;
-  issued_by: string;
-  date: string;
-}
-
-export interface WorkExperience {
-  company: string;
-  position: string;
-  startDate: string;
-  endDate: string | null;
-}
-
-export interface Award {
-  title: string;
-  description: string;
-  year: number;
 }
 
 interface IModalViewProfileCandidateProps {
@@ -90,7 +138,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
   open,
   setOpen,
 }) => {
-  const [dataDetail, setDataDetail] = useState<ICandidateProfile | null>(null);
+  const [dataDetail, setDataDetail] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchInforesume = async () => {
@@ -142,150 +190,220 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
         }}
       >
         {dataDetail && (
-          <div className="p-6">
-            {/* Profile Header */}
-            <div className="flex items-center space-x-4 mb-8">
-              <Avatar size={64} icon={<UserOutlined />} />
+          <div className="profile-container p-6 bg-white">
+            {/* Profile and Avatar Section */}
+            <div className="flex items-center mb-6">
+              <Avatar
+                size={120}
+                src={dataDetail.profile?.image_url || ""}
+                alt="Applicant Avatar"
+                className="mr-4"
+                icon={<UserOutlined />}
+              />
               <div>
-                <h2 className="text-2xl font-semibold">
-                  {dataDetail?.profile?.name || "--"}
-                </h2>
-                <p className="text-gray-500">
-                  {dataDetail?.profile?.objective?.desired_position || "--"}
+                <h3 className="text-2xl font-semibold mb-2">
+                  {dataDetail.profile?.name || "No Name"}
+                </h3>
+                <p>
+                  <strong>Chức vụ:</strong> {dataDetail.profile?.title || "--"}
+                </p>
+                <p>
+                  <strong>Địa chỉ:</strong>{" "}
+                  {dataDetail.profile?.location || "--"}
                 </p>
               </div>
             </div>
-
-            {/* Personal Information */}
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-medium mb-2">Thông Tin Cá Nhân</h3>
+            <div className="grid grid-cols-2 gap-1">
+              {/* Contact Information */}
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  Thông tin liên hệ
+                </h3>
                 <p>
-                  <span className="font-medium">Email:</span>{" "}
-                  {dataDetail?.profile?.email || "--"}
+                  <strong>Số điện thoại:</strong>{" "}
+                  {dataDetail.profile?.phone || "--"}
                 </p>
                 <p>
-                  <span className="font-medium">Điện thoại:</span>{" "}
-                  {dataDetail?.profile?.phone || "--"}
+                  <strong>Email:</strong> {dataDetail.profile?.email || "--"}
                 </p>
                 <p>
-                  <span className="font-medium">Giới tính:</span>{" "}
-                  {dataDetail?.profile?.gender || "--"}
+                  <strong>Website:</strong>{" "}
+                  <a
+                    href={dataDetail.profile?.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    {dataDetail.profile?.website || "--"}
+                  </a>
                 </p>
                 <p>
-                  <span className="font-medium">Tuổi:</span>{" "}
-                  {dataDetail?.profile?.age || "--"}
+                  <strong>Tuổi:</strong> {dataDetail.profile?.age || "--"}
                 </p>
                 <p>
-                  <span className="font-medium">Địa chỉ:</span>{" "}
-                  {dataDetail?.profile?.objective?.work_address || "--"}
-                </p>
-                <p>
-                  <span className="font-medium">Quốc gia:</span>{" "}
-                  {dataDetail?.profile?.objective?.country || "--"}
-                </p>
-                <p>
-                  <span className="font-medium">Thành phố:</span>{" "}
-                  {dataDetail?.profile?.objective?.city || "--"}
-                </p>
-                <p>
-                  <span className="font-medium">Quận:</span>{" "}
-                  {dataDetail?.profile?.objective?.district || "--"}
+                  <strong>Giới tính:</strong>{" "}
+                  {dataDetail.profile?.gender === 1 ? "Nam" : "Nữ"}
                 </p>
               </div>
 
               {/* Career Objective */}
-              <div>
-                <h3 className="text-lg font-medium mb-2">
-                  Mục Tiêu Nghề Nghiệp
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  Mục tiêu nghề nghiệp
                 </h3>
                 <p>
-                  <span className="font-medium">Vị trí mong muốn:</span>{" "}
-                  {dataDetail?.profile?.objective?.desired_position || "--"}
+                  <strong>Vị trí mong muốn:</strong>{" "}
+                  {dataDetail.objective?.desired_position || "--"}
                 </p>
                 <p>
-                  <span className="font-medium">Cấp bậc mong muốn:</span>{" "}
-                  {dataDetail?.profile?.objective?.desired_level || "--"}
+                  <strong>Trình độ mong muốn:</strong>{" "}
+                  {dataDetail.objective?.desiredLevel?.name || "--"}
                 </p>
                 <p>
-                  <span className="font-medium">Ngành nghề:</span>{" "}
-                  {dataDetail?.profile?.objective?.profession || "--"}
+                  <strong>Ngành nghề:</strong>{" "}
+                  {dataDetail.objective?.profession?.name || "--"}
                 </p>
                 <p>
-                  <span className="font-medium">Loại hình công việc:</span>{" "}
-                  {dataDetail?.profile?.objective?.employment_type || "--"}
+                  <strong>Hình thức làm việc:</strong>{" "}
+                  {dataDetail.objective?.employmentType?.name || "--"}
                 </p>
                 <p>
-                  <span className="font-medium">Kinh nghiệm:</span>{" "}
-                  {dataDetail?.profile?.objective?.experience_level || "--"}
-                </p>
-                <p>
-                  <span className="font-medium">Trình độ học vấn:</span>{" "}
-                  {dataDetail?.profile?.objective?.education_level || "--"}
-                </p>
-                <p>
-                  <span className="font-medium">Mức lương mong muốn:</span>{" "}
-                  {dataDetail?.profile?.objective?.salary_from?.toLocaleString() ||
-                    "--"}{" "}
-                  -{" "}
-                  {dataDetail?.profile?.objective?.salary_to?.toLocaleString() ||
-                    "--"}{" "}
-                  VND
+                  <strong>Mức lương mong muốn:</strong>{" "}
+                  {dataDetail.objective?.salary_from
+                    ? `${dataDetail.objective.salary_from} - ${dataDetail.objective.salary_to} VND`
+                    : "--"}
                 </p>
               </div>
-            </div>
 
-            {/* Resume and Additional Sections */}
-            <div className="mt-6">
-              <h3 className="text-lg font-medium mb-2">Hồ Sơ và Tài Liệu</h3>
-              <p>
-                <span className="font-medium">CV:</span>
-                <a
-                  href={dataDetail?.profile?.objective?.file || "#"}
+              {/* About Me */}
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  Giới thiệu bản thân
+                </h3>
+                <p>{dataDetail.aboutme?.[0]?.description || "--"}</p>
+              </div>
+
+              {/* Education */}
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">Giáo dục</h3>
+                {dataDetail.educations?.map((edu, idx) => (
+                  <div key={idx} className="mb-2">
+                    <p>
+                      <strong>Bằng cấp:</strong> {edu.degree || "--"}
+                    </p>
+                    <p>
+                      <strong>Trường:</strong> {edu.institution || "--"}
+                    </p>
+                    <p>
+                      <strong>Thời gian:</strong> {edu.start_date || "--"} -{" "}
+                      {edu.end_date || "--"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Skills */}
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">Kỹ năng</h3>
+                {dataDetail.skills?.map((skill, idx) => (
+                  <p key={idx}>
+                    <strong>{skill.name}:</strong> {skill.level}
+                  </p>
+                ))}
+              </div>
+
+              {/* Personal Projects */}
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">Dự án cá nhân</h3>
+                {dataDetail.PersonalProject?.map((project, idx) => (
+                  <div key={idx} className="mb-2">
+                    <p>
+                      <strong>Tên dự án:</strong> {project.title || "--"}
+                    </p>
+                    <p>
+                      <strong>Thời gian:</strong> {project.start_date || "--"} -{" "}
+                      {project.end_date || "--"}
+                    </p>
+                    <p>
+                      <strong>Mô tả:</strong> {project.description || "--"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Certificates */}
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">Chứng chỉ</h3>
+                {dataDetail.Certificate?.map((cert, idx) => (
+                  <div key={idx} className="mb-2">
+                    <p>
+                      <strong>Tiêu đề:</strong> {cert.title || "--"}
+                    </p>
+                    <p>
+                      <strong>Nhà cung cấp:</strong> {cert.provider || "--"}
+                    </p>
+                    <p>
+                      <strong>Ngày cấp:</strong> {cert.issueDate || "--"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Work Experience */}
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  Kinh nghiệm làm việc
+                </h3>
+                {dataDetail.WorkExperience?.map((work, idx) => (
+                  <div key={idx} className="mb-2">
+                    <p>
+                      <strong>Vị trí:</strong> {work.position || "--"}
+                    </p>
+                    <p>
+                      <strong>Công ty:</strong> {work.company || "--"}
+                    </p>
+                    <p>
+                      <strong>Thời gian:</strong> {work.start_date || "--"} -{" "}
+                      {work.end_date || "--"}
+                    </p>
+                    <p>
+                      <strong>Nhiệm vụ:</strong> {work.responsibilities || "--"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Awards */}
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">Giải thưởng</h3>
+                {dataDetail.Award?.map((award, idx) => (
+                  <div key={idx} className="mb-2">
+                    <p>
+                      <strong>Tiêu đề:</strong> {award.title || "--"}
+                    </p>
+                    <p>
+                      <strong>Nhà cung cấp:</strong> {award.provider || "--"}
+                    </p>
+                    <p>
+                      <strong>Ngày cấp:</strong> {award.issueDate || "--"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* CV Download Section */}
+            {dataDetail.objective?.file && (
+              <div className="mt-6 text-center">
+                <Button
+                  type="primary"
+                  href={dataDetail.objective.file}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline ml-2"
+                  className="bg-blue-500 hover:bg-blue-600"
                 >
-                  {dataDetail?.profile?.objective?.file ? "Tải xuống CV" : "--"}
-                </a>
-              </p>
-            </div>
-
-            {/* Additional Information Sections */}
-            <div className="mt-6 grid grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-medium mb-2">Kỹ Năng</h3>
-                <p>
-                  {dataDetail?.skills.length
-                    ? dataDetail.skills.join(", ")
-                    : "--"}
-                </p>
+                  Tải CV
+                </Button>
               </div>
-              <div>
-                <h3 className="text-lg font-medium mb-2">Giải Thưởng</h3>
-                <p>
-                  {dataDetail?.Award.length
-                    ? dataDetail.Award.join(", ")
-                    : "--"}
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-medium mb-2">Dự Án Cá Nhân</h3>
-                <p>
-                  {dataDetail?.PersonalProject.length
-                    ? dataDetail.PersonalProject.join(", ")
-                    : "--"}
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-medium mb-2">Chứng Chỉ</h3>
-                <p>
-                  {dataDetail?.Certificate.length
-                    ? dataDetail.Certificate.join(", ")
-                    : "--"}
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         )}
       </Modal>
