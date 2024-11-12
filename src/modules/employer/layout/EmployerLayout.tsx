@@ -42,6 +42,15 @@ export function EmployerLayout() {
       ),
       children: <Outlet />,
     },
+    {
+      key: EMPLOYER_ROUTES.LIST_CANDIDATE_PROFILE_SAVED,
+      label: (
+        <NavLink to={EMPLOYER_ROUTES.LIST_CANDIDATE_PROFILE_SAVED}>
+          Candidate Profile Saved
+        </NavLink>
+      ),
+      children: <Outlet />,
+    },
   ];
 
   useEffect(() => {
@@ -60,6 +69,7 @@ export function EmployerLayout() {
         <div className="flex-1 w-full">
           {isLogin ? (
             <Tabs
+              size="large"
               centered
               activeKey={
                 location.pathname.includes("edit-jd") ||
