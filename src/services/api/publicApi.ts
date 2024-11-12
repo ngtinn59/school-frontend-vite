@@ -32,16 +32,30 @@ export const getCountriesApi = async () => {
 };
 
 export const getCitiesApi = async (countryId: number) => {
-  const response = await axios.get(`${BASE_URL_API}/api/countries/${countryId}/cities`);
+  const response = await axios.get(
+    `${BASE_URL_API}/api/countries/${countryId}/cities`
+  );
   return response.data;
 };
 
 export const getDistrictsApi = async (cityId: number) => {
-  const response = await axios.get(`${BASE_URL_API}/api/cities/${cityId}/districts`);
+  const response = await axios.get(
+    `${BASE_URL_API}/api/cities/${cityId}/districts`
+  );
   return response.data;
 };
 
 export const getWorkplacesApi = async () => {
   const response = await axios.get(`${BASE_URL_API}/api/workplaces`);
+  return response.data;
+};
+
+export const getCompanyTypesApi = async () => {
+  const response = await axios.get(`${BASE_URL_API}/api/company-types`);
+  return response.data;
+};
+
+export const getCompanySizesApi = async () => {
+  const response = await axios.get(`${BASE_URL_API}/api/company-sizes`);
   return response.data;
 };

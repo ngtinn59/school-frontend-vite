@@ -8,7 +8,10 @@ import Card from "../../../components/Card";
 import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
 import Switch from "../../../components/Switch";
-import { addObjectiveApi, getObjectivesApi } from "../../../services/api/objectiveApi";
+import {
+  addObjectiveApi,
+  getObjectivesApi,
+} from "../../../services/api/objectiveApi";
 import {
   getCitiesApi,
   getCountriesApi,
@@ -59,7 +62,9 @@ interface AddObjectiveArgs {
 
 const AttachedCVs: React.FC = () => {
   const [uploadedFile, setUploadedFiles] = useState<File | undefined>();
-  const [objective, setObjective] = useState<ObjectiveType>(objectiveInitialState);
+  const [objective, setObjective] = useState<ObjectiveType>(
+    objectiveInitialState
+  );
   const queryClient = useQueryClient();
 
   const { data: objectiveData } = useQuery({
@@ -160,7 +165,8 @@ const AttachedCVs: React.FC = () => {
   });
 
   const { mutate: addObjective } = useMutation({
-    mutationFn: ({ objective, file }: AddObjectiveArgs) => addObjectiveApi(objective, file),
+    mutationFn: ({ objective, file }: AddObjectiveArgs) =>
+      addObjectiveApi(objective, file),
     onSuccess: () => {
       toast.success("Objective added successfully");
       queryClient.invalidateQueries({
@@ -197,7 +203,9 @@ const AttachedCVs: React.FC = () => {
     });
   };
 
-  function handleObjectiveChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  function handleObjectiveChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) {
     const { name, value } = e.target;
 
     if (name === "desired_position" || name === "work_address") {
@@ -275,7 +283,8 @@ const AttachedCVs: React.FC = () => {
             <FontAwesomeIcon icon={faArrowUpFromBracket} /> {""}
             Upload CV
           </Button>
-        }>
+        }
+      >
         <form>
           <div className="flex items-center justify-between gap-8 mb-4">
             <div className="flex flex-1 flex-col items-start gap-1 mb-4">
@@ -304,7 +313,11 @@ const AttachedCVs: React.FC = () => {
                 <label htmlFor="status" className="mb-2">
                   Allow employers to see your CV
                 </label>
-                <Switch isOn={objective?.status === "1"} onToggle={handleToggle} name="status" />
+                <Switch
+                  isOn={objective?.status === "1"}
+                  onToggle={handleToggle}
+                  name="status"
+                />
               </div>
             </div>
           </div>

@@ -190,3 +190,13 @@ export type DistrictType = {
   id: number;
   name: string;
 };
+
+export type CompanyType = {
+  id: number;
+  name: string;
+};
+
+export type CompanySizeType = {
+  id: number;
+  name: string;
+};
