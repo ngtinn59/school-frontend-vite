@@ -5,7 +5,12 @@ import { VscSaveAs } from "react-icons/vsc";
 import { useCallback, useEffect, useState } from "react";
 import { debounce } from "lodash";
 import { formatCurrencyVND } from "../../utils/function/formatCurrency";
-import { getAllProfileSaved } from "../../services/api/employer/profileSaved";
+import {
+  getAllProfileSaved,
+  unSaveProfile,
+} from "../../services/api/employer/profileSaved";
+import toast from "react-hot-toast";
+import ModalViewProfileCandidate from "./Modal/ModalViewProfileCandidate";
 
 export interface ICandidateProfileSaved {
   id: number;
@@ -22,7 +27,7 @@ export interface ICandidateProfileSaved {
 
 const ProfileSaved: React.FC = () => {
   const LIMIT = 10;
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<ICandidateProfileSaved[]>([]);
   const [filteredData, setFilteredData] = useState<ICandidateProfileSaved[]>(
     []
@@ -40,7 +45,7 @@ const ProfileSaved: React.FC = () => {
     setLoading(true);
     try {
       const res = await getAllProfileSaved();
-      if (res && res.status_code === 200) {
+      if (res.status_code === 200) {
         setData(res.data);
         setTotal(res.data.length);
       }
@@ -72,6 +77,20 @@ const ProfileSaved: React.FC = () => {
   useEffect(() => {
     debouncedSearch(search);
   }, [search, debouncedSearch]);
+
+  const handleUnSaveProfile = async (id: number) => {
+    try {
+      const res = await unSaveProfile(id);
+      if (res && res.status_code === 200) {
+        toast.success(res.message || "Hủy lưu hồ sơ thành công");
+        fetchListProfileSaved();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Hủy lưu hồ sơ thất bại");
+      fetchListProfileSaved();
+    }
+  };
 
   const columns: TableProps<ICandidateProfileSaved>["columns"] = [
     {
@@ -150,9 +169,8 @@ const ProfileSaved: React.FC = () => {
           <Tooltip title={`Xem hồ sơ ${record.name}`}>
             <button
               onClick={() => {
-                // setDataDetail(record);
-                // setIsCreate(false);
-                // setOpenModalCreateEditDesiredPostion(true);
+                setDataDetail(record);
+                setOpen(true);
               }}
               className="text-xl text-blue-500"
             >
@@ -161,7 +179,9 @@ const ProfileSaved: React.FC = () => {
           </Tooltip>
           <Tooltip title={`Huỷ lưu hồ sơ ${record.name}`}>
             <button
-              onClick={() => {}}
+              onClick={() => {
+                handleUnSaveProfile(record?.id);
+              }}
               className="px-2 mb-1 text-red-500 flex items-center justify-center gap-1 border border-red-500 border-solid rounded-md"
             >
               <VscSaveAs className="text-lg" />
@@ -214,6 +234,12 @@ const ProfileSaved: React.FC = () => {
             setPageSize(pageSize);
           },
         }}
+      />
+      <ModalViewProfileCandidate
+        data={dataDetail}
+        setData={setDataDetail}
+        open={open}
+        setOpen={setOpen}
       />
     </div>
   );
