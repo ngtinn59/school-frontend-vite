@@ -200,3 +200,29 @@ export type CompanySizeType = {
   id: number;
   name: string;
 };
+
+export type EmployerProfileType = {
+  id: number;
+  name: string;
+  phone: string;
+  company_email: string;
+  tax_code: string;
+  date_of_establishment: string;
+  logo: string;
+  banner: string;
+  country: CountryType;
+  city: CityType;
+  district: DistrictType;
+  address: string;
+  company_type: CompanyType;
+  company_size: CompanySizeType;
+  working_days: string;
+  overtime_policy: string;
+  website: string;
+  facebook: string;
+  youtube: string;
+  linked: string;
+  latitude: number;
+  longitude: number;
+  description: string;
+};
