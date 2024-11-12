@@ -8,26 +8,26 @@ export const EmployerProfile = () => {
     if (!profile) return <Empty />;
 
     const displayData: Record<string, any> = {
-      country: { label: "country", value: profile.country ?? "-" },
-      city: { label: "city", value: profile.city ?? "-" },
-      address: { label: "address", value: profile.address ?? "-" },
+      country: { label: "country", value: profile?.country?.name ?? "-" },
+      city: { label: "city", value: profile?.city?.name ?? "-" },
+      address: { label: "address", value: profile?.address ?? "-" },
       webstie: {
-        label: "webstie",
+        label: "website",
         value: (
-          <a href={profile?.webstie ?? ""} target="_blank">
-            {profile?.webstie ?? "-"}
+          <a href={profile?.website ?? ""} target="_blank">
+            {profile?.website ?? "-"}
           </a>
         ),
       },
-      companyType: { label: "company type", value: profile.companyType ?? "-" },
-      companySize: { label: "company size", value: profile.companySize ?? "-" },
+      companyType: { label: "company type", value: profile?.company_type?.name ?? "-" },
+      companySize: { label: "company size", value: profile?.company_size?.name ?? "-" },
       Working_days: {
         label: "working days",
-        value: profile.Working_days ?? "-",
+        value: profile.working_days ?? "-",
       },
       Overtime_policy: {
         label: "overtime policy",
-        value: profile.Overtime_policy ?? "-",
+        value: profile.overtime_policy ?? "-",
       },
       facebook: {
         label: "facebook",
@@ -54,20 +54,22 @@ export const EmployerProfile = () => {
   return (
     <div className="max-w-2xl mx-auto">
       <div>
-        <Avatar
-          size={100}
-          src={
-            <img
-              src={
-                profile?.logo ??
-                `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
-                  0
-                )}+${profile?.name?.slice(1)}`
-              }
-              alt="avatar"
-            />
-          }
-        />
+        {profile && (
+          <Avatar
+            size={100}
+            src={
+              <img
+                src={
+                  profile?.logo ??
+                  `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
+                    0
+                  )}+${profile?.name?.slice(1)}`
+                }
+                alt="avatar"
+              />
+            }
+          />
+        )}
       </div>
       <div className="px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">Employer Profile</h3>
