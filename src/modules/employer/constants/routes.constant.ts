@@ -7,6 +7,7 @@ export const EMPLOYER_ROUTES = {
   LIST_JD: "/employer/list-jd",
   EDIT_JD: "/employer/edit-jd/:id",
   LIST_APPLICATION: "/employer/list-application",
+  LIST_CANDIDATE_PROFILE_SAVED: "/employer/candidate-profile-saved",
 } as const;
 
 export const EMPLOYER_BE_API = {

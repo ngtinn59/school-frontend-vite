@@ -5,7 +5,9 @@ import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
 import { store } from "./app/store.ts";
 import "./index.css";
 import CreateCV from "./pages/CreateCV.tsx";
-import HomePage, { action as searchITJobAction } from "./pages/home/HomePage.tsx";
+import HomePage, {
+  action as searchITJobAction,
+} from "./pages/home/HomePage.tsx";
 import JobPreferences from "./pages/JobPreferences.tsx";
 import ManageCV from "./pages/ManageCV.tsx";
 import Profile from "./pages/profile/Profile.tsx";
@@ -21,17 +23,27 @@ import ContactPage from "./pages/contact/ContactPage.tsx";
 import { LoginEmployer } from "./pages/employer/login.tsx";
 import EmployerRegister from "./pages/employer/register.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { EMPLOYER_ROUTES, EmployerAuthProvider, EmployerLayout } from "./modules/employer/index.ts";
+import {
+  EMPLOYER_ROUTES,
+  EmployerAuthProvider,
+  EmployerLayout,
+} from "./modules/employer/index.ts";
 import { EmployerProfile } from "./pages/employer/profile.tsx";
 import { EditProfile } from "./pages/employer/edit-profile.tsx";
 import { CreateJD } from "./pages/employer/create-jd.tsx";
 import { ListJD } from "./pages/employer/list-jd.tsx";
 import { EditJD } from "./pages/employer/edit-jd.tsx";
 import { ListApplication } from "./pages/employer/list-application.tsx";
-import { EmployerList, EmployerDetail, JobDetail, JobList } from "./modules/jobSeeker";
+import {
+  EmployerList,
+  EmployerDetail,
+  JobDetail,
+  JobList,
+} from "./modules/jobSeeker";
 import WrapperLayout from "./modules/jobSeeker/layout/wraper.tsx";
 import { JobsApply } from "./modules/jobSeeker/pages/job-apply.tsx";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ProfileSaved from "./pages/employer/profile-saved.tsx";
 
 const router = createBrowserRouter([
   {
@@ -224,6 +236,10 @@ const router = createBrowserRouter([
       {
         path: EMPLOYER_ROUTES.LIST_APPLICATION,
         element: <ListApplication />,
+      },
+      {
+        path: EMPLOYER_ROUTES.LIST_CANDIDATE_PROFILE_SAVED,
+        element: <ProfileSaved />,
       },
     ],
   },
