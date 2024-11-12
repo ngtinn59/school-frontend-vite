@@ -1,24 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
+import { EmployerProfileType } from "../../../utils/type";
 import { COOKIE_ACCESS_TOKEN } from "../constants/cookie.constant";
 
 type TInitialState = {
   isLogin: boolean;
-  profile?: {
-    id: number;
-    country: string | null;
-    city: string | null;
-    companyType: string | null;
-    companySize: string | null;
-    name: string | null;
-    Working_days: string | null;
-    Overtime_policy: string | null;
-    webstie: string | null;
-    logo: string | null;
-    facebook: string | null;
-    address: string | null;
-    description: string | null;
-  };
+  profile?: EmployerProfileType;
 };
 
 const initialState: TInitialState = {

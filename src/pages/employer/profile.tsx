@@ -8,26 +8,26 @@ export const EmployerProfile = () => {
     if (!profile) return <Empty />;
 
     const displayData: Record<string, any> = {
-      country: { label: "country", value: profile.country ?? "-" },
-      city: { label: "city", value: profile.city ?? "-" },
-      address: { label: "address", value: profile.address ?? "-" },
+      country: { label: "country", value: profile?.country?.name ?? "-" },
+      city: { label: "city", value: profile?.city?.name ?? "-" },
+      address: { label: "address", value: profile?.address ?? "-" },
       webstie: {
-        label: "webstie",
+        label: "website",
         value: (
-          <a href={profile?.webstie ?? ""} target="_blank">
-            {profile?.webstie ?? "-"}
+          <a href={profile?.website ?? ""} target="_blank">
+            {profile?.website ?? "-"}
           </a>
         ),
       },
-      companyType: { label: "company type", value: profile.companyType ?? "-" },
-      companySize: { label: "company size", value: profile.companySize ?? "-" },
+      companyType: { label: "company type", value: profile?.company_type?.name ?? "-" },
+      companySize: { label: "company size", value: profile?.company_size?.name ?? "-" },
       Working_days: {
         label: "working days",
-        value: profile.Working_days ?? "-",
+        value: profile.working_days ?? "-",
       },
       Overtime_policy: {
         label: "overtime policy",
-        value: profile.Overtime_policy ?? "-",
+        value: profile.overtime_policy ?? "-",
       },
       facebook: {
         label: "facebook",
@@ -41,13 +41,8 @@ export const EmployerProfile = () => {
 
     return Object.values(displayData).map((info) => {
       return (
-        <div
-          key={info.label}
-          className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
-        >
-          <dt className="text-sm font-medium leading-6 text-gray-900">
-            {info.label}
-          </dt>
+        <div key={info.label} className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt className="text-sm font-medium leading-6 text-gray-900">{info.label}</dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
             {info.value}
           </dd>
@@ -59,28 +54,26 @@ export const EmployerProfile = () => {
   return (
     <div className="max-w-2xl mx-auto">
       <div>
-        <Avatar
-          size={100}
-          src={
-            <img
-              src={
-                profile?.logo ??
-                `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
-                  0
-                )}+${profile?.name?.slice(1)}`
-              }
-              alt="avatar"
-            />
-          }
-        />
+        {profile && (
+          <Avatar
+            size={100}
+            src={
+              <img
+                src={
+                  profile?.logo ??
+                  `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
+                    0
+                  )}+${profile?.name?.slice(1)}`
+                }
+                alt="avatar"
+              />
+            }
+          />
+        )}
       </div>
       <div className="px-4 sm:px-0">
-        <h3 className="text-base font-semibold leading-7 text-gray-900">
-          Employer Profile
-        </h3>
-        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-          details and information.
-        </p>
+        <h3 className="text-base font-semibold leading-7 text-gray-900">Employer Profile</h3>
+        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">details and information.</p>
       </div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">{renderProfile()}</dl>
