@@ -85,29 +85,33 @@ export const EmployerProfile = () => {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div>
-        {profile && (
-          <Avatar
-            size={100}
-            src={
-              <img
-                src={
-                  profile?.logo ??
-                  `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
-                    0
-                  )}+${profile?.name?.slice(1)}`
-                }
-                alt="avatar"
-              />
-            }
+      <div className="relative">
+        {profile?.banner && (
+          <img
+            src={profile.banner}
+            alt="banner"
+            className="w-full h-48 object-cover rounded-t-lg"
           />
         )}
+        <div className="absolute top-30 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          {profile && (
+            <Avatar
+              size={100}
+              src={
+                profile?.logo ??
+                `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
+                  0
+                )}+${profile?.name?.slice(1)}`
+              }
+            />
+          )}
+        </div>
       </div>
-      <div className="px-4 sm:px-0">
+      {/* <div className="px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">Employer Profile</h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Details and information.</p>
-      </div>
-      <div className="mt-6 border-t border-gray-100">
+      </div> */}
+      <div className="mt-12 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">{renderProfile()}</dl>
       </div>
     </div>
