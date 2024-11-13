@@ -18,7 +18,6 @@ export const updateEmployerProfileApi = async (
 ) => {
   const config = await generateEmployerConfig();
   const formData = new FormData();
-  // formData.append("id", profile.id.toString());
   formData.append("name", profile.name);
   formData.append("description", profile.description);
   formData.append("phone", profile.phone);

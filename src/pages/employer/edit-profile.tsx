@@ -37,12 +37,16 @@ import {
   EmployerProfileType,
 } from "../../utils/type";
 import toast from "react-hot-toast";
-import e from "cors";
 
 interface UpdateEmployerProfileArgs {
   profile: EmployerProfileType;
   logoFileList: UploadFile[];
   bannerFileList: UploadFile[];
+}
+
+interface EmployerProfileFormValues extends EmployerProfileType {
+  logoFile: any;
+  bannerFile: any;
 }
 
 export const EditProfile = () => {
@@ -56,7 +60,7 @@ export const EditProfile = () => {
 
   const navigate = useNavigate();
 
-  const [form] = useForm<EmployerProfileType>();
+  const [form] = useForm<EmployerProfileFormValues>();
 
   const { data: countryOptions } = useQuery({
     queryKey: ["countries"],
@@ -125,10 +129,7 @@ export const EditProfile = () => {
       updateEmployerProfileApi(profile, logoFileList, bannerFileList),
   });
 
-  const onEdit: FormProps["onFinish"] = (values: EmployerProfileType) => {
-    console.log("PROFILE", { ...profile, ...values });
-    console.log("LOGO", logoFileList);
-    console.log("BANNER", bannerFileList);
+  const onEdit: FormProps["onFinish"] = (values: EmployerProfileFormValues) => {
     updateEmployerProfile(
       { profile: { ...profile, ...values }, logoFileList, bannerFileList },
       {
@@ -138,6 +139,8 @@ export const EditProfile = () => {
               return query.queryKey[0] === "employer-profile";
             },
           });
+          setLogoFileList([]);
+          setBannerFileList([]);
           toast.success(data.message);
         },
         onError: (error) => {
@@ -221,22 +224,56 @@ export const EditProfile = () => {
       </div> */}
 
       <Form scrollToFirstError onFinish={onEdit} className="mt-12" layout="vertical" form={form}>
-        <Form.Item label={<Typography.Title level={5}>Logo</Typography.Title>}>
+        <Form.Item
+          name="logoFile"
+          label={<Typography.Title level={5}>Logo</Typography.Title>}
+          required
+          rules={[
+            {
+              validator: () => {
+                if (logoFileList && logoFileList.length < 1) {
+                  return Promise.reject(new Error("Please upload your logo"));
+                }
+                return Promise.resolve();
+              },
+            },
+          ]}>
           <Upload
             maxCount={1}
             accept="images/**"
             beforeUpload={() => false}
-            onChange={handleLogoUploadChange}>
+            onChange={handleLogoUploadChange}
+            onRemove={() => {
+              setLogoFileList([]);
+              form.setFieldsValue({ logoFile: undefined });
+            }}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </Form.Item>
 
-        <Form.Item label={<Typography.Title level={5}>Banner</Typography.Title>}>
+        <Form.Item
+          name="bannerFile"
+          label={<Typography.Title level={5}>Banner</Typography.Title>}
+          required
+          rules={[
+            {
+              validator: () => {
+                if (bannerFileList && bannerFileList.length < 1) {
+                  return Promise.reject(new Error("Please upload your banner"));
+                }
+                return Promise.resolve();
+              },
+            },
+          ]}>
           <Upload
             maxCount={1}
             accept="images/**"
             beforeUpload={() => false}
-            onChange={handleBannerUploadChange}>
+            onChange={handleBannerUploadChange}
+            onRemove={() => {
+              setBannerFileList([]);
+              form.setFieldsValue({ bannerFile: undefined });
+            }}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </Form.Item>
@@ -253,7 +290,7 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Company email</Typography.Title>}
           required
           rules={[
-            { required: true, message: "'Company email' is required" },
+            { required: true, message: "Company email is required" },
             { type: "email", message: "Invalid email" },
           ]}
           name="company_email">
@@ -263,7 +300,7 @@ export const EditProfile = () => {
         <Form.Item
           label={<Typography.Title level={5}>Phone number</Typography.Title>}
           required
-          rules={[{ required: true }]}
+          rules={[{ required: true, message: "Phone number is required" }]}
           name="phone">
           <Input placeholder="Phone" />
         </Form.Item>
@@ -279,26 +316,39 @@ export const EditProfile = () => {
         <Form.Item
           label={<Typography.Title level={5}>Website</Typography.Title>}
           required
-          rules={[{ required: true, message: "'Website' is required" }]}
+          rules={[{ required: true, message: "Website is required" }]}
           name="website">
           <Input placeholder="Website" />
         </Form.Item>
 
-        <Form.Item label={<Typography.Title level={5}>Facebook</Typography.Title>} name="facebook">
+        <Form.Item
+          label={<Typography.Title level={5}>Facebook</Typography.Title>}
+          name="facebook"
+          required
+          rules={[{ required: true, message: "Facebook is required" }]}>
           <Input placeholder="Facebook" />
         </Form.Item>
 
-        <Form.Item label={<Typography.Title level={5}>Youtube</Typography.Title>} name="youtube">
+        <Form.Item
+          label={<Typography.Title level={5}>Youtube</Typography.Title>}
+          name="youtube"
+          required
+          rules={[{ required: true, message: "Youtube is required" }]}>
           <Input placeholder="Youtube" />
         </Form.Item>
 
-        <Form.Item label={<Typography.Title level={5}>LinkedIn</Typography.Title>} name="linked">
+        <Form.Item
+          label={<Typography.Title level={5}>LinkedIn</Typography.Title>}
+          name="linked"
+          required
+          rules={[{ required: true, message: "LinkedIn is required" }]}>
           <Input placeholder="Linked" />
         </Form.Item>
 
         <Form.Item
           label={<Typography.Title level={5}>Tax code</Typography.Title>}
           required
+          rules={[{ required: true, message: "Tax code is required" }]}
           name="tax_code">
           <Input placeholder="Tax code" />
         </Form.Item>
