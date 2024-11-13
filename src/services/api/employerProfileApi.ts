@@ -1,7 +1,8 @@
 import axios from "axios";
-import { generateConfig } from "./common";
+import { generateConfig, generateEmployerConfig } from "./common";
 import { EMPLOYER_BE_API } from "../../modules";
 import { EmployerProfileType } from "../../utils/type";
+import { UploadFile } from "antd";
 
 export const getEmployerProfile = async () => {
   const config = await generateConfig();
@@ -9,13 +10,14 @@ export const getEmployerProfile = async () => {
   return response.data;
 };
 
-export const updateEmployerProfile = async (
+export const updateEmployerProfileApi = async (
   profile: EmployerProfileType,
-  logo?: File,
-  banner?: File
+  logoFileList: UploadFile[],
+  bannerFileList: UploadFile[]
 ) => {
-  const config = await generateConfig();
+  const config = await generateEmployerConfig();
   const formData = new FormData();
+  // formData.append("id", profile.id.toString());
   formData.append("name", profile.name);
   formData.append("description", profile.description);
   formData.append("phone", profile.phone);
@@ -36,11 +38,11 @@ export const updateEmployerProfile = async (
   formData.append("company_size_id", profile.companySize.id.toString());
   formData.append("working_days", profile.working_days);
   formData.append("overtime_policy", profile.overtime_policy);
-  if (logo) {
-    formData.append("logo", logo);
+  if (logoFileList && logoFileList.length > 0) {
+    formData.append("logo", logoFileList[0].originFileObj as File);
   }
-  if (banner) {
-    formData.append("banner", banner);
+  if (bannerFileList && bannerFileList.length > 0) {
+    formData.append("banner", bannerFileList[0].originFileObj as File);
   }
 
   const response = await axios.post(EMPLOYER_BE_API.PROFILE, formData, config);
