@@ -158,6 +158,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
   };
 
   const handleOpenChange = (visible: boolean) => {
+    setLoading(true);
     if (visible) {
       fetchInforesume();
     }

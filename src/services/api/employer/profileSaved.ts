@@ -1,5 +1,6 @@
 import { BASE_URL_API } from "../../../utils/constants";
 import { axiosInstance } from "../../../utils/baseAxios";
+import { IMailReq } from "../../../pages/employer/profile-saved";
 
 export const getAllProfileSaved = async () => {
   const response = await axiosInstance.get(
@@ -18,6 +19,14 @@ export const unSaveProfile = async (id: number) => {
 export const getInformationResume = async (id: number) => {
   const response = await axiosInstance.get(
     `${BASE_URL_API}/api/employer/saved-candidates/${id}`
+  );
+  return response.data;
+};
+
+export const sendMailToCandidate = async (id: number, data: IMailReq) => {
+  const response = await axiosInstance.post(
+    `${BASE_URL_API}/api/employer/candidates/${id}/send-email?=&=`,
+    data
   );
   return response.data;
 };

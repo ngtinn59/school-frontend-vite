@@ -1,6 +1,8 @@
 import { Space, Table, TableProps, Tooltip } from "antd";
 import { MdSearch } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
+import { RiMailSendLine } from "react-icons/ri";
+
 import { VscSaveAs } from "react-icons/vsc";
 import { useCallback, useEffect, useState } from "react";
 import { debounce } from "lodash";
@@ -11,6 +13,7 @@ import {
 } from "../../services/api/employer/profileSaved";
 import toast from "react-hot-toast";
 import ModalViewProfileCandidate from "./Modal/ModalViewProfileCandidate";
+import ModalSendMail from "./Modal/ModalSendMail";
 
 export interface ICandidateProfileSaved {
   id: number;
@@ -25,9 +28,15 @@ export interface ICandidateProfileSaved {
   created_at: string;
 }
 
+export interface IMailReq {
+  subject: string;
+  message: string;
+}
+
 const ProfileSaved: React.FC = () => {
   const LIMIT = 10;
   const [open, setOpen] = useState<boolean>(false);
+  const [openMail, setOpenMail] = useState<boolean>(false);
   const [data, setData] = useState<ICandidateProfileSaved[]>([]);
   const [filteredData, setFilteredData] = useState<ICandidateProfileSaved[]>(
     []
@@ -162,7 +171,7 @@ const ProfileSaved: React.FC = () => {
     {
       title: "Hành động",
       key: "action",
-      width: 150,
+      width: 200,
       align: "center",
       render: (_, record: ICandidateProfileSaved) => (
         <Space size="middle">
@@ -175,6 +184,17 @@ const ProfileSaved: React.FC = () => {
               className="text-xl text-blue-500"
             >
               <FaEye />
+            </button>
+          </Tooltip>
+          <Tooltip title={`Gửi mail đến ${record.name}`}>
+            <button
+              onClick={() => {
+                setDataDetail(record);
+                setOpenMail(true);
+              }}
+              className="text-xl text-yellow-500"
+            >
+              <RiMailSendLine />
             </button>
           </Tooltip>
           <Tooltip title={`Huỷ lưu hồ sơ ${record.name}`}>
@@ -240,6 +260,12 @@ const ProfileSaved: React.FC = () => {
         setData={setDataDetail}
         open={open}
         setOpen={setOpen}
+      />
+      <ModalSendMail
+        data={dataDetail}
+        setData={setDataDetail}
+        open={openMail}
+        setOpen={setOpenMail}
       />
     </div>
   );
