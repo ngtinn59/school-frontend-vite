@@ -242,11 +242,7 @@ export const EditProfile = () => {
             maxCount={1}
             accept="images/**"
             beforeUpload={() => false}
-            onChange={handleLogoUploadChange}
-            onRemove={() => {
-              setLogoFileList([]);
-              form.setFieldsValue({ logoFile: undefined });
-            }}>
+            onChange={handleLogoUploadChange}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </Form.Item>
@@ -269,11 +265,7 @@ export const EditProfile = () => {
             maxCount={1}
             accept="images/**"
             beforeUpload={() => false}
-            onChange={handleBannerUploadChange}
-            onRemove={() => {
-              setBannerFileList([]);
-              form.setFieldsValue({ bannerFile: undefined });
-            }}>
+            onChange={handleBannerUploadChange}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </Form.Item>
