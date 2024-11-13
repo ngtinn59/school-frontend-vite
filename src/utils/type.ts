@@ -214,8 +214,8 @@ export type EmployerProfileType = {
   city: CityType;
   district: DistrictType;
   address: string;
-  company_type: CompanyType;
-  company_size: CompanySizeType;
+  companyType: CompanyType;
+  companySize: CompanySizeType;
   working_days: string;
   overtime_policy: string;
   website: string;

@@ -32,8 +32,8 @@ export const updateEmployerProfile = async (
   formData.append("city_id", profile.city.id.toString());
   formData.append("district_id", profile.district.id.toString());
   formData.append("address", profile.address);
-  formData.append("company_type_id", profile.company_type.id.toString());
-  formData.append("company_size_id", profile.company_size.id.toString());
+  formData.append("company_type_id", profile.companyType.id.toString());
+  formData.append("company_size_id", profile.companySize.id.toString());
   formData.append("working_days", profile.working_days);
   formData.append("overtime_policy", profile.overtime_policy);
   if (logo) {
