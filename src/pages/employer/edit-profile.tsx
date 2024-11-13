@@ -237,9 +237,11 @@ export const EditProfile = () => {
                 return Promise.resolve();
               },
             },
-          ]}>
+          ]}
+          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}>
           <Upload
             maxCount={1}
+            fileList={logoFileList}
             accept="images/**"
             beforeUpload={() => false}
             onChange={handleLogoUploadChange}>
@@ -260,9 +262,11 @@ export const EditProfile = () => {
                 return Promise.resolve();
               },
             },
-          ]}>
+          ]}
+          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}>
           <Upload
             maxCount={1}
+            fileList={bannerFileList}
             accept="images/**"
             beforeUpload={() => false}
             onChange={handleBannerUploadChange}>
