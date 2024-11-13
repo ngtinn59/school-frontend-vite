@@ -205,8 +205,8 @@ export const EditProfile = () => {
               src={
                 logoFileList && logoFileList.length > 0
                   ? URL.createObjectURL(logoFileList[0].originFileObj as File)
-                  : profile.banner
-                  ? profile.banner
+                  : profile.logo
+                  ? profile.logo
                   : `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
                       0
                     )}+${profile?.name?.slice(1)}`
