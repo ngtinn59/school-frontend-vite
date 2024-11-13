@@ -5,10 +5,12 @@ import Wrapper from "../../../components/Wrapper";
 import { getFeaturedCompanies } from "../../../services/company/featuredCompany-service";
 import { useQuery } from "@tanstack/react-query";
 import { FeaturedCompanyType } from "../../../utils/type";
+import { useNavigate } from "react-router-dom";
 
 interface FeaturedCompaniesProps {}
 
 const FeaturedCompanies: React.FC = () => {
+  const navigate = useNavigate();
   const { data: featuredCompanies } = useQuery({
     queryKey: ["featuredCompanies"],
     queryFn: () => getFeaturedCompanies(),
@@ -152,7 +154,15 @@ const FeaturedCompanies: React.FC = () => {
           {featuredCompanies &&
             featuredCompanies.map((company: FeaturedCompanyType) => (
               <div key={company.id} className="pb-8 pt-1">
-                <div className="mx-auto h-[300px] w-[90%] cursor-pointer rounded-xl bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-1000">
+                <div
+                  className="mx-auto h-[300px] w-[90%] cursor-pointer rounded-xl bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] transition-all duration-1000"
+                  onClick={() =>
+                    navigate(
+                      `/company/${company.company_name.replace(/ /g, "-")}` +
+                        `-${company.id}`,
+                    )
+                  }
+                >
                   <div className="flex h-[60%] items-center justify-center overflow-hidden rounded-t-xl shadow-md">
                     <img
                       src={company.logo}

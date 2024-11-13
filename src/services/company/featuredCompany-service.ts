@@ -7,3 +7,8 @@ export const getFeaturedCompanies = async () => {
   );
   return response.data;
 };
+
+export const getCompanyDetail = async (id: string | undefined) => {
+  const response = await axios.get(`${BASE_URL_API}/api/list-companies/${id}`);
+  return response.data;
+};
