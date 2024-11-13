@@ -7,8 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { FeaturedCompanyType } from "../../../utils/type";
 import { useNavigate } from "react-router-dom";
 
-interface FeaturedCompaniesProps {}
-
 const FeaturedCompanies: React.FC = () => {
   const navigate = useNavigate();
   const { data: featuredCompanies } = useQuery({
@@ -17,98 +15,6 @@ const FeaturedCompanies: React.FC = () => {
     select: (featuredCompaniesData) =>
       featuredCompaniesData.data.featured_companies,
   });
-
-  // const featuredCompanies = [
-  //   {
-  //     id: 2,
-  //     company_name: "MekongSoft2",
-  //     logo: "http://101.101.96.43/uploads/images/oig4_6725ce46ca125_241102_070126.jpg",
-  //     is_hot: 1,
-  //     city: {
-  //       id: 2,
-  //       name: "TPHCM",
-  //     },
-  //     created_at: "31-10-2024",
-  //   },
-  //   {
-  //     id: 4,
-  //     company_name: "MekongSoft",
-  //     logo: "http://101.101.96.43/uploads/images/oig4_672f07ec9a56c_241109_065748.jpg",
-  //     is_hot: 1,
-  //     city: {
-  //       id: 2,
-  //       name: "TPHCM",
-  //     },
-  //     created_at: "08-11-2024",
-  //   },
-  //   {
-  //     id: 2,
-  //     company_name: "MekongSoft2",
-  //     logo: "http://101.101.96.43/uploads/images/oig4_6725ce46ca125_241102_070126.jpg",
-  //     is_hot: 1,
-  //     city: {
-  //       id: 2,
-  //       name: "TPHCM",
-  //     },
-  //     created_at: "31-10-2024",
-  //   },
-  //   {
-  //     id: 4,
-  //     company_name: "MekongSoft",
-  //     logo: "http://101.101.96.43/uploads/images/oig4_672f07ec9a56c_241109_065748.jpg",
-  //     is_hot: 1,
-  //     city: {
-  //       id: 2,
-  //       name: "TPHCM",
-  //     },
-  //     created_at: "08-11-2024",
-  //   },
-  //   {
-  //     id: 2,
-  //     company_name: "MekongSoft2",
-  //     logo: "http://101.101.96.43/uploads/images/oig4_6725ce46ca125_241102_070126.jpg",
-  //     is_hot: 1,
-  //     city: {
-  //       id: 2,
-  //       name: "TPHCM",
-  //     },
-  //     created_at: "31-10-2024",
-  //   },
-  //   {
-  //     id: 4,
-  //     company_name: "MekongSoft",
-  //     logo: "http://101.101.96.43/uploads/images/oig4_672f07ec9a56c_241109_065748.jpg",
-  //     is_hot: 1,
-  //     city: {
-  //       id: 2,
-  //       name: "TPHCM",
-  //     },
-  //     created_at: "08-11-2024",
-  //   },
-  //   {
-  //     id: 2,
-  //     company_name: "MekongSoft2",
-  //     logo: "http://101.101.96.43/uploads/images/oig4_6725ce46ca125_241102_070126.jpg",
-  //     is_hot: 1,
-  //     city: {
-  //       id: 2,
-  //       name: "TPHCM",
-  //     },
-  //     created_at: "31-10-2024",
-  //   },
-  //   {
-  //     id: 4,
-  //     company_name: "MekongSoft",
-  //     logo: "http://101.101.96.43/uploads/images/oig4_672f07ec9a56c_241109_065748.jpg",
-  //     is_hot: 1,
-  //     city: {
-  //       id: 2,
-  //       name: "TPHCM",
-  //     },
-  //     created_at: "08-11-2024",
-  //   },
-  // ];
-  console.log(featuredCompanies);
 
   return (
     <section>

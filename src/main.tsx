@@ -43,7 +43,7 @@ import {
 import WrapperLayout from "./modules/jobSeeker/layout/wraper.tsx";
 import { JobsApply } from "./modules/jobSeeker/pages/job-apply.tsx";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import CompanyDetailInfo from "./pages/company/CompanyDetailInfo.tsx";
+import Company from "./pages/company/Company.tsx";
 
 const router = createBrowserRouter([
   {
@@ -77,7 +77,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/company/:companyNameAndcompanyId",
-        element: <CompanyDetailInfo />,
+        element: <Company />,
       },
     ],
   },
