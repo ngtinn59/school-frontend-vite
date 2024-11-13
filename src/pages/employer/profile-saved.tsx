@@ -214,7 +214,7 @@ const ProfileSaved: React.FC = () => {
   ];
 
   return (
-    <div className="px-8 py-5">
+    <div className="px-8 py-5 min-h-screen">
       <div className="uppercase text-lg font-semibold">Profile Saved</div>
       <div className="my-4 flex items-center justify-between">
         <div className="flex w-full justify-end items-center">

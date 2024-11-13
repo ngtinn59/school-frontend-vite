@@ -1,9 +1,10 @@
-import { Avatar, Button, Divider, Modal } from "antd";
+import { Avatar, Button, Modal } from "antd";
 import { ICandidateProfileSaved } from "../profile-saved";
 import { getInformationResume } from "../../../services/api/employer/profileSaved";
 import { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
-import { FaEnvelope, FaGlobe, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
 interface Profile {
   id: number;
   name: string;
@@ -149,6 +150,10 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
         if (res && res.status_code === 200) {
           setDataDetail(res.data);
         }
+        if (res && res.status_code !== 200) {
+          setDataDetail(null);
+          toast.error(res.message);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -201,17 +206,20 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                 className="mr-4"
                 icon={<UserOutlined />}
               />
-              <div>
-                <h3 className="text-2xl font-semibold mb-2">
-                  {dataDetail.profile?.name || "No Name"}
-                </h3>
-                <p>
-                  <strong>Chức vụ:</strong> {dataDetail.profile?.title || "--"}
-                </p>
-                <p>
-                  <strong>Địa chỉ:</strong>{" "}
-                  {dataDetail.profile?.location || "--"}
-                </p>
+              <div className="flex justify-between">
+                <div>
+                  <h3 className="text-2xl font-semibold mb-2">
+                    {dataDetail.profile?.name || "No Name"}
+                  </h3>
+                  <p>
+                    <strong>Chức vụ:</strong>{" "}
+                    {dataDetail.profile?.title || "--"}
+                  </p>
+                  <p>
+                    <strong>Khu vực:</strong>{" "}
+                    {dataDetail.profile?.location || "--"}
+                  </p>
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-1">
@@ -269,6 +277,30 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                   {dataDetail.objective?.employmentType?.name || "--"}
                 </p>
                 <p>
+                  <strong>Kinh nghiệm làm việc:</strong>{" "}
+                  {dataDetail.objective?.experienceLevel?.name || "--"}
+                </p>
+                <p>
+                  <strong>Nơi làm:</strong>{" "}
+                  {dataDetail.objective?.work_address || "--"}
+                </p>
+                <p>
+                  <strong>Trình độ học vấn:</strong>{" "}
+                  {dataDetail.objective?.educationLevel?.name || "--"}
+                </p>
+                <p>
+                  <strong>Quốc gia:</strong>{" "}
+                  {dataDetail.objective?.country?.name || "--"}
+                </p>
+                <p>
+                  <strong>Tỉnh/thành phố:</strong>{" "}
+                  {dataDetail.objective?.city?.name || "--"}
+                </p>
+                <p>
+                  <strong>Quận huyện:</strong>{" "}
+                  {dataDetail.objective?.district?.name || "--"}
+                </p>
+                <p>
                   <strong>Mức lương mong muốn:</strong>{" "}
                   {dataDetail.objective?.salary_from
                     ? `${dataDetail.objective.salary_from} - ${dataDetail.objective.salary_to} VND`
@@ -296,8 +328,13 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                       <strong>Trường:</strong> {edu.institution || "--"}
                     </p>
                     <p>
-                      <strong>Thời gian:</strong> {edu.start_date || "--"} -{" "}
-                      {edu.end_date || "--"}
+                      <strong>Thời gian:</strong>{" "}
+                      {dayjs(edu.start_date).format("DD/MM/YYYY") || "--"} -{" "}
+                      {dayjs(edu.end_date).format("DD/MM/YYYY") || "--"}
+                    </p>
+                    <p>
+                      <strong>Chi tiết bổ sung:</strong>{" "}
+                      {edu.additionalDetail || "--"}
                     </p>
                   </div>
                 ))}
@@ -322,8 +359,9 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                       <strong>Tên dự án:</strong> {project.title || "--"}
                     </p>
                     <p>
-                      <strong>Thời gian:</strong> {project.start_date || "--"} -{" "}
-                      {project.end_date || "--"}
+                      <strong>Thời gian:</strong>{" "}
+                      {dayjs(project.start_date).format("DD/MM/YYYY") || "--"} -{" "}
+                      {dayjs(project.end_date).format("DD/MM/YYYY") || "--"}
                     </p>
                     <p>
                       <strong>Mô tả:</strong> {project.description || "--"}
@@ -344,7 +382,22 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                       <strong>Nhà cung cấp:</strong> {cert.provider || "--"}
                     </p>
                     <p>
-                      <strong>Ngày cấp:</strong> {cert.issueDate || "--"}
+                      <strong>Ngày cấp:</strong>{" "}
+                      {dayjs(cert.issueDate).format("DD/MM/YYYY") || "--"}
+                    </p>
+                    <p>
+                      <strong>Mô tả:</strong> {cert.description || "--"}
+                    </p>
+                    <p>
+                      <strong>Website:</strong>{" "}
+                      <a
+                        href={cert?.certificateUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        {cert?.certificateUrl || "--"}
+                      </a>
                     </p>
                   </div>
                 ))}
@@ -364,8 +417,9 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                       <strong>Công ty:</strong> {work.company || "--"}
                     </p>
                     <p>
-                      <strong>Thời gian:</strong> {work.start_date || "--"} -{" "}
-                      {work.end_date || "--"}
+                      <strong>Thời gian:</strong>{" "}
+                      {dayjs(work.start_date).format("DD/MM/YYYY") || "--"} -{" "}
+                      {dayjs(work.end_date).format("DD/MM/YYYY") || "--"}
                     </p>
                     <p>
                       <strong>Nhiệm vụ:</strong> {work.responsibilities || "--"}
@@ -380,13 +434,17 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                 {dataDetail.Award?.map((award, idx) => (
                   <div key={idx} className="mb-2">
                     <p>
-                      <strong>Tiêu đề:</strong> {award.title || "--"}
+                      <strong>Tiêu đề:</strong> {award?.title || "--"}
                     </p>
                     <p>
-                      <strong>Nhà cung cấp:</strong> {award.provider || "--"}
+                      <strong>Nhà cung cấp:</strong> {award?.provider || "--"}
                     </p>
                     <p>
-                      <strong>Ngày cấp:</strong> {award.issueDate || "--"}
+                      <strong>Ngày cấp:</strong>{" "}
+                      {dayjs(award?.issueDate).format("DD/MM/YYYY") || "--"}
+                    </p>
+                    <p>
+                      <strong>Mô tả:</strong> {award?.description || "--"}
                     </p>
                   </div>
                 ))}

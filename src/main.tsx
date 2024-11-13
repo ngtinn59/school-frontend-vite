@@ -44,6 +44,7 @@ import WrapperLayout from "./modules/jobSeeker/layout/wraper.tsx";
 import { JobsApply } from "./modules/jobSeeker/pages/job-apply.tsx";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ProfileSaved from "./pages/employer/profile-saved.tsx";
+import FindProfileCandidate from "./pages/employer/find-profile-candidate.tsx";
 
 const router = createBrowserRouter([
   {
@@ -240,6 +241,10 @@ const router = createBrowserRouter([
       {
         path: EMPLOYER_ROUTES.LIST_CANDIDATE_PROFILE_SAVED,
         element: <ProfileSaved />,
+      },
+      {
+        path: EMPLOYER_ROUTES.FIND_PROFILE_CANDIDATE,
+        element: <FindProfileCandidate />,
       },
     ],
   },

@@ -51,6 +51,15 @@ export function EmployerLayout() {
       ),
       children: <Outlet />,
     },
+    {
+      key: EMPLOYER_ROUTES.FIND_PROFILE_CANDIDATE,
+      label: (
+        <NavLink to={EMPLOYER_ROUTES.FIND_PROFILE_CANDIDATE}>
+          Find Profile Candidate
+        </NavLink>
+      ),
+      children: <Outlet />,
+    },
   ];
 
   useEffect(() => {
