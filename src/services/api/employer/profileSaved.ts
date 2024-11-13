@@ -25,7 +25,7 @@ export const unSaveProfile = async (id: number) => {
 
 export const getInformationResume = async (id: number) => {
   const response = await axiosInstance.get(
-    `${BASE_URL_API}/api/employer/saved-candidates/${id}`
+    `${BASE_URL_API}/api/resume/objectives/showCandidate/${id}`
   );
   return response.data;
 };

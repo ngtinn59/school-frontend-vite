@@ -147,10 +147,11 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
     try {
       if (data?.id !== undefined) {
         const res = await getInformationResume(data.id);
-        if (res && res.status_code === 200) {
+        console.log(res);
+        if (res && res.success) {
           setDataDetail(res.data);
         }
-        if (res && res.status_code !== 200) {
+        if (res && !res.success) {
           setDataDetail(null);
           toast.error(res.message);
         }
