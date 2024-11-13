@@ -3,6 +3,7 @@ import { generateConfig, generateEmployerConfig } from "./common";
 import { EMPLOYER_BE_API } from "../../modules";
 import { EmployerProfileType } from "../../utils/type";
 import { UploadFile } from "antd";
+import { BASE_URL_API } from "../../utils/constants";
 
 export const getEmployerProfile = async () => {
   const config = await generateConfig();
@@ -45,6 +46,6 @@ export const updateEmployerProfileApi = async (
     formData.append("banner", bannerFileList[0].originFileObj as File);
   }
 
-  const response = await axios.post(EMPLOYER_BE_API.PROFILE, formData, config);
+  const response = await axios.post(`${BASE_URL_API}/${EMPLOYER_BE_API.PROFILE}`, formData, config);
   return response.data;
 };
