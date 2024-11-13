@@ -50,7 +50,7 @@ const initialCompanySize: ToggleType[] = PROFILE_COMPANY_SIZE.map((type) => ({
 
 function JobPreferences() {
   const [skills, setSkills] = useState(
-    [] as ComponentSelectionWithSearchType[]
+    [] as ComponentSelectionWithSearchType[],
   );
   const [jobLevels, setJobLevels] = useState([] as string[]);
   const [currentSalary, setCurrentSalary] = useState(0);
@@ -66,11 +66,11 @@ function JobPreferences() {
     (skills: ComponentSelectionWithSearchType[]) => {
       setSkills(skills);
     },
-    []
+    [],
   );
   return (
     <Wrapper className="flex flex-col gap-6" type="narrow">
-      <Card className="bg-white gap-5 flex flex-col">
+      <Card className="flex flex-col gap-5 bg-white">
         <Title type="h3">My interested job type</Title>
         <p className="font-medium text-normal">
           Let us know the type of job you prefer so we can recommend more
@@ -88,13 +88,13 @@ function JobPreferences() {
             <DropdownSearchCopy
               id="dropdown-search-skills"
               data={PROFILE_JOB_PREFERENCES_SKILLS}
-              className={`outline-none border border-solid border-gray-300  rounded-md  ${
-                skills.length > 5 ? `bg-disabled pointer-events-none` : ""
+              className={`rounded-md border border-solid border-gray-300 outline-none ${
+                skills.length > 5 ? `pointer-events-none bg-disabled` : ""
               }`}
               handleChangeValues={handleChangeSkills}
               currentValues={skills}
             />
-            <div className="text-sm font-semibold text-gray-400 -mt-1">
+            <div className="-mt-1 text-sm font-semibold text-gray-400">
               {skills.length} / 6 skills
             </div>
             <div className="flex gap-2">
@@ -102,7 +102,7 @@ function JobPreferences() {
                 skills.map((skill) => (
                   <span
                     key={skill.id}
-                    className=" px-3 py-1 text-base font-medium  border border-solid border-disabled bg-gray-50 rounded-full cursor-default flex items-center gap-1 "
+                    className="flex cursor-default items-center gap-1 rounded-full border border-solid border-disabled bg-gray-50 px-3 py-1 text-base font-medium"
                     onClick={() => {
                       const newSkills = skills.filter((s) => s.id !== skill.id);
                       handleChangeSkills(newSkills);
@@ -122,7 +122,7 @@ function JobPreferences() {
         <GridLayout>
           <TitleWrap>
             <Title type="h4">Job Level</Title>
-            <p className="font-medium text-base text-normal">
+            <p className="text-base font-medium text-normal">
               Allow multiple choices
             </p>
           </TitleWrap>
@@ -186,7 +186,7 @@ function JobPreferences() {
                 options={PROFILE_CURRENT_SALARY_CURRENCY}
                 containerClassName="static h-12 font-semibold  outline-none border border-solid border-gray-300  rounded-md"
               />
-              <div className="flex flex-row flex-1 gap-4">
+              <div className="flex flex-1 flex-row gap-4">
                 <Input
                   type="number"
                   name="salary-expect-from"
@@ -227,20 +227,20 @@ function JobPreferences() {
             <Title type="h4" className="inline pr-2">
               Working Type
             </Title>
-            <p className="font-medium text-base text-normal">
+            <p className="text-base font-medium text-normal">
               Allow multiple choices
             </p>
           </TitleWrap>
           <ContentWrap>
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row flex-1 flex-wrap gap-2">
+              <div className="flex flex-1 flex-row flex-wrap gap-2">
                 {workingType.map((type, idx) => (
                   <ToggleButton
                     key={idx}
-                    className="!rounded-full select-none"
+                    className="select-none !rounded-full"
                     onClick={() => {
                       const newWorkingType = workingType.map((t, i) =>
-                        i === idx ? { ...t, isChecked: !t.isChecked } : t
+                        i === idx ? { ...t, isChecked: !t.isChecked } : t,
                       );
                       setWorkingType(newWorkingType);
                     }}
@@ -266,20 +266,20 @@ function JobPreferences() {
             <Title type="h4" className="inline pr-2">
               Company Type
             </Title>
-            <p className="font-medium text-base text-normal">
+            <p className="text-base font-medium text-normal">
               Allow multiple choices
             </p>
           </TitleWrap>
           <ContentWrap>
             <div className="flex flex-row flex-wrap gap-6">
-              <div className="flex flex-row flex-1 flex-wrap gap-2">
+              <div className="flex flex-1 flex-row flex-wrap gap-2">
                 {companyType.map((type, idx) => (
                   <ToggleButton
                     key={idx}
-                    className="!rounded-full select-none"
+                    className="select-none !rounded-full"
                     onClick={() => {
                       const newCompanyType = companyType.map((t, i) =>
-                        i === idx ? { ...t, isChecked: !t.isChecked } : t
+                        i === idx ? { ...t, isChecked: !t.isChecked } : t,
                       );
                       setCompanyType(newCompanyType);
                     }}
@@ -305,20 +305,20 @@ function JobPreferences() {
             <Title type="h4" className="inline pr-2">
               Company Size
             </Title>
-            <p className="font-medium text-base text-normal">
+            <p className="text-base font-medium text-normal">
               Allow multiple choices
             </p>
           </TitleWrap>
           <ContentWrap>
             <div className="flex flex-row flex-wrap gap-6">
-              <div className="flex flex-row flex-1 flex-wrap gap-2">
+              <div className="flex flex-1 flex-row flex-wrap gap-2">
                 {companySize.map((type, idx) => (
                   <ToggleButton
                     key={idx}
-                    className="!rounded-full select-none"
+                    className="select-none !rounded-full"
                     onClick={() => {
                       const newCompanySize = companySize.map((t, i) =>
-                        i === idx ? { ...t, isChecked: !t.isChecked } : t
+                        i === idx ? { ...t, isChecked: !t.isChecked } : t,
                       );
                       setCompanySize(newCompanySize);
                     }}
@@ -357,7 +357,7 @@ function JobPreferences() {
           </ContentWrap>
         </GridLayout>
         <Button
-          className="w-fit py-4 px-20 rounded-md self-end"
+          className="w-fit self-end rounded-md px-20 py-4"
           type="button"
           buttonType="primary"
         >

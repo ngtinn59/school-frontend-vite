@@ -190,3 +190,11 @@ export type DistrictType = {
   id: number;
   name: string;
 };
+
+export type FeaturedCompanyType = {
+  id: number;
+  company_name: string;
+  logo: string;
+  is_hot: number;
+  city: CityType;
+};

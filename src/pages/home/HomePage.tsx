@@ -3,6 +3,7 @@ import FeatureArticle from "./components/FeatureArticle";
 import PlatformUSP from "./components/PlatformUSP";
 import SearchBox from "./components/SearchBox";
 import TopEmployer from "./components/TopEmployer";
+import FeaturedCompanies from "./components/FeaturedCompanies";
 
 export default function HomePage() {
   // return (
@@ -17,6 +18,8 @@ export default function HomePage() {
     <div className="flex flex-col gap-4">
       {/* Search box */}
       <SearchBox />
+
+      <FeaturedCompanies />
 
       {/* Platform's USP */}
       <PlatformUSP />
@@ -34,12 +37,16 @@ export async function action({ request }: ActionFunctionArgs) {
   const form = await request.formData();
   const formDataObject: { [key: string]: FormDataEntryValue } = {};
   for (const [key, value] of form.entries()) {
-    const convertValue = value.toString().trim().replace(/\s/g, "-").toLowerCase();
+    const convertValue = value
+      .toString()
+      .trim()
+      .replace(/\s/g, "-")
+      .toLowerCase();
     formDataObject[key] = convertValue;
   }
   if (formDataObject.keyword !== "") {
     return redirect(
-      `/it-jobs/${formDataObject.keyword}${formDataObject.city ? `/${formDataObject.city}` : ""}`
+      `/it-jobs/${formDataObject.keyword}${formDataObject.city ? `/${formDataObject.city}` : ""}`,
     );
   }
   return null;
