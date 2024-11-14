@@ -1,13 +1,13 @@
-import axios from "axios";
-import { generateConfig, generateEmployerConfig } from "./common";
-import { EMPLOYER_BE_API } from "../../modules";
-import { EmployerProfileType } from "../../utils/type";
 import { UploadFile } from "antd";
+import axios from "axios";
+import { EMPLOYER_BE_API } from "../../modules";
 import { BASE_URL_API } from "../../utils/constants";
+import { EmployerProfileType } from "../../utils/type";
+import { generateEmployerConfig } from "./common";
 
-export const getEmployerProfile = async () => {
-  const config = await generateConfig();
-  const response = await axios.get(EMPLOYER_BE_API.PROFILE, config);
+export const getEmployerProfileApi = async () => {
+  const config = await generateEmployerConfig();
+  const response = await axios.get(`${BASE_URL_API}/${EMPLOYER_BE_API.PROFILE}`, config);
   return response.data;
 };
 

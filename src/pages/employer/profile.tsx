@@ -1,6 +1,8 @@
 import { Avatar, Empty } from "antd";
-import { useAppSelector } from "../../app/hooks";
 import dayjs from "dayjs";
+import { useAppSelector } from "../../app/hooks";
+import bannerNoImage from "../../assets/banner_no_image.png";
+import profileNoImage from "../../assets/profile_no_image.png";
 
 export const EmployerProfile = () => {
   const profile = useAppSelector((state) => state.employer.profile);
@@ -86,23 +88,26 @@ export const EmployerProfile = () => {
   return (
     <div className="max-w-screen-lg mx-auto">
       <div className="relative">
-        {profile?.banner && (
+        {profile?.banner ? (
           <img
             src={profile.banner}
             alt="banner"
             className="w-full h-48 object-cover rounded-t-lg"
           />
+        ) : (
+          <img src={bannerNoImage} alt="banner" className="w-full h-48 object-cover rounded-t-lg" />
         )}
         <div className="absolute top-30 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           {profile && (
             <Avatar
               size={100}
-              src={
-                profile?.logo ??
-                `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
-                  0
-                )}+${profile?.name?.slice(1)}`
-              }
+              // src={
+              //   profile?.logo ??
+              //   `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
+              //     0
+              //   )}+${profile?.name?.slice(1)}`
+              // }
+              src={profile?.logo ?? profileNoImage}
             />
           )}
         </div>

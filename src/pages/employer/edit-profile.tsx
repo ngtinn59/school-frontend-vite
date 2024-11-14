@@ -17,8 +17,11 @@ import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/es/input/TextArea";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
+import bannerNoImage from "../../assets/banner_no_image.png";
+import profileNoImage from "../../assets/profile_no_image.png";
 import { EMPLOYER_ROUTES } from "../../modules";
 import { updateEmployerProfileApi } from "../../services/api/employerProfileApi";
 import {
@@ -36,7 +39,6 @@ import {
   DistrictType,
   EmployerProfileType,
 } from "../../utils/type";
-import toast from "react-hot-toast";
 
 interface UpdateEmployerProfileArgs {
   profile: EmployerProfileType;
@@ -50,8 +52,8 @@ interface EmployerProfileFormValues extends EmployerProfileType {
 }
 
 export const EditProfile = () => {
-  const profile = useAppSelector((state) => state.employer.profile);
   const queryClient = useQueryClient();
+  const profile = useAppSelector((state) => state.employer.profile);
   const [selectedCountryId, setSelectedCountryId] = useState<number>(0);
   const [logoFileList, setLogoFileList] = useState<UploadFile[]>([]);
   const [bannerFileList, setBannerFileList] = useState<UploadFile[]>([]);
@@ -187,7 +189,7 @@ export const EditProfile = () => {
   return (
     <div className="max-w-screen-lg mx-auto">
       <div className="relative">
-        {profile?.banner && (
+        {profile?.banner ? (
           <img
             src={
               bannerFileList && bannerFileList.length > 0
@@ -197,6 +199,8 @@ export const EditProfile = () => {
             alt="banner"
             className="w-full h-48 object-cover rounded-t-lg"
           />
+        ) : (
+          <img src={bannerNoImage} alt="banner" className="w-full h-48 object-cover rounded-t-lg" />
         )}
         <div className="absolute top-30 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           {profile && (
@@ -207,9 +211,7 @@ export const EditProfile = () => {
                   ? URL.createObjectURL(logoFileList[0].originFileObj as File)
                   : profile.logo
                   ? profile.logo
-                  : `https://avatar.iran.liara.run/username?username=${profile?.name?.slice(
-                      0
-                    )}+${profile?.name?.slice(1)}`
+                  : profileNoImage
               }
             />
           )}
