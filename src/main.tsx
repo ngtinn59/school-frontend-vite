@@ -248,6 +248,14 @@ const router = createBrowserRouter([
         path: EMPLOYER_ROUTES.LIST_APPLICATION,
         element: <ListApplication />,
       },
+      {
+        path: EMPLOYER_ROUTES.LIST_CANDIDATE_PROFILE_SAVED,
+        element: <ProfileSaved />,
+      },
+      {
+        path: EMPLOYER_ROUTES.FIND_PROFILE_CANDIDATE,
+        element: <FindProfileCandidate />,
+      },
     ],
   },
 ]);
