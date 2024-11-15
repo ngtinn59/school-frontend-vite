@@ -46,6 +46,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Company from "./pages/company/Company.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import Job from "./pages/job/Job.tsx";
+import ProfileSaved from "./pages/employer/profile-saved.tsx";
+import FindProfileCandidate from "./pages/employer/find-profile-candidate.tsx";
 
 const router = createBrowserRouter([
   {
