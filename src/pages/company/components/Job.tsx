@@ -2,29 +2,29 @@ import { FaFire, FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { IoCalendarOutline } from "react-icons/io5";
 import { MdAttachMoney } from "react-icons/md";
 
-import { CompanyDetailType, JobType } from "../../../utils/type";
+import { CompanyDetailType, JobInCompanyType } from "../../../utils/type";
+import { useNavigate } from "react-router-dom";
+import { changeSalary } from "../../../hooks";
 
 interface JobProps {
   company: CompanyDetailType;
-  job: JobType;
+  job: JobInCompanyType;
 }
 
 const Job: React.FC<JobProps> = ({ company, job }) => {
-  function changeSalary(salary: number) {
-    if (salary < 1000) {
-      return salary;
-    } else if (salary >= 1000 && salary < 1000000) {
-      return `${salary / 1000}K`;
-    } else if (salary >= 1000000 && salary < 1000000000) {
-      return `${salary / 1000000}M`;
-    }
+  const navigate = useNavigate();
+
+  function handleClickedJob(job: JobInCompanyType) {
+    const jobTitle = job.title.replace(/\s/g, "-");
+    navigate(`/job/${jobTitle}-${job.id}`);
   }
 
   return (
     <>
       <div
         key={job.id}
-        className="rounded-md p-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)]"
+        className="cursor-pointer rounded-md p-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)]"
+        onClick={() => handleClickedJob(job)}
       >
         <div className="flex justify-between">
           <div className="flex gap-2">

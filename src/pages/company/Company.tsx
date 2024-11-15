@@ -11,6 +11,7 @@ import ContactInfo from "./components/ContactInfo";
 import MapInfo from "./components/MapInfo";
 import SocialMedia from "./components/SocialMedia";
 import { APIProvider } from "@vis.gl/react-google-maps";
+import Title from "../../components/Title";
 
 const Company: React.FC = () => {
   const companyNameAndcompanyId = useParams<{
@@ -46,14 +47,13 @@ const Company: React.FC = () => {
         <div className="w-full rounded-md p-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] md:w-[40%]">
           <ContactInfo data={data} />
           <SocialMedia data={data} />
-          {/* <div> */}
-          <APIProvider apiKey="AIzaSyC52sX6DS9XwK8fRjgiyJIFB8KXEMHmPIA">
-            <MapInfo data={data} />
-          </APIProvider>
-          {/* </div> */}
 
-          {/* <MapInfo data={data} /> */}
-          {/* AIzaSyC52sX6DS9XwK8fRjgiyJIFB8KXEMHmPIA */}
+          <Title type="h4" className="mt-4 text-[var(--text-color-bold)]">
+            Address
+          </Title>
+          <APIProvider apiKey="AIzaSyC52sX6DS9XwK8fRjgiyJIFB8KXEMHmPIA">
+            <MapInfo latitute={data.latitude} longitude={data.longitude} />
+          </APIProvider>
         </div>
       </div>
     </div>

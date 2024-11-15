@@ -44,6 +44,8 @@ import WrapperLayout from "./modules/jobSeeker/layout/wraper.tsx";
 import { JobsApply } from "./modules/jobSeeker/pages/job-apply.tsx";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Company from "./pages/company/Company.tsx";
+import ErrorPage from "./pages/ErrorPage.tsx";
+import Job from "./pages/job/Job.tsx";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +55,7 @@ const router = createBrowserRouter([
         <Layout />
       </LoadUserAuthenticationData>
     ),
+    errorElement: <ErrorPage />,
     loader: loadLoginStatus,
     children: [
       {
@@ -78,6 +81,10 @@ const router = createBrowserRouter([
       {
         path: "/company/:companyNameAndcompanyId",
         element: <Company />,
+      },
+      {
+        path: "/job/:jobTitleAndId",
+        element: <Job />,
       },
     ],
   },

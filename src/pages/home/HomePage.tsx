@@ -4,22 +4,17 @@ import PlatformUSP from "./components/PlatformUSP";
 import SearchBox from "./components/SearchBox";
 import TopEmployer from "./components/TopEmployer";
 import FeaturedCompanies from "./components/FeaturedCompanies";
+import UrgentJobs from "./components/UrgentJobs";
 
 export default function HomePage() {
-  // return (
-  //   <Navigate
-  //     to="/profile"
-  //     replace={true}
-  //     state={{ alert: "You need sign in to access this feature!" }}
-  //   />
-  // );
-
   return (
     <div className="flex flex-col gap-4">
       {/* Search box */}
       <SearchBox />
 
       <FeaturedCompanies />
+
+      <UrgentJobs />
 
       {/* Platform's USP */}
       <PlatformUSP />
