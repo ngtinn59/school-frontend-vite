@@ -1,143 +1,159 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { EMPLOYER_BE_API } from "../../modules";
-import { axiosInstance } from "../../utils/baseAxios";
-import { Space, Table, TableColumnsType, Button } from "antd";
-import toast from "react-hot-toast";
+import { Space, Table, TableProps, Tooltip } from "antd";
+import { useCallback, useEffect, useState } from "react";
+import { MdSearch } from "react-icons/md";
+import {
+  getAllApplications,
+  IJobPostingRes,
+} from "../../services/api/employer/manage-appicants";
+import { debounce } from "lodash";
+import { FaEye } from "react-icons/fa";
+import ModalViewListApplicants from "./Modal/ModalViewListApplicants";
 
-export const ListApplication = () => {
-  const { data: applications, isLoading } = useQuery({
-    queryKey: [EMPLOYER_BE_API.LIST_APPLICATION, "list"],
-    queryFn: async () => {
-      return await axiosInstance.get(EMPLOYER_BE_API.LIST_APPLICATION);
-    },
-    select(data) {
-      return data.data.data;
-    },
-  });
+export const ListApplication: React.FC = () => {
+  const LIMIT = 10;
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(LIMIT);
+  const [total, setTotal] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
+  const [data, setData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<IJobPostingRes[]>([]);
+  const [idJob, setIdJob] = useState<number>(0);
 
-  const queryClient = useQueryClient();
-
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["api/processApplication/:jobId/:applicationId"],
-    mutationFn: async (values: any) => {
-      try {
-        return axiosInstance.post(
-          "api/processApplication/:jobId/:applicationId"
-            .replace(":jobId", values.jobId)
-            .replace(":applicationId", values.applicationId),
-          {
-            status: values.status,
-          }
-        );
-      } catch (error: any) {
-        if (error.response.data.error) {
-          Object.values(error.response.data.error).forEach((err) => {
-            toast.error(err as string);
-          });
-        }
-        throw error;
+  const fetchAllJobPostings = async () => {
+    setLoading(true);
+    try {
+      const response = await getAllApplications();
+      if (response && response.success) {
+        setData(response.data);
+        setTotal(response.data.length);
       }
-    },
-    onSuccess: () => {
-      toast.success("Approve application successfully");
-      queryClient.invalidateQueries({
-        queryKey: [EMPLOYER_BE_API.LIST_APPLICATION, "list"],
-      });
-    },
-  });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const loading = isPending || isLoading;
+  useEffect(() => {
+    fetchAllJobPostings();
+  }, []);
 
-  const columns: TableColumnsType<any> = [
+  const debouncedSearch = useCallback(
+    debounce((value: string) => {
+      const lowerSearch = value.toLowerCase();
+      const filtered = data.filter((item) =>
+        item.title.toLowerCase().includes(lowerSearch)
+      );
+      setFilteredData(filtered);
+      setTotal(filtered.length);
+    }, 300),
+    [data]
+  );
+
+  useEffect(() => {
+    debouncedSearch(search);
+    return debouncedSearch.cancel;
+  }, [search, debouncedSearch]);
+
+  const columns: TableProps<IJobPostingRes>["columns"] = [
     {
-      title: "Title",
+      title: "No.",
+      key: "No.",
+      width: 50,
+      align: "center",
+      render: (_, __, index) => (
+        <span className="font-semibold">
+          {(currentPage - 1) * pageSize + index + 1}
+        </span>
+      ),
+    },
+    {
+      title: "Job Title",
       dataIndex: "title",
       key: "title",
     },
     {
-      title: "Total Applicants",
-      dataIndex: "applicants",
-      key: "applicants",
-      render(value) {
-        return value ? value.length : 0;
-      },
+      title: "Applicant Count",
+      dataIndex: "applicant_count",
+      key: "applicant_count",
     },
     {
-      title: "Last Date",
-      dataIndex: "last_date",
-      key: "last_date",
+      title: "Action",
+      key: "action",
+      width: 250,
+      align: "center",
+      render: (_: any, record: IJobPostingRes) => (
+        <Space size="middle">
+          <Tooltip title={`View list applicants ${record?.title}`}>
+            <button
+              onClick={() => {
+                setIdJob(record.id);
+                setIsOpenModal(true);
+              }}
+              className="text-lg text-blue-500 flex items-center justify-center gap-1 px-2 py-1 rounded-md border border-solid border-blue-500 hover:bg-blue-500 hover:text-white duration-200"
+            >
+              <FaEye />
+              <span className="text-base">View List</span>
+            </button>
+          </Tooltip>
+        </Space>
+      ),
     },
   ];
 
-  const expandedRowRender = (value: any) => {
-    const columns: TableColumnsType<any> = [
-      { title: "Name", dataIndex: "name", key: "name" },
-      { title: "Email", dataIndex: "email", key: "email" },
-      { title: "Status", dataIndex: "status", key: "status" },
-      {
-        title: "Action",
-        key: "operation",
-        render: (_, record) => (
-          <Space size="middle">
-            {record.status !== "approved" && (
-              <Button
-                onClick={() =>
-                  mutate(
-                    {
-                      jobId: value.id,
-                      applicationId: record.id,
-                      status: "approved",
-                    },
-                    {
-                      onSuccess() {
-                        queryClient.invalidateQueries({
-                          queryKey: [EMPLOYER_BE_API.LIST_APPLICATION, "list"],
-                        });
-                      },
-                    }
-                  )
-                }
-              >
-                Approve
-              </Button>
-            )}
-            <a target="_blank" href={record.cv}>
-              <Button>View Cv</Button>
-            </a>
-          </Space>
-        ),
-      },
-    ];
-
-    return (
-      <Table
-        rowKey="key"
-        columns={columns}
-        dataSource={value.applicants}
-        pagination={false}
-      />
-    );
-  };
-
   return (
-    <div className="max-w-[1440px] mx-auto">
-      <div className="px-4 mb-5 sm:px-0 flex justify-between">
-        <h3 className="text-base font-semibold leading-7 text-gray-900">
-          List Application
+    <div className="m-4 p-4 min-h-screen">
+      <div className="px-4 mb-5 sm:px-0 flex justify-between items-center">
+        <h3 className="text-lg uppercase font-semibold leading-7 text-gray-900">
+          List of Applicants
         </h3>
+        <div className="flex gap-1 items-center justify-center">
+          <div className="relative ">
+            <input
+              type="text"
+              value={search}
+              placeholder={"Search..."}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pr-4.5 mr-8 w-80 rounded-md border border-solid border-gray-500 px-2 py-2 outline-none"
+            />
+            <button className="absolute right-0 top-0 flex h-full w-10 items-center justify-center rounded-e-md border-gray-500 bg-gray-500 text-xl text-white">
+              <MdSearch />
+            </button>
+          </div>
+        </div>
       </div>
 
-      <Table
-        loading={loading}
+      <Table<IJobPostingRes>
         rowKey="id"
-        dataSource={applications ?? []}
-        expandable={{
-          expandedRowRender,
-          rowExpandable(record) {
-            return record.applicants ? record.applicants.length > 0 : false;
+        size="middle"
+        bordered
+        loading={loading}
+        columns={columns}
+        dataSource={filteredData}
+        pagination={{
+          total: total,
+          pageSize: pageSize,
+          showSizeChanger: true,
+          pageSizeOptions: ["5", "10", "20", "30"],
+          onShowSizeChange(current, size) {
+            setCurrentPage(1);
+            setPageSize(size);
+          },
+          showTotal: (total) => `Total: ${total}`,
+          onChange(page, pageSize) {
+            setCurrentPage(page);
+            setPageSize(pageSize);
           },
         }}
-        columns={columns}
+      />
+      <ModalViewListApplicants
+        idJob={idJob}
+        setIdJob={setIdJob}
+        isModalOpen={isOpenModal}
+        setIsModalOpen={setIsOpenModal}
+        fetchAllJobPostings={fetchAllJobPostings}
       />
     </div>
   );
