@@ -191,7 +191,22 @@ export type DistrictType = {
   name: string;
 };
 
+export type FeaturedCompanyType = {
+  id: number;
+  company_name: string;
+  logo: string;
+  is_hot: number;
+  city: CityType;
+};
+
 export type CompanyType = {
+  id: number;
+  logo: string;
+  name: string;
+  size: string;
+};
+
+export type CompanyTypeType = {
   id: number;
   name: string;
 };
@@ -201,28 +216,76 @@ export type CompanySizeType = {
   name: string;
 };
 
-export type EmployerProfileType = {
+export type CompanyDetailType = {
   id: number;
+  country: CountryType;
+  city: CityType;
+  district: DistrictType;
+  companyType: CompanyTypeType;
+  companySize: CompanySizeType;
   name: string;
   phone: string;
   company_email: string;
   tax_code: string;
   date_of_establishment: string;
-  logo: string;
-  banner: string;
-  country: CountryType;
-  city: CityType;
-  district: DistrictType;
-  address: string;
-  companyType: CompanyType;
-  companySize: CompanySizeType;
   working_days: string;
   overtime_policy: string;
   website: string;
   facebook: string;
   youtube: string;
   linked: string;
-  latitude: number;
-  longitude: number;
+  logo: string;
+  banner: string;
+  address: string;
+  latitude: string;
+  longitude: string;
   description: string;
+  jobs: JobInCompanyType[];
+};
+
+export type SalaryType = {
+  salary_from: number;
+  salary_to: number;
+};
+
+export type JobInCompanyType = {
+  id: number;
+  title: string;
+  featured: number;
+  is_hot: number;
+  company: string;
+  salary: SalaryType;
+  city: string;
+  last_date: string;
+};
+
+export type JobType = {
+  id: number;
+  title: string;
+  featured?: number;
+  is_hot?: number;
+  company?: string;
+  salary: SalaryType;
+  city: CityType;
+  last_date: string;
+
+  experienceLevel?: ExperienceLevelType;
+  views?: number;
+  created_at?: string;
+  desiredLevel?: DesiredLevelType;
+  employmentType?: EmploymentTypeType;
+  profession?: ProfessionType;
+  workPlace?: WorkplaceType;
+  educationLevel?: EducationLevelType;
+  quantity?: number;
+  logo?: string;
+  description?: string;
+  skill_experience?: string;
+  benefits?: string;
+  latitude?: string;
+  longitude?: string;
+  contact_name?: string;
+  email?: string;
+  phone?: string;
+  work_address?: string;
 };
