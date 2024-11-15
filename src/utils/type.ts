@@ -199,6 +199,13 @@ export type FeaturedCompanyType = {
   city: CityType;
 };
 
+export type CompanyType = {
+  id: number;
+  logo: string;
+  name: string;
+  size: string;
+};
+
 export type CompanyTypeType = {
   id: number;
   name: string;
@@ -233,7 +240,7 @@ export type CompanyDetailType = {
   latitude: string;
   longitude: string;
   description: string;
-  jobs: JobType[];
+  jobs: JobInCompanyType[];
 };
 
 export type SalaryType = {
@@ -241,7 +248,7 @@ export type SalaryType = {
   salary_to: number;
 };
 
-export type JobType = {
+export type JobInCompanyType = {
   id: number;
   title: string;
   featured: number;
@@ -250,4 +257,35 @@ export type JobType = {
   salary: SalaryType;
   city: string;
   last_date: string;
+};
+
+export type JobType = {
+  id: number;
+  title: string;
+  featured?: number;
+  is_hot?: number;
+  company?: string;
+  salary: SalaryType;
+  city: CityType;
+  last_date: string;
+
+  experienceLevel?: ExperienceLevelType;
+  views?: number;
+  created_at?: string;
+  desiredLevel?: DesiredLevelType;
+  employmentType?: EmploymentTypeType;
+  profession?: ProfessionType;
+  workPlace?: WorkplaceType;
+  educationLevel?: EducationLevelType;
+  quantity?: number;
+  logo?: string;
+  description?: string;
+  skill_experience?: string;
+  benefits?: string;
+  latitude?: string;
+  longitude?: string;
+  contact_name?: string;
+  email?: string;
+  phone?: string;
+  work_address?: string;
 };

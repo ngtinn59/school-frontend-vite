@@ -25,7 +25,6 @@ const FeaturedCompanies: React.FC = () => {
               Featured Companies
             </Title>
 
-            {/* <div className="grid bg-red-800 lg:grid-cols-3 gap-4 pt-8"></div> */}
             <Carousel
               //   autoplay
               effect="scrollx"
@@ -39,7 +38,7 @@ const FeaturedCompanies: React.FC = () => {
               speed={2000}
               pauseOnHover={true}
               slidesToShow={5}
-              className="mx-auto mt-2 w-[90%] rounded-md bg-gray-200 pt-8 shadow-lg transition-all duration-1000 lg:max-w-screen-xl"
+              className="mx-auto mt-2 rounded-md bg-gray-200 pt-8 shadow-lg transition-all duration-1000 md:w-[90%] lg:max-w-screen-xl"
               responsive={[
                 {
                   breakpoint: 1024,
