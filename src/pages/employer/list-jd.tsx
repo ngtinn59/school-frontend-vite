@@ -163,8 +163,8 @@ export const ListJD = () => {
 
   const columns: TableProps<any>["columns"] = [
     {
-      title: "STT",
-      key: "STT",
+      title: "No.",
+      key: "No.",
       width: 50,
       align: "center",
       render: (_, __, index) => (
@@ -325,7 +325,7 @@ export const ListJD = () => {
             setCurrentPage(1);
             setPageSize(size);
           },
-          showTotal: (total) => `Tổng: ${total}`,
+          showTotal: (total) => `Total: ${total}`,
           onChange(page, pageSize) {
             setCurrentPage(page);
             setPageSize(pageSize);

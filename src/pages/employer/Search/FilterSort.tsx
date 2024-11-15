@@ -96,42 +96,42 @@ const FilterSort: React.FC<IFilterSortProps> = ({
   return (
     <div className="ml-2 my-3 mt-4 w-full flex items-center gap-2">
       <FilterCustom
-        placehoder="Thành phố"
+        placeholder="City"
         options={cityOptions}
         icon={<FaCity />}
-        title="Thành phố"
+        title="City"
         setSelect={setFilterCity}
         select={filterCity}
       />
       <FilterCustom
-        placehoder="Cấp độ mong muốn"
+        placeholder="Desired Level"
         options={desiredLevelOptions}
         icon={<FaClipboardUser />}
-        title="Cấp độ mong muốn"
+        title="Desired Level"
         setSelect={setFilterDesiredLevel}
         select={filterDesiredLevel}
       />
       <FilterCustom
-        placehoder="Chuyên ngành"
+        placeholder="Profession"
         options={professionOptions}
         icon={<MdWork />}
-        title="Chuyên ngành"
+        title="Profession"
         setSelect={setFilterProfession}
         select={filterProfession}
       />
       <FilterCustom
-        placehoder="Kinh nghiệm"
+        placeholder="Experience"
         options={experienceLevelOptions}
         icon={<GiSkills />}
-        title="Kinh nghiệm"
+        title="Experience"
         setSelect={setFilterExperienceLevel}
         select={filterExperienceLevel}
       />
       <FilterCustom
-        placehoder="Trình độ"
+        placeholder="Education Level"
         options={educationOptions}
         icon={<FaUserGraduate />}
-        title="Trình độ"
+        title="Education Level"
         setSelect={setFilterEducationLevel}
         select={filterEducationLevel}
       />

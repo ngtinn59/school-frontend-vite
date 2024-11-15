@@ -91,19 +91,19 @@ const ProfileSaved: React.FC = () => {
     try {
       const res = await unSaveProfile(id);
       if (res && res.status_code === 200) {
-        toast.success(res.message || "Hủy lưu hồ sơ thành công");
+        toast.success(res.message || "Unsave profile successfully");
         fetchListProfileSaved();
       }
     } catch (error) {
       console.log(error);
-      toast.error("Hủy lưu hồ sơ thất bại");
+      toast.error("Unsave profile failed");
       fetchListProfileSaved();
     }
   };
 
   const columns: TableProps<ICandidateProfileSaved>["columns"] = [
     {
-      title: "STT",
+      title: "No.",
       key: "STT",
       width: 50,
       align: "center",
@@ -114,17 +114,17 @@ const ProfileSaved: React.FC = () => {
       ),
     },
     {
-      title: "Họ và tên ứng viên",
+      title: "Candidate Name",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Vị trí mong muốn",
+      title: "Desired Position",
       dataIndex: "desired_position",
       key: "desired_position",
     },
     {
-      title: "Mức lương",
+      title: "Salary",
       dataIndex: "salary",
       key: "salary",
       render: (salary: { salary_from: number; salary_to: number }) => (
@@ -135,17 +135,17 @@ const ProfileSaved: React.FC = () => {
       ),
     },
     {
-      title: "Kinh nghiệm",
+      title: "Experience",
       dataIndex: "experience_level",
       key: "experience_level",
     },
     {
-      title: "Quận",
+      title: "District",
       dataIndex: "district",
       key: "district",
     },
     {
-      title: "Ngày tạo",
+      title: "Created At",
       dataIndex: "created_at",
       key: "created_at",
 
@@ -169,13 +169,13 @@ const ProfileSaved: React.FC = () => {
       ),
     },
     {
-      title: "Hành động",
+      title: "Actions",
       key: "action",
       width: 200,
       align: "center",
       render: (_, record: ICandidateProfileSaved) => (
         <Space size="middle">
-          <Tooltip title={`Xem hồ sơ ${record.name}`}>
+          <Tooltip title={`View profile of ${record.name}`}>
             <button
               onClick={() => {
                 setDataDetail(record);
@@ -186,7 +186,7 @@ const ProfileSaved: React.FC = () => {
               <FaEye />
             </button>
           </Tooltip>
-          <Tooltip title={`Gửi mail đến ${record.name}`}>
+          <Tooltip title={`Send mail to ${record.name}`}>
             <button
               onClick={() => {
                 setDataDetail(record);
@@ -197,7 +197,7 @@ const ProfileSaved: React.FC = () => {
               <RiMailSendLine />
             </button>
           </Tooltip>
-          <Tooltip title={`Huỷ lưu hồ sơ ${record.name}`}>
+          <Tooltip title={`Unsave profile of ${record.name}`}>
             <button
               onClick={() => {
                 handleUnSaveProfile(record?.id);
@@ -205,7 +205,7 @@ const ProfileSaved: React.FC = () => {
               className="px-2 mb-1 text-red-500 flex items-center justify-center gap-1 border border-red-500 border-solid rounded-md"
             >
               <VscSaveAs className="text-lg" />
-              <span>Hủy lưu</span>
+              <span>Unsave</span>
             </button>
           </Tooltip>
         </Space>
@@ -222,7 +222,7 @@ const ProfileSaved: React.FC = () => {
             <input
               type="text"
               value={search}
-              placeholder={"Họ tên ứng viên hoặc vị trí mong muốn"}
+              placeholder={"Candidate name or desired position"}
               onChange={(e) => setSearch(e.target.value)}
               className="pr-4.5 mr-8 w-80 rounded-md border border-solid border-gray-500 px-2.5 py-2 outline-none"
             />
@@ -248,7 +248,7 @@ const ProfileSaved: React.FC = () => {
             setCurrentPage(1);
             setPageSize(size);
           },
-          showTotal: (total) => `Tổng: ${total}`,
+          showTotal: (total) => `Total: ${total}`,
           onChange(page, pageSize) {
             setCurrentPage(page);
             setPageSize(pageSize);

@@ -120,10 +120,10 @@ const FindProfileCandidate: React.FC = () => {
       const res = await saveProfile(id);
       if (res && res.success) {
         fetchAllProfileQuery();
-        toast.success("Lưu hồ sơ thành công");
+        toast.success("Profile saved successfully");
       }
     } catch (error) {
-      toast.error("Lưu hồ sơ thất bại");
+      toast.error("Failed to save profile");
       console.error("Save profile error:", error);
       fetchAllProfileQuery();
     }
@@ -134,10 +134,10 @@ const FindProfileCandidate: React.FC = () => {
       const res = await unSaveProfile(id);
       if (res && res.success) {
         fetchAllProfileQuery();
-        toast.success("Hủy lưu hồ sơ thành công");
+        toast.success("Profile unsaved successfully");
       }
     } catch (error) {
-      toast.error("Hủy lưu hồ sơ thất bại");
+      toast.error("Failed to unsave profile");
       console.error("Unsave profile error:", error);
       fetchAllProfileQuery();
     }
@@ -155,7 +155,7 @@ const FindProfileCandidate: React.FC = () => {
 
   const columns: TableProps<Candidate>["columns"] = [
     {
-      title: "STT",
+      title: "No.",
       key: "STT",
       width: 50,
       align: "center",
@@ -166,23 +166,23 @@ const FindProfileCandidate: React.FC = () => {
       ),
     },
     {
-      title: "Họ và tên ứng viên",
+      title: "Candidate Name",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Tuổi",
+      title: "Age",
       dataIndex: "age",
       key: "age",
       render: (age: number | null) => <span>{age ? age : "--"}</span>,
     },
     {
-      title: "Vị trí mong muốn",
+      title: "Desired Position",
       dataIndex: "desired_position",
       key: "desired_position",
     },
     {
-      title: "Kinh nghiệm",
+      title: "Experience",
       dataIndex: "experienceLevel",
       key: "experienceLevel",
       render: (experienceLevel: ExperienceLevel) => (
@@ -190,7 +190,7 @@ const FindProfileCandidate: React.FC = () => {
       ),
     },
     {
-      title: "Mức lương",
+      title: "Salary",
       dataIndex: "salary_from",
       key: "salary_from",
       render: (_, record) => (
@@ -201,19 +201,19 @@ const FindProfileCandidate: React.FC = () => {
       ),
     },
     {
-      title: "Quận",
+      title: "District",
       dataIndex: "district",
       key: "district",
       render: (district: District) => <span>{district.name}</span>,
     },
     {
-      title: "Thành phố",
+      title: "City",
       dataIndex: "city",
       key: "city",
       render: (city: City) => <span>{city.name}</span>,
     },
     {
-      title: "Ngày cập nhật",
+      title: "Updated At",
       dataIndex: "updated_at",
       key: "updated_at",
 
@@ -237,13 +237,13 @@ const FindProfileCandidate: React.FC = () => {
       ),
     },
     {
-      title: "Hành động",
+      title: "Actions",
       key: "action",
       width: 200,
       align: "center",
       render: (_, record: Candidate) => (
         <Space size="middle">
-          <Tooltip title={`Xem hồ sơ ${record.name}`}>
+          <Tooltip title={`View profile of ${record.name}`}>
             <button
               onClick={() => {
                 setDataDetail({
@@ -266,7 +266,7 @@ const FindProfileCandidate: React.FC = () => {
             </button>
           </Tooltip>
           <Tooltip
-            title={`${record.is_saved === 1 ? "Hủy lưu" : "Lưu"} hồ sơ ${
+            title={`${record.is_saved === 1 ? "Unsave" : "Save"} profile of ${
               record.name
             }`}
           >
@@ -300,7 +300,7 @@ const FindProfileCandidate: React.FC = () => {
           <input
             type="text"
             value={search}
-            placeholder={"Tìm kiếm"}
+            placeholder={"Search"}
             onChange={(e) => setSearch(e.target.value)}
             className="pr-4.5 mr-8 w-80 rounded-md border border-solid border-gray-500 px-2.5 py-2 outline-none"
           />
@@ -315,7 +315,7 @@ const FindProfileCandidate: React.FC = () => {
             handleReset();
           }}
         >
-          Xóa lọc
+          Reset Filters
         </button>
       </div>
     );
@@ -358,7 +358,7 @@ const FindProfileCandidate: React.FC = () => {
               setCurrentPage(1);
               setPageSize(size);
             },
-            showTotal: (total) => `Tổng: ${total}`,
+            showTotal: (total) => `Total: ${total}`,
             onChange(page, pageSize) {
               setCurrentPage(page);
               setPageSize(pageSize);

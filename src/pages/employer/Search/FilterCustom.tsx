@@ -7,7 +7,7 @@ export interface IOption {
 
 interface IFilterCustomProps {
   options: IOption[];
-  placehoder: string;
+  placeholder: string;
   title: string;
   icon?: React.ReactNode;
   select: number;
@@ -16,7 +16,7 @@ interface IFilterCustomProps {
 
 const FilterCustom: React.FC<IFilterCustomProps> = ({
   options,
-  placehoder,
+  placeholder,
   title,
   icon,
   select,
@@ -36,7 +36,7 @@ const FilterCustom: React.FC<IFilterCustomProps> = ({
         value={select ? select : undefined}
         size="large"
         options={options}
-        placeholder={placehoder}
+        placeholder={placeholder}
         className="h-full"
       />
     </div>

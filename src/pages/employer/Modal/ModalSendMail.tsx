@@ -26,13 +26,13 @@ const ModalSendMail: React.FC<IModalSendMail> = ({
       const res = await sendMailToCandidate(data.id, values);
       console.log(res);
       if (res && res.success) {
-        toast.success(res.message || "Gửi mail thành công");
+        toast.success(res.message || "Email sent successfully");
         form.resetFields();
         setData(null);
         setOpen(false);
       }
     } catch (error) {
-      toast.error("Gửi mail thất bại");
+      toast.error("Failed to send email");
       console.log(error);
     }
     setLoading(false);
@@ -45,9 +45,9 @@ const ModalSendMail: React.FC<IModalSendMail> = ({
     <>
       <Modal
         open={open}
-        title={`Gửi mail ứng viên ${data?.name}`}
-        okText="Gửi"
-        cancelText="Hủy"
+        title={`Send email to candidate ${data?.name}`}
+        okText="Send"
+        cancelText="Cancel"
         okButtonProps={{
           loading: loading,
           autoFocus: true,
@@ -73,11 +73,11 @@ const ModalSendMail: React.FC<IModalSendMail> = ({
       >
         <Form.Item
           name="subject"
-          label="Tiêu đề"
+          label="Subject"
           rules={[
             {
               required: true,
-              message: "Tiêu đề không được để trống!",
+              message: "Subject is required!",
             },
           ]}
         >
@@ -85,11 +85,11 @@ const ModalSendMail: React.FC<IModalSendMail> = ({
         </Form.Item>
         <Form.Item
           name="message"
-          label="Nội dung"
+          label="Message"
           rules={[
             {
               required: true,
-              message: "Nội dung không được để trống!",
+              message: "Message is required!",
             },
           ]}
         >

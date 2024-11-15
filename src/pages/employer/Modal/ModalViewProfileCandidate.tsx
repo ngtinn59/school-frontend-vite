@@ -5,6 +5,7 @@ import { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
+
 interface Profile {
   id: number;
   name: string;
@@ -176,14 +177,14 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
   return (
     <>
       <Modal
-        title={`Hồ sơ ứng viên: ${data?.name}`}
+        title={`Candidate Profile: ${data?.name}`}
         open={open}
         loading={loading}
         okButtonProps={{ style: { display: "none" } }}
         onOk={() => {
           setOpen(false);
         }}
-        cancelText="Đóng"
+        cancelText="Close"
         onCancel={() => {
           setOpen(false);
         }}
@@ -213,11 +214,10 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                     {dataDetail.profile?.name || "No Name"}
                   </h3>
                   <p>
-                    <strong>Chức vụ:</strong>{" "}
-                    {dataDetail.profile?.title || "--"}
+                    <strong>Title:</strong> {dataDetail.profile?.title || "--"}
                   </p>
                   <p>
-                    <strong>Khu vực:</strong>{" "}
+                    <strong>Location:</strong>{" "}
                     {dataDetail.profile?.location || "--"}
                   </p>
                 </div>
@@ -227,11 +227,10 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
               {/* Contact Information */}
               <div className="mb-6">
                 <h3 className="text-xl font-semibold mb-2">
-                  Thông tin liên hệ
+                  Contact Information
                 </h3>
                 <p>
-                  <strong>Số điện thoại:</strong>{" "}
-                  {dataDetail.profile?.phone || "--"}
+                  <strong>Phone:</strong> {dataDetail.profile?.phone || "--"}
                 </p>
                 <p>
                   <strong>Email:</strong> {dataDetail.profile?.email || "--"}
@@ -248,61 +247,59 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                   </a>
                 </p>
                 <p>
-                  <strong>Tuổi:</strong> {dataDetail.profile?.age || "--"}
+                  <strong>Age:</strong> {dataDetail.profile?.age || "--"}
                 </p>
                 <p>
-                  <strong>Giới tính:</strong>{" "}
-                  {dataDetail.profile?.gender === 1 ? "Nam" : "Nữ"}
+                  <strong>Gender:</strong>{" "}
+                  {dataDetail.profile?.gender === 1 ? "Male" : "Female"}
                 </p>
               </div>
 
               {/* Career Objective */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">
-                  Mục tiêu nghề nghiệp
-                </h3>
+                <h3 className="text-xl font-semibold mb-2">Career Objective</h3>
                 <p>
-                  <strong>Vị trí mong muốn:</strong>{" "}
+                  <strong>Desired Position:</strong>{" "}
                   {dataDetail.objective?.desired_position || "--"}
                 </p>
                 <p>
-                  <strong>Trình độ mong muốn:</strong>{" "}
+                  <strong>Desired Level:</strong>{" "}
                   {dataDetail.objective?.desiredLevel?.name || "--"}
                 </p>
                 <p>
-                  <strong>Ngành nghề:</strong>{" "}
+                  <strong>Profession:</strong>{" "}
                   {dataDetail.objective?.profession?.name || "--"}
                 </p>
                 <p>
-                  <strong>Hình thức làm việc:</strong>{" "}
+                  <strong>Employment Type:</strong>{" "}
                   {dataDetail.objective?.employmentType?.name || "--"}
                 </p>
                 <p>
-                  <strong>Kinh nghiệm làm việc:</strong>{" "}
+                  <strong>Experience Level:</strong>{" "}
                   {dataDetail.objective?.experienceLevel?.name || "--"}
                 </p>
                 <p>
-                  <strong>Nơi làm:</strong>{" "}
+                  <strong>Work Address:</strong>{" "}
                   {dataDetail.objective?.work_address || "--"}
                 </p>
                 <p>
-                  <strong>Trình độ học vấn:</strong>{" "}
+                  <strong>Education Level:</strong>{" "}
                   {dataDetail.objective?.educationLevel?.name || "--"}
                 </p>
                 <p>
-                  <strong>Quốc gia:</strong>{" "}
+                  <strong>Country:</strong>{" "}
                   {dataDetail.objective?.country?.name || "--"}
                 </p>
                 <p>
-                  <strong>Tỉnh/thành phố:</strong>{" "}
+                  <strong>City:</strong>{" "}
                   {dataDetail.objective?.city?.name || "--"}
                 </p>
                 <p>
-                  <strong>Quận huyện:</strong>{" "}
+                  <strong>District:</strong>{" "}
                   {dataDetail.objective?.district?.name || "--"}
                 </p>
                 <p>
-                  <strong>Mức lương mong muốn:</strong>{" "}
+                  <strong>Desired Salary:</strong>{" "}
                   {dataDetail.objective?.salary_from
                     ? `${dataDetail.objective.salary_from} - ${dataDetail.objective.salary_to} VND`
                     : "--"}
@@ -311,30 +308,28 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* About Me */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">
-                  Giới thiệu bản thân
-                </h3>
+                <h3 className="text-xl font-semibold mb-2">About Me</h3>
                 <p>{dataDetail.aboutme?.[0]?.description || "--"}</p>
               </div>
 
               {/* Education */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Giáo dục</h3>
+                <h3 className="text-xl font-semibold mb-2">Education</h3>
                 {dataDetail.educations?.map((edu, idx) => (
                   <div key={idx} className="mb-2">
                     <p>
-                      <strong>Bằng cấp:</strong> {edu.degree || "--"}
+                      <strong>Degree:</strong> {edu.degree || "--"}
                     </p>
                     <p>
-                      <strong>Trường:</strong> {edu.institution || "--"}
+                      <strong>Institution:</strong> {edu.institution || "--"}
                     </p>
                     <p>
-                      <strong>Thời gian:</strong>{" "}
+                      <strong>Time:</strong>{" "}
                       {dayjs(edu.start_date).format("DD/MM/YYYY") || "--"} -{" "}
                       {dayjs(edu.end_date).format("DD/MM/YYYY") || "--"}
                     </p>
                     <p>
-                      <strong>Chi tiết bổ sung:</strong>{" "}
+                      <strong>Additional Detail:</strong>{" "}
                       {edu.additionalDetail || "--"}
                     </p>
                   </div>
@@ -343,7 +338,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Skills */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Kỹ năng</h3>
+                <h3 className="text-xl font-semibold mb-2">Skills</h3>
                 {dataDetail.skills?.map((skill, idx) => (
                   <p key={idx}>
                     <strong>{skill.name}:</strong> {skill.level}
@@ -353,19 +348,22 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Personal Projects */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Dự án cá nhân</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  Personal Projects
+                </h3>
                 {dataDetail.PersonalProject?.map((project, idx) => (
                   <div key={idx} className="mb-2">
                     <p>
-                      <strong>Tên dự án:</strong> {project.title || "--"}
+                      <strong>Project Title:</strong> {project.title || "--"}
                     </p>
                     <p>
-                      <strong>Thời gian:</strong>{" "}
+                      <strong>Time:</strong>{" "}
                       {dayjs(project.start_date).format("DD/MM/YYYY") || "--"} -{" "}
                       {dayjs(project.end_date).format("DD/MM/YYYY") || "--"}
                     </p>
                     <p>
-                      <strong>Mô tả:</strong> {project.description || "--"}
+                      <strong>Description:</strong>{" "}
+                      {project.description || "--"}
                     </p>
                   </div>
                 ))}
@@ -373,21 +371,21 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Certificates */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Chứng chỉ</h3>
+                <h3 className="text-xl font-semibold mb-2">Certificates</h3>
                 {dataDetail.Certificate?.map((cert, idx) => (
                   <div key={idx} className="mb-2">
                     <p>
-                      <strong>Tiêu đề:</strong> {cert.title || "--"}
+                      <strong>Title:</strong> {cert.title || "--"}
                     </p>
                     <p>
-                      <strong>Nhà cung cấp:</strong> {cert.provider || "--"}
+                      <strong>Provider:</strong> {cert.provider || "--"}
                     </p>
                     <p>
-                      <strong>Ngày cấp:</strong>{" "}
+                      <strong>Issue Date:</strong>{" "}
                       {dayjs(cert.issueDate).format("DD/MM/YYYY") || "--"}
                     </p>
                     <p>
-                      <strong>Mô tả:</strong> {cert.description || "--"}
+                      <strong>Description:</strong> {cert.description || "--"}
                     </p>
                     <p>
                       <strong>Website:</strong>{" "}
@@ -406,24 +404,23 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Work Experience */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">
-                  Kinh nghiệm làm việc
-                </h3>
+                <h3 className="text-xl font-semibold mb-2">Work Experience</h3>
                 {dataDetail.WorkExperience?.map((work, idx) => (
                   <div key={idx} className="mb-2">
                     <p>
-                      <strong>Vị trí:</strong> {work.position || "--"}
+                      <strong>Position:</strong> {work.position || "--"}
                     </p>
                     <p>
-                      <strong>Công ty:</strong> {work.company || "--"}
+                      <strong>Company:</strong> {work.company || "--"}
                     </p>
                     <p>
-                      <strong>Thời gian:</strong>{" "}
+                      <strong>Time:</strong>{" "}
                       {dayjs(work.start_date).format("DD/MM/YYYY") || "--"} -{" "}
                       {dayjs(work.end_date).format("DD/MM/YYYY") || "--"}
                     </p>
                     <p>
-                      <strong>Nhiệm vụ:</strong> {work.responsibilities || "--"}
+                      <strong>Responsibilities:</strong>{" "}
+                      {work.responsibilities || "--"}
                     </p>
                   </div>
                 ))}
@@ -431,21 +428,21 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Awards */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Giải thưởng</h3>
+                <h3 className="text-xl font-semibold mb-2">Awards</h3>
                 {dataDetail.Award?.map((award, idx) => (
                   <div key={idx} className="mb-2">
                     <p>
-                      <strong>Tiêu đề:</strong> {award?.title || "--"}
+                      <strong>Title:</strong> {award?.title || "--"}
                     </p>
                     <p>
-                      <strong>Nhà cung cấp:</strong> {award?.provider || "--"}
+                      <strong>Provider:</strong> {award?.provider || "--"}
                     </p>
                     <p>
-                      <strong>Ngày cấp:</strong>{" "}
+                      <strong>Issue Date:</strong>{" "}
                       {dayjs(award?.issueDate).format("DD/MM/YYYY") || "--"}
                     </p>
                     <p>
-                      <strong>Mô tả:</strong> {award?.description || "--"}
+                      <strong>Description:</strong> {award?.description || "--"}
                     </p>
                   </div>
                 ))}
@@ -460,7 +457,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
                   target="_blank"
                   className="bg-blue-500 hover:bg-blue-600"
                 >
-                  Tải CV
+                  Download CV
                 </Button>
               </div>
             )}
