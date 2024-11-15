@@ -11,8 +11,8 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
     <>
       {data.jobs.length > 0 && (
         <>
-          <Title type="h4" className="mt-4 text-blue-900">
-            Việc làm đang tuyển
+          <Title type="h4" className="mt-4 text-[var(--text-color-bold)]">
+            Hiring jobs
           </Title>
 
           <div className="mt-2 space-y-4">

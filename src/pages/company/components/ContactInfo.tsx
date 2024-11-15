@@ -15,21 +15,21 @@ interface ContactInfoProps {
 const ContactInfo: React.FC<ContactInfoProps> = ({ data }) => {
   return (
     <>
-      <Title type="h4" className="text-blue-900">
-        Website
+      <Title type="h4" className="text-[var(--text-color-bold)]">
+        Our website
       </Title>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 text-[var(--text-color-normal)]">
         <MdOutlineLink />
         <NavLink to={data.website} className="underline">
           {data.website}
         </NavLink>
       </div>
 
-      <Title type="h4" className="mt-4 text-blue-900">
-        Thông tin liên hệ
+      <Title type="h4" className="mt-4 text-[var(--text-color-bold)]">
+        Contact information
       </Title>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 text-[var(--text-color-normal)]">
         <IoMail />
         <p
           className="cursor-pointer"
@@ -42,7 +42,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ data }) => {
         </p>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 text-[var(--text-color-normal)]">
         <FaPhoneAlt />
         <p
           className="cursor-pointer"
@@ -55,12 +55,12 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ data }) => {
         </p>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 text-[var(--text-color-normal)]">
         <HiReceiptTax />
         <p>{data.tax_code}</p>
       </div>
 
-      <div className="flex items-start justify-between gap-2">
+      <div className="flex items-start justify-between gap-2 text-[var(--text-color-normal)]">
         <FaMapMarkerAlt className="mt-1" />
         <p
           className="w-[100%] cursor-pointer text-balance"

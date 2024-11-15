@@ -10,6 +10,7 @@ import Jobs from "./components/Jobs";
 import ContactInfo from "./components/ContactInfo";
 import MapInfo from "./components/MapInfo";
 import SocialMedia from "./components/SocialMedia";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 const Company: React.FC = () => {
   const companyNameAndcompanyId = useParams<{
@@ -36,16 +37,23 @@ const Company: React.FC = () => {
 
       <Header data={data} />
 
-      <div className="flex justify-between py-4">
-        <div className="w-[59%] rounded-md p-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)]">
+      <div className="flex flex-col justify-between gap-2 py-4 md:flex-row">
+        <div className="w-full rounded-md p-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] md:w-[60%]">
           <AboutCompany data={data} />
           <Jobs data={data} />
         </div>
 
-        <div className="w-[40%] rounded-md p-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)]">
+        <div className="w-full rounded-md p-2 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] md:w-[40%]">
           <ContactInfo data={data} />
           <SocialMedia data={data} />
-          <MapInfo data={data} />
+          {/* <div> */}
+          <APIProvider apiKey="AIzaSyC52sX6DS9XwK8fRjgiyJIFB8KXEMHmPIA">
+            <MapInfo data={data} />
+          </APIProvider>
+          {/* </div> */}
+
+          {/* <MapInfo data={data} /> */}
+          {/* AIzaSyC52sX6DS9XwK8fRjgiyJIFB8KXEMHmPIA */}
         </div>
       </div>
     </div>

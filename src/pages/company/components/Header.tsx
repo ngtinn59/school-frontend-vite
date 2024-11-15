@@ -15,15 +15,17 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
       <img
         src={data.logo}
         alt={data.name}
-        className="absolute -top-20 h-32 rounded-lg"
+        className="absolute -top-20 h-32 rounded-lg border-[4px] border-white bg-white shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)]"
       />
       <div className="w-40" />
 
       <div className="flex w-full justify-between">
         <div>
-          <Title type="h3">{data.name}</Title>
+          <Title type="h3" className="text-[var(--color-primary)]">
+            {data.name}
+          </Title>
 
-          <div className="flex space-x-8">
+          <div className="flex space-x-8 text-[var(--text-color-normal)]">
             <p className="flex items-center gap-2">
               <PiBagSimpleBold />
               {data.companyType.name}
@@ -45,14 +47,14 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
           <button className="hover:text-green-700">
             <p className="flex items-center gap-2">
               <IoSave />
-              Lưu
+              Save
             </p>
           </button>
 
           <button className="hover:text-green-700">
             <p className="flex items-center gap-2">
               <FaShareAlt />
-              Chia sẻ
+              Share
             </p>
           </button>
         </div>

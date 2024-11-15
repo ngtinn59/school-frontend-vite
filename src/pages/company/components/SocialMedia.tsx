@@ -13,8 +13,8 @@ const SocialMedia: React.FC<SocialMediaProps> = ({ data }) => {
 
   return (
     <>
-      <Title type="h4" className="mt-4 text-blue-900">
-        Website
+      <Title type="h4" className="mt-4 text-[var(--text-color-bold)]">
+        Social Media
       </Title>
       <div className="flex items-center gap-4">
         <FaFacebook
