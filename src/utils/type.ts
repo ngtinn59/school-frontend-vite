@@ -198,3 +198,56 @@ export type FeaturedCompanyType = {
   is_hot: number;
   city: CityType;
 };
+
+export type CompanyTypeType = {
+  id: number;
+  name: string;
+};
+
+export type CompanySizeType = {
+  id: number;
+  name: string;
+};
+
+export type CompanyDetailType = {
+  id: number;
+  country: CountryType;
+  city: CityType;
+  district: DistrictType;
+  companyType: CompanyTypeType;
+  companySize: CompanySizeType;
+  name: string;
+  phone: string;
+  company_email: string;
+  tax_code: string;
+  date_of_establishment: string;
+  working_days: string;
+  overtime_policy: string;
+  website: string;
+  facebook: string;
+  youtube: string;
+  linked: string;
+  logo: string;
+  banner: string;
+  address: string;
+  latitude: string;
+  longitude: string;
+  description: string;
+  jobs: JobType[];
+};
+
+export type SalaryType = {
+  salary_from: number;
+  salary_to: number;
+};
+
+export type JobType = {
+  id: number;
+  title: string;
+  featured: number;
+  is_hot: number;
+  company: string;
+  salary: SalaryType;
+  city: string;
+  last_date: string;
+};
