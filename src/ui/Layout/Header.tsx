@@ -11,7 +11,6 @@ import Button from "../../components/Button";
 import { signOutApi } from "../../services/api/authenticationApi";
 import deleteCookie from "../../utils/function/deleteCookie";
 import toast from "react-hot-toast";
-import ModalChangePasswordUser from "../../pages/profile/ModalChangePasswordUser";
 import ModalChangePassword from "../../pages/employer/Modal/ModalChangePassword";
 
 const Header: React.FC<{ moreMenu?: React.JSX.Element }> = ({ moreMenu }) => {

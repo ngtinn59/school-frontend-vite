@@ -82,6 +82,10 @@ const ModalChangePassword: React.FC<IModalChangePassword> = ({
               required: true,
               message: "New Password is required!",
             },
+            {
+              min: 8,
+              message: "Password must be at least 8 characters!",
+            },
           ]}
         >
           <Input />
