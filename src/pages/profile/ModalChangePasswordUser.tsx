@@ -32,9 +32,9 @@ const ModalChangePasswordUser: React.FC<IModalChangePasswordUser> = ({
     } catch (error) {
       console.log("Error: ", error);
       toast.error(error.response.data.error || "Change password failed!");
+      setOpen(true);
     } finally {
       setLoading(false);
-      setOpen(false);
     }
   };
   return (

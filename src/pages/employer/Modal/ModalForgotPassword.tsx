@@ -3,7 +3,6 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { BASE_URL_API } from "../../../utils/constants";
-import ModalChangePasswordUser from "../../profile/ModalChangePasswordUser";
 
 interface IModalForgotPassword {
   open: boolean;
@@ -18,7 +17,6 @@ const ModalForgotPassword: React.FC<IModalForgotPassword> = ({
 }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState<boolean>(false);
-  const [openChangePassword, setOpenChangePassword] = useState<boolean>(false);
 
   const onCreate = async (values: any) => {
     setLoading(true);
@@ -87,10 +85,6 @@ const ModalForgotPassword: React.FC<IModalForgotPassword> = ({
         >
           <Input placeholder="Enter email" />
         </Form.Item>
-        <ModalChangePasswordUser
-          open={openChangePassword}
-          setOpen={setOpenChangePassword}
-        />
       </Modal>
     </>
   );
