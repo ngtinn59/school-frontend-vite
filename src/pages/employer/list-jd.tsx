@@ -64,6 +64,9 @@ export const ListJD = () => {
         setData(res.data);
         setTotal(res.data.length);
       }
+      if (res && !res.success) {
+        setData([]);
+      }
     } catch (error) {
       console.log(error);
       setData([]);
@@ -79,15 +82,16 @@ export const ListJD = () => {
     debounce((value: string) => {
       const lowerSearch = value.toLowerCase();
       const filtered = data.filter((item) =>
-        item.title.toLowerCase().includes(lowerSearch)
+        item.title.toLowerCase().includes(lowerSearch),
       );
       setFilteredData(filtered);
       setTotal(filtered.length);
     }, 300),
-    [data]
+    [data],
   );
 
   useEffect(() => {
+    if (search === "") return;
     debouncedSearch(search);
     return debouncedSearch.cancel;
   }, [search, debouncedSearch]);
@@ -122,7 +126,7 @@ export const ListJD = () => {
 
   const handleUpdateJobPosting = async (
     id: number,
-    data: JobPostingRequest
+    data: JobPostingRequest,
   ) => {
     console.log("update");
     const { last_date } = data;
@@ -268,7 +272,7 @@ export const ListJD = () => {
             cancelText="No"
           >
             <Tooltip title={`Delete ${record?.title}`}>
-              <button className=" text-red-500 ">
+              <button className="text-red-500">
                 <MdDelete className="text-2xl" />
               </button>
             </Tooltip>
@@ -279,13 +283,13 @@ export const ListJD = () => {
   ];
 
   return (
-    <div className="m-4 p-4 min-h-screen">
-      <div className="px-4 mb-5 sm:px-0 flex justify-between items-center">
-        <h3 className="text-lg uppercase font-semibold leading-7 text-gray-900">
+    <div className="m-4 min-h-screen p-4">
+      <div className="mb-5 flex items-center justify-between px-4 sm:px-0">
+        <h3 className="text-lg font-semibold uppercase leading-7 text-gray-900">
           List Job Description
         </h3>
-        <div className="flex gap-1 items-center justify-center">
-          <div className="relative ">
+        <div className="flex items-center justify-center gap-1">
+          <div className="relative">
             <input
               type="text"
               value={search}
@@ -302,7 +306,7 @@ export const ListJD = () => {
               setIsEdit(false);
               setOpen(true);
             }}
-            className="bg-gray-500 hover:bg-gray-600 !text-white py-2 rounded-md px-2"
+            className="rounded-md bg-gray-500 px-2 py-2 !text-white hover:bg-gray-600"
           >
             Create Job Posting
           </button>

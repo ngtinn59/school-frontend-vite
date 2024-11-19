@@ -39,6 +39,8 @@ import {
   DistrictType,
   EmployerProfileType,
 } from "../../utils/type";
+import ModalChangePassword from "./Modal/ModalChangePassword";
+import ModalChangeNameEmployer from "./Modal/ModalChangeNameEmployer";
 
 interface UpdateEmployerProfileArgs {
   profile: EmployerProfileType;
@@ -53,6 +55,9 @@ interface EmployerProfileFormValues extends EmployerProfileType {
 
 export const EditProfile = () => {
   const queryClient = useQueryClient();
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModalChangeNameEmployer, setOpenModalChangeNameEmployer] =
+    useState<boolean>(false);
   const profile = useAppSelector((state) => state.employer.profile);
   const [selectedCountryId, setSelectedCountryId] = useState<number>(0);
   const [logoFileList, setLogoFileList] = useState<UploadFile[]>([]);
@@ -127,7 +132,11 @@ export const EditProfile = () => {
   };
 
   const { mutate: updateEmployerProfile, isPending: isUpdating } = useMutation({
-    mutationFn: ({ profile, logoFileList, bannerFileList }: UpdateEmployerProfileArgs) =>
+    mutationFn: ({
+      profile,
+      logoFileList,
+      bannerFileList,
+    }: UpdateEmployerProfileArgs) =>
       updateEmployerProfileApi(profile, logoFileList, bannerFileList),
   });
 
@@ -148,7 +157,7 @@ export const EditProfile = () => {
         onError: (error) => {
           toast.error(error.message);
         },
-      }
+      },
     );
   };
 
@@ -160,8 +169,9 @@ export const EditProfile = () => {
 
       const isCityExist = Boolean(
         cityOptions?.find(
-          (city: { value: number; label: string }) => city.value === profile.city.id
-        )
+          (city: { value: number; label: string }) =>
+            city.value === profile.city.id,
+        ),
       );
       if (isCityExist) {
         setSelectedCityId(profile.city.id);
@@ -169,8 +179,9 @@ export const EditProfile = () => {
 
       const isDistrictExist = Boolean(
         districtOptions?.find(
-          (district: { value: number; label: string }) => district.value === profile.district.id
-        )
+          (district: { value: number; label: string }) =>
+            district.value === profile.district.id,
+        ),
       );
       form.setFieldsValue({
         ...profile,
@@ -187,7 +198,7 @@ export const EditProfile = () => {
   }, [profile, form, cityOptions, districtOptions]);
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <div className="mx-auto max-w-screen-lg">
       <div className="relative">
         {profile?.banner ? (
           <img
@@ -197,12 +208,16 @@ export const EditProfile = () => {
                 : profile.banner
             }
             alt="banner"
-            className="w-full h-48 object-cover rounded-t-lg"
+            className="h-48 w-full rounded-t-lg object-cover"
           />
         ) : (
-          <img src={bannerNoImage} alt="banner" className="w-full h-48 object-cover rounded-t-lg" />
+          <img
+            src={bannerNoImage}
+            alt="banner"
+            className="h-48 w-full rounded-t-lg object-cover"
+          />
         )}
-        <div className="absolute top-30 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="top-30 absolute left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
           {profile && (
             <Avatar
               size={100}
@@ -210,8 +225,8 @@ export const EditProfile = () => {
                 logoFileList && logoFileList.length > 0
                   ? URL.createObjectURL(logoFileList[0].originFileObj as File)
                   : profile.logo
-                  ? profile.logo
-                  : profileNoImage
+                    ? profile.logo
+                    : profileNoImage
               }
             />
           )}
@@ -225,7 +240,13 @@ export const EditProfile = () => {
         </p>
       </div> */}
 
-      <Form scrollToFirstError onFinish={onEdit} className="mt-12" layout="vertical" form={form}>
+      <Form
+        scrollToFirstError
+        onFinish={onEdit}
+        className="mt-12"
+        layout="vertical"
+        form={form}
+      >
         <Form.Item
           name="logoFile"
           label={<Typography.Title level={5}>Logo</Typography.Title>}
@@ -240,13 +261,15 @@ export const EditProfile = () => {
               },
             },
           ]}
-          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}>
+          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
+        >
           <Upload
             maxCount={1}
             fileList={logoFileList}
             accept="images/**"
             beforeUpload={() => false}
-            onChange={handleLogoUploadChange}>
+            onChange={handleLogoUploadChange}
+          >
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </Form.Item>
@@ -265,13 +288,15 @@ export const EditProfile = () => {
               },
             },
           ]}
-          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}>
+          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
+        >
           <Upload
             maxCount={1}
             fileList={bannerFileList}
             accept="images/**"
             beforeUpload={() => false}
-            onChange={handleBannerUploadChange}>
+            onChange={handleBannerUploadChange}
+          >
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </Form.Item>
@@ -280,7 +305,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Company name</Typography.Title>}
           required
           rules={[{ required: true }]}
-          name="name">
+          name="name"
+        >
           <Input placeholder="Company name" />
         </Form.Item>
 
@@ -291,7 +317,8 @@ export const EditProfile = () => {
             { required: true, message: "Company email is required" },
             { type: "email", message: "Invalid email" },
           ]}
-          name="company_email">
+          name="company_email"
+        >
           <Input placeholder="Company email" />
         </Form.Item>
 
@@ -299,7 +326,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Phone number</Typography.Title>}
           required
           rules={[{ required: true, message: "Phone number is required" }]}
-          name="phone">
+          name="phone"
+        >
           <Input placeholder="Phone" />
         </Form.Item>
 
@@ -307,7 +335,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Description</Typography.Title>}
           required
           rules={[{ required: true }]}
-          name="description">
+          name="description"
+        >
           <TextArea rows={3} placeholder="Description" />
         </Form.Item>
 
@@ -315,7 +344,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Website</Typography.Title>}
           required
           rules={[{ required: true, message: "Website is required" }]}
-          name="website">
+          name="website"
+        >
           <Input placeholder="Website" />
         </Form.Item>
 
@@ -323,7 +353,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Facebook</Typography.Title>}
           name="facebook"
           required
-          rules={[{ required: true, message: "Facebook is required" }]}>
+          rules={[{ required: true, message: "Facebook is required" }]}
+        >
           <Input placeholder="Facebook" />
         </Form.Item>
 
@@ -331,7 +362,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Youtube</Typography.Title>}
           name="youtube"
           required
-          rules={[{ required: true, message: "Youtube is required" }]}>
+          rules={[{ required: true, message: "Youtube is required" }]}
+        >
           <Input placeholder="Youtube" />
         </Form.Item>
 
@@ -339,7 +371,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>LinkedIn</Typography.Title>}
           name="linked"
           required
-          rules={[{ required: true, message: "LinkedIn is required" }]}>
+          rules={[{ required: true, message: "LinkedIn is required" }]}
+        >
           <Input placeholder="Linked" />
         </Form.Item>
 
@@ -347,12 +380,15 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Tax code</Typography.Title>}
           required
           rules={[{ required: true, message: "Tax code is required" }]}
-          name="tax_code">
+          name="tax_code"
+        >
           <Input placeholder="Tax code" />
         </Form.Item>
 
         <Form.Item
-          label={<Typography.Title level={5}>Date of establishment</Typography.Title>}
+          label={
+            <Typography.Title level={5}>Date of establishment</Typography.Title>
+          }
           name="date_of_establishment"
           rules={[
             {
@@ -363,15 +399,21 @@ export const EditProfile = () => {
           getValueProps={(value: string) => ({
             value: value && dayjs(value),
           })}
-          normalize={(value: Dayjs) => value && value.format("YYYY-MM-DD")}>
-          <DatePicker className="w-full" format="DD/MM/YYYY" placeholder="Date of establishment" />
+          normalize={(value: Dayjs) => value && value.format("YYYY-MM-DD")}
+        >
+          <DatePicker
+            className="w-full"
+            format="DD/MM/YYYY"
+            placeholder="Date of establishment"
+          />
         </Form.Item>
 
         <Form.Item
           label={<Typography.Title level={5}>Country</Typography.Title>}
           required
           rules={[{ required: true, message: "'country' is required" }]}
-          name={["country", "id"]}>
+          name={["country", "id"]}
+        >
           <Select
             options={countryOptions}
             placeholder="country"
@@ -386,7 +428,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>City</Typography.Title>}
           required
           rules={[{ required: true, message: "'city' is required" }]}
-          name={["city", "id"]}>
+          name={["city", "id"]}
+        >
           <Select
             options={cityOptions}
             placeholder="City"
@@ -401,7 +444,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>District</Typography.Title>}
           required
           rules={[{ required: true, message: "'District' is required" }]}
-          name={["district", "id"]}>
+          name={["district", "id"]}
+        >
           <Select options={districtOptions} placeholder="District" />
         </Form.Item>
 
@@ -409,7 +453,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Address</Typography.Title>}
           required
           rules={[{ required: true }]}
-          name="address">
+          name="address"
+        >
           <TextArea placeholder="address" />
         </Form.Item>
 
@@ -417,7 +462,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Company type</Typography.Title>}
           required
           rules={[{ required: true, message: "'company types' is required" }]}
-          name={["companyType", "id"]}>
+          name={["companyType", "id"]}
+        >
           <Select options={companyTypeOptions} placeholder="Company types" />
         </Form.Item>
 
@@ -425,7 +471,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Company size</Typography.Title>}
           required
           rules={[{ required: true, message: "'company size' is required" }]}
-          name={["companySize", "id"]}>
+          name={["companySize", "id"]}
+        >
           <Select options={companySizeOptions} placeholder="Company size" />
         </Form.Item>
 
@@ -433,7 +480,8 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Working days</Typography.Title>}
           required
           rules={[{ required: true, message: "'working days' is required" }]}
-          name="working_days">
+          name="working_days"
+        >
           <Input placeholder="Working days" />
         </Form.Item>
 
@@ -441,29 +489,33 @@ export const EditProfile = () => {
           label={<Typography.Title level={5}>Overtime policy</Typography.Title>}
           required
           rules={[{ required: true, message: "'Overtime policy' is required" }]}
-          name="overtime_policy">
+          name="overtime_policy"
+        >
           <TextArea rows={6} placeholder="overtime policy" />
         </Form.Item>
 
         <Form.Item
           label={<Typography.Title level={5}>Latitude</Typography.Title>}
           required
-          name="latitude">
+          name="latitude"
+        >
           <Input placeholder="Latitude" />
         </Form.Item>
 
         <Form.Item
           label={<Typography.Title level={5}>Longitude</Typography.Title>}
           required
-          name="longitude">
+          name="longitude"
+        >
           <Input placeholder="Longitude" />
         </Form.Item>
 
-        <div className="flex gap-4 my-4 justify-center">
+        <div className="my-4 flex justify-center gap-4">
           <Button
             onClick={() => navigate(EMPLOYER_ROUTES.PROFILE)}
             loading={isUpdating}
-            disabled={isUpdating}>
+            disabled={isUpdating}
+          >
             Cancel
           </Button>
           <Button
@@ -471,11 +523,35 @@ export const EditProfile = () => {
             className="bg-[#1677ff]"
             type="primary"
             loading={isUpdating}
-            disabled={isUpdating}>
+            disabled={isUpdating}
+          >
             Edit
+          </Button>
+          <Button
+            onClick={() => {
+              setOpenModal(true);
+            }}
+            className="bg-[#1677ff]"
+            type="primary"
+          >
+            Change password
+          </Button>
+          <Button
+            onClick={() => {
+              setOpenModalChangeNameEmployer(true);
+            }}
+            className="bg-[#1677ff]"
+            type="primary"
+          >
+            Change name employer
           </Button>
         </div>
       </Form>
+      <ModalChangePassword open={openModal} setOpen={setOpenModal} />
+      <ModalChangeNameEmployer
+        open={openModalChangeNameEmployer}
+        setOpen={setOpenModalChangeNameEmployer}
+      />
     </div>
   );
 };

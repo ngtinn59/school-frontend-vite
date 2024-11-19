@@ -1,4 +1,4 @@
-import { FormEventHandler } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Link, useNavigate } from "react-router-dom";
 import Wrapper from "../../components/Wrapper";
@@ -18,11 +18,20 @@ import {
   EMPLOYER_ROUTES,
 } from "../../modules/employer";
 import Cookies from "js-cookie";
+import ModalForgotPassword from "./Modal/ModalForgotPassword";
+import ModalChangePasswordUser from "../profile/ModalChangePasswordUser";
 
 export const LoginEmployer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [open, setOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [openChangePassword, setOpenChangePassword] = useState<boolean>(false);
+  useEffect(() => {
+    if (isSuccess) {
+      setOpenChangePassword(true);
+    }
+  }, [isSuccess]);
   const { mutate } = useMutation<Record<string, string>, unknown, FormData>({
     mutationKey: ["employer-login"],
     mutationFn: async (data) => {
@@ -65,8 +74,8 @@ export const LoginEmployer = () => {
     <Wrapper>
       <div className="flex flex-col gap-4">
         <Title type="h2">Welcome to ITViec!</Title>
-        <div className="flex flex-col-reverse md:flex-row md:gap-40 gap-10 w-full">
-          <div className="flex flex-col gap-4 ">
+        <div className="flex w-full flex-col-reverse gap-10 md:flex-row md:gap-40">
+          <div className="flex flex-col gap-4">
             <div className="text-base">
               By signing in, you agree to ITviec’s{" "}
               <Link to="terms-conditions"> Terms & Conditions</Link> and{" "}
@@ -75,9 +84,9 @@ export const LoginEmployer = () => {
             </div>
 
             <div className="flex flex-row items-center">
-              <div className="flex-grow border-t-2 border-slate-200 border-solid"></div>
+              <div className="flex-grow border-t-2 border-solid border-slate-200"></div>
               <div className="grid-1 px-2">or</div>
-              <div className="flex-grow border-t-2 border-slate-200 border-solid"></div>
+              <div className="flex-grow border-t-2 border-solid border-slate-200"></div>
             </div>
 
             <Form onSubmit={onLogin} className="flex flex-col gap-4 text-base">
@@ -104,13 +113,18 @@ export const LoginEmployer = () => {
                 <Button
                   type="submit"
                   buttonType="primary"
-                  className="w-full h-12 rounded-md"
+                  className="h-12 w-full rounded-md"
                 >
                   Login
                 </Button>
-                <Link to="forgot" className="text-end block">
+                <div
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                  className="block cursor-pointer text-end"
+                >
                   Forgot password?
-                </Link>
+                </div>
               </span>
             </Form>
             <div className="text-center">
@@ -126,15 +140,24 @@ export const LoginEmployer = () => {
             <ul className="flex flex-col">
               {LOGIN_PAGE_TEXT_USP.map((text, idx) => (
                 <li key={idx}>
-                  <span className="text-green-500 mr-2 text-xl">
+                  <span className="mr-2 text-xl text-green-500">
                     <FontAwesomeIcon icon={faCheck} />
                   </span>
-                  <span className="text-md text-lg ">{text}</span>
+                  <span className="text-md text-lg">{text}</span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
+        <ModalForgotPassword
+          setIsSuccess={setIsSuccess}
+          open={open}
+          setOpen={setOpen}
+        />
+        <ModalChangePasswordUser
+          open={openChangePassword}
+          setOpen={setOpenChangePassword}
+        />
       </div>
     </Wrapper>
   );

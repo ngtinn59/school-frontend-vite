@@ -19,17 +19,27 @@ import Wrapper from "../components/Wrapper";
 import { signInApi } from "../services/api/authenticationApi";
 import { LOGIN_PAGE_TEXT_USP } from "../utils/constants";
 import { ApiLoginResponse } from "../utils/type";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getUserAuthentication } from "../services/redux/user";
 import { useAppSelector } from "../app/hooks";
 import { EMPLOYER_ROUTES } from "../modules";
+import ModalForgotPassword from "./employer/Modal/ModalForgotPassword";
+import ModalChangePasswordUser from "./profile/ModalChangePasswordUser";
 
 export default function Login() {
   const location = useLocation();
   const navigate = useNavigate();
   const alert = location.state?.alert;
   const user = useSelector(getUserAuthentication);
+  const [open, setOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [openChangePassword, setOpenChangePassword] = useState<boolean>(false);
+  useEffect(() => {
+    if (isSuccess) {
+      setOpenChangePassword(true);
+    }
+  }, [isSuccess]);
   useEffect(() => {
     if (alert) toast.error(alert, { duration: 1000 });
   }, []);
@@ -52,8 +62,8 @@ export default function Login() {
     <Wrapper>
       <div className="flex flex-col gap-4">
         <Title type="h2">Welcome to ITViec!</Title>
-        <div className="flex flex-col-reverse md:flex-row md:gap-40 gap-10 w-full">
-          <div className="flex flex-col gap-4 ">
+        <div className="flex w-full flex-col-reverse gap-10 md:flex-row md:gap-40">
+          <div className="flex flex-col gap-4">
             <div className="text-base">
               By signing in, you agree to ITviec’s{" "}
               <Link to="terms-conditions"> Terms & Conditions</Link> and{" "}
@@ -64,9 +74,9 @@ export default function Login() {
               <Button
                 buttonType="outline"
                 type="button"
-                className="w-full h-12 rounded-md"
+                className="h-12 w-full rounded-md"
               >
-                <div className="flex flex-row justify-center items-center gap-4">
+                <div className="flex flex-row items-center justify-center gap-4">
                   <span>
                     <img src={icon_google} className="h-8" />
                   </span>
@@ -75,15 +85,12 @@ export default function Login() {
               </Button>
             </div>
             <div className="flex flex-row items-center">
-              <div className="flex-grow border-t-2 border-slate-200 border-solid"></div>
+              <div className="flex-grow border-t-2 border-solid border-slate-200"></div>
               <div className="grid-1 px-2">or</div>
-              <div className="flex-grow border-t-2 border-slate-200 border-solid"></div>
+              <div className="flex-grow border-t-2 border-solid border-slate-200"></div>
             </div>
 
-            <Form
-              method="POST"
-              className="text-base flex flex-col gap-4 text-base"
-            >
+            <Form method="POST" className="flex flex-col gap-4 text-base">
               <Input
                 placeholder="Email"
                 type="text"
@@ -107,13 +114,18 @@ export default function Login() {
                 <Button
                   type="submit"
                   buttonType="primary"
-                  className="w-full h-12 rounded-md"
+                  className="h-12 w-full rounded-md"
                 >
                   Login
                 </Button>
-                <Link to="forgot" className="text-end block">
+                <div
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                  className="block cursor-pointer text-end"
+                >
                   Forgot password?
-                </Link>
+                </div>
               </span>
             </Form>
             <div className="text-center">
@@ -129,15 +141,24 @@ export default function Login() {
             <ul className="flex flex-col">
               {LOGIN_PAGE_TEXT_USP.map((text, idx) => (
                 <li key={idx}>
-                  <span className="text-green-500 mr-2 text-xl">
+                  <span className="mr-2 text-xl text-green-500">
                     <FontAwesomeIcon icon={faCheck} />
                   </span>
-                  <span className="text-md text-lg ">{text}</span>
+                  <span className="text-md text-lg">{text}</span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
+        <ModalForgotPassword
+          open={open}
+          setOpen={setOpen}
+          setIsSuccess={setIsSuccess}
+        />
+        <ModalChangePasswordUser
+          open={openChangePassword}
+          setOpen={setOpenChangePassword}
+        />
       </div>
     </Wrapper>
   );
@@ -166,8 +187,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         res.errors &&
           toast.error(
             `${key[0].toUpperCase() + key.slice(1)}: ${res.errors[key].join(
-              ", "
-            )}`
+              ", ",
+            )}`,
           );
       });
     return null;

@@ -1,4 +1,7 @@
-import { loadEmployerLoginStatus, loadLoginStatus } from "../../utils/loadersFunction";
+import {
+  loadEmployerLoginStatus,
+  loadLoginStatus,
+} from "../../utils/loadersFunction";
 
 // Generate config to use in api
 export const generateConfig = async () => {

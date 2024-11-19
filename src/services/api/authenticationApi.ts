@@ -3,7 +3,10 @@ import { URL_API_LOGIN } from "../../utils/constants";
 import { ApiLoginResponse } from "../../utils/type";
 import { generateConfig } from "./common";
 
-export const signInApi = async (email: string, password: string): Promise<ApiLoginResponse> => {
+export const signInApi = async (
+  email: string,
+  password: string,
+): Promise<ApiLoginResponse> => {
   try {
     const res = await fetch(`${URL_API_LOGIN}/login`, {
       method: "POST",
@@ -45,7 +48,7 @@ export const signInApi = async (email: string, password: string): Promise<ApiLog
 export const signUpApi = async (
   email: string,
   password: string,
-  name: string
+  name: string,
 ): Promise<ApiLoginResponse> => {
   try {
     const res = await fetch(`${URL_API_LOGIN}/register`, {
@@ -77,7 +80,10 @@ export const signUpApi = async (
     console.error("Registration error:", err);
     return {
       status: 500,
-      data: { success: false, message: "An error occurred during registration" },
+      data: {
+        success: false,
+        message: "An error occurred during registration",
+      },
     };
   }
 };
