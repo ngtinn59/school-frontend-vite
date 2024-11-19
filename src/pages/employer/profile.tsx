@@ -12,7 +12,10 @@ export const EmployerProfile = () => {
 
     const displayData: Record<string, any> = {
       company_name: { label: "Company name", value: profile?.name ?? "-" },
-      company_email: { label: "Company email", value: profile?.company_email ?? "-" },
+      company_email: {
+        label: "Company email",
+        value: profile?.company_email ?? "-",
+      },
       phone: { label: "Phone number", value: profile?.phone ?? "-" },
       description: { label: "Description", value: profile?.description ?? "-" },
       country: { label: "Country", value: profile?.country?.name ?? "-" },
@@ -59,8 +62,14 @@ export const EmployerProfile = () => {
           ? dayjs(profile.date_of_establishment).format("DD/MM/YYYY")
           : "-",
       },
-      companyType: { label: "Company type", value: profile?.companyType?.name ?? "-" },
-      companySize: { label: "Company size", value: profile?.companySize?.name ?? "-" },
+      companyType: {
+        label: "Company type",
+        value: profile?.companyType?.name ?? "-",
+      },
+      companySize: {
+        label: "Company size",
+        value: profile?.companySize?.name ?? "-",
+      },
       working_days: {
         label: "Working days",
         value: profile.working_days ?? "-",
@@ -75,8 +84,13 @@ export const EmployerProfile = () => {
 
     return Object.values(displayData).map((info) => {
       return (
-        <div key={info.label} className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt className="text-sm font-semibold leading-6 text-gray-900">{info.label}</dt>
+        <div
+          key={info.label}
+          className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+        >
+          <dt className="text-sm font-semibold leading-6 text-gray-900">
+            {info.label}
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
             {info.value}
           </dd>
@@ -86,18 +100,22 @@ export const EmployerProfile = () => {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <div className="mx-auto max-w-screen-lg">
       <div className="relative">
         {profile?.banner ? (
           <img
             src={profile.banner}
             alt="banner"
-            className="w-full h-48 object-cover rounded-t-lg"
+            className="h-48 w-full rounded-t-lg object-cover"
           />
         ) : (
-          <img src={bannerNoImage} alt="banner" className="w-full h-48 object-cover rounded-t-lg" />
+          <img
+            src={bannerNoImage}
+            alt="banner"
+            className="h-48 w-full rounded-t-lg object-cover"
+          />
         )}
-        <div className="absolute top-30 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="top-30 absolute left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
           {profile && (
             <Avatar
               size={100}
