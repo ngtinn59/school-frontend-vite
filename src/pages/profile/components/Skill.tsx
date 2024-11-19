@@ -19,11 +19,17 @@ import { updateSkillApi } from "../../../services/api/profileApi";
 import toast from "react-hot-toast";
 import { updateSkill } from "../../../services/redux/user";
 import { useDispatch } from "react-redux";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
 
 type Props = { skills: SkillType };
 
 export default function Skill({ skills }: Props) {
   const [currSkills, setCurrSkills] = useState<SkillType>(skills);
+  const [currExcellentSkill, setCurrExcellentSkill] = useState<string>("");
+  const [currIntermediateSkill, setCurrIntermediateSkill] =
+    useState<string>("");
+  const [currBeginnerSkill, setCurrBeginnerSkill] = useState<string>("");
   const dispatch = useDispatch();
   const isSkillEmpty = !(
     skills.beginner?.length &&
@@ -58,19 +64,46 @@ export default function Skill({ skills }: Props) {
       });
   }
 
+  function addExcellentSkill() {
+    if (currExcellentSkill.trim() === "") return;
+    const newSkills = [...currSkills.excellent, currExcellentSkill];
+    handleChangeSkill(newSkills, "excellent");
+    setCurrExcellentSkill("");
+  }
+
+  function addIntermediateSkill() {
+    if (currIntermediateSkill.trim() === "") return;
+    const newSkills = [...currSkills.intermediate, currIntermediateSkill];
+    handleChangeSkill(newSkills, "intermediate");
+    setCurrIntermediateSkill("");
+  }
+
+  function addBeginnerSkill() {
+    if (currBeginnerSkill.trim() === "") return;
+    const newSkills = [...currSkills.beginner, currBeginnerSkill];
+    handleChangeSkill(newSkills, "beginner");
+    setCurrBeginnerSkill("");
+  }
+
   return (
     <CardWithTitle
       title={PROFILE_DATA_CATEGORY.skills.title}
       titleType="h3"
       description={PROFILE_DATA_CATEGORY.skills.description}
-      icon={profile_skills}>
+      icon={profile_skills}
+    >
       <Modal
-        title={PROFILE_DATA_CATEGORY.workExperience.title}
+        title={PROFILE_DATA_CATEGORY.skills.title}
         handleSave={handleUpdateSkill}
         buttonContent={
-          isSkillEmpty ? <PlusIcon className="text-lg  " /> : <EditIcon className="text-lg  mx-2" />
+          isSkillEmpty ? (
+            <PlusIcon className="text-lg" />
+          ) : (
+            <EditIcon className="mx-2 text-lg" />
+          )
         }
-        buttonClassName="absolute right-4 top-4">
+        buttonClassName="absolute right-4 top-4"
+      >
         <div>
           <div className="container mx-auto">
             <form>
@@ -79,28 +112,49 @@ export default function Skill({ skills }: Props) {
                 <Title type="h4" className="col-start-1 col-end-3">
                   Excellent
                 </Title>
-                <DropdownSearchSkills
-                  id="dropdown-search-skills-excellent"
-                  data={PROFILE_JOB_PREFERENCES_SKILLS_STRING}
-                  className={`outline-none border border-solid border-gray-300  rounded-md `}
-                  handleChangeValues={(skills) => {
-                    handleChangeSkill(skills, "excellent");
-                  }}
-                  currentValues={currSkills.excellent}
-                />
 
-                <div className="flex gap-2 flex-row flex-wrap">
+                <div className="flex items-center gap-2">
+                  <div className="basis-[80%]">
+                    <Input
+                      inputClassName="w-full"
+                      value={currExcellentSkill}
+                      type="text"
+                      name="excellentSkill"
+                      onChange={(e) => setCurrExcellentSkill(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          addExcellentSkill();
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <Button
+                      buttonType="primary"
+                      type="button"
+                      className="w-full rounded-sm px-4 py-2"
+                      onClick={addExcellentSkill}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="flex flex-row flex-wrap gap-2">
                   {currSkills?.excellent?.length > 0 &&
                     currSkills.excellent.map((skill, index) => (
                       <span
                         key={index}
-                        className=" px-3 py-1 text-base font-medium  border border-solid border-disabled bg-gray-50 rounded-full cursor-default flex items-center gap-1 "
+                        className="flex cursor-default items-center gap-1 rounded-full border border-solid border-disabled bg-gray-50 px-3 py-1 text-base font-medium"
                         onClick={() => {
                           const newSkills = currSkills.excellent.filter(
-                            (s) => s.toLowerCase().trim() !== skill.toLowerCase().trim()
+                            (s) =>
+                              s.toLowerCase().trim() !==
+                              skill.toLowerCase().trim(),
                           );
                           handleChangeSkill(newSkills, "excellent");
-                        }}>
+                        }}
+                      >
                         <span>{skill}</span>
                         <FontAwesomeIcon
                           icon={faClose}
@@ -116,28 +170,49 @@ export default function Skill({ skills }: Props) {
                 <Title type="h4" className="col-start-1 col-end-3">
                   Intermediate
                 </Title>
-                <DropdownSearchSkills
-                  id="dropdown-search-skills-intermediate"
-                  data={PROFILE_JOB_PREFERENCES_SKILLS_STRING}
-                  className={`outline-none border border-solid border-gray-300  rounded-md `}
-                  handleChangeValues={(skills) => {
-                    handleChangeSkill(skills, "intermediate");
-                  }}
-                  currentValues={currSkills.intermediate}
-                />
 
-                <div className="flex gap-2 flex-row flex-wrap">
+                <div className="flex items-center gap-2">
+                  <div className="basis-[80%]">
+                    <Input
+                      inputClassName="w-full"
+                      value={currIntermediateSkill}
+                      type="text"
+                      name="intermediateSkill"
+                      onChange={(e) => setCurrIntermediateSkill(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          addIntermediateSkill();
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <Button
+                      buttonType="primary"
+                      type="button"
+                      className="w-full rounded-sm px-4 py-2"
+                      onClick={addIntermediateSkill}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="flex flex-row flex-wrap gap-2">
                   {currSkills?.intermediate?.length > 0 &&
                     currSkills.intermediate.map((skill, index) => (
                       <span
                         key={index}
-                        className=" px-3 py-1 text-base font-medium  border border-solid border-disabled bg-gray-50 rounded-full cursor-default flex items-center gap-1 "
+                        className="flex cursor-default items-center gap-1 rounded-full border border-solid border-disabled bg-gray-50 px-3 py-1 text-base font-medium"
                         onClick={() => {
                           const newSkills = currSkills.intermediate.filter(
-                            (s) => s.toLowerCase().trim() !== skill.toLowerCase().trim()
+                            (s) =>
+                              s.toLowerCase().trim() !==
+                              skill.toLowerCase().trim(),
                           );
                           handleChangeSkill(newSkills, "intermediate");
-                        }}>
+                        }}
+                      >
                         <span>{skill}</span>
                         <FontAwesomeIcon
                           icon={faClose}
@@ -153,28 +228,49 @@ export default function Skill({ skills }: Props) {
                 <Title type="h4" className="col-start-1 col-end-3">
                   Beginner
                 </Title>
-                <DropdownSearchSkills
-                  id="dropdown-search-skills-beginner"
-                  data={PROFILE_JOB_PREFERENCES_SKILLS_STRING}
-                  className={`outline-none border border-solid border-gray-300  rounded-md `}
-                  handleChangeValues={(skills) => {
-                    handleChangeSkill(skills, "beginner");
-                  }}
-                  currentValues={currSkills.beginner}
-                />
 
-                <div className="flex gap-2 flex-row flex-wrap">
+                <div className="flex items-center gap-2">
+                  <div className="basis-[80%]">
+                    <Input
+                      inputClassName="w-full"
+                      value={currBeginnerSkill}
+                      type="text"
+                      name="beginnerSkill"
+                      onChange={(e) => setCurrBeginnerSkill(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          addBeginnerSkill();
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <Button
+                      buttonType="primary"
+                      type="button"
+                      className="w-full rounded-sm px-4 py-2"
+                      onClick={addBeginnerSkill}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="flex flex-row flex-wrap gap-2">
                   {currSkills?.beginner?.length > 0 &&
                     currSkills.beginner.map((skill, index) => (
                       <span
                         key={index}
-                        className=" px-3 py-1 text-base font-medium  border border-solid border-disabled bg-gray-50 rounded-full cursor-default flex items-center gap-1 "
+                        className="flex cursor-default items-center gap-1 rounded-full border border-solid border-disabled bg-gray-50 px-3 py-1 text-base font-medium"
                         onClick={() => {
                           const newSkills = currSkills.beginner.filter(
-                            (s) => s.toLowerCase().trim() !== skill.toLowerCase().trim()
+                            (s) =>
+                              s.toLowerCase().trim() !==
+                              skill.toLowerCase().trim(),
                           );
                           handleChangeSkill(newSkills, "beginner");
-                        }}>
+                        }}
+                      >
                         <span>{skill}</span>
                         <FontAwesomeIcon
                           icon={faClose}
@@ -188,9 +284,11 @@ export default function Skill({ skills }: Props) {
           </div>
         </div>
       </Modal>
-      {!!(skills.beginner?.length && skills.intermediate?.length && skills.excellent?.length) && (
-        <SkillsWrapper skills={skills} />
-      )}
+      {!!(
+        skills.beginner?.length &&
+        skills.intermediate?.length &&
+        skills.excellent?.length
+      ) && <SkillsWrapper skills={skills} />}
     </CardWithTitle>
   );
 }

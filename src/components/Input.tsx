@@ -8,7 +8,12 @@ type Props = {
   placeholder?: string;
   type?: "text" | "checkbox" | "email" | "password" | "number" | "date";
 
-  inputGroupType?: "checkbox" | "no-style" | "styled-dropdown" | "no-style-dropdown" | string;
+  inputGroupType?:
+    | "checkbox"
+    | "no-style"
+    | "styled-dropdown"
+    | "no-style-dropdown"
+    | string;
   name: string;
   required?: boolean | undefined;
   label?: string;
@@ -19,7 +24,12 @@ type Props = {
   inputClassName?: string;
   labelClassName?: string;
   icon?: React.ReactNode;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
+  onKeyDown?: (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
 };
 
 export const inputStyle = `
@@ -77,6 +87,7 @@ const Input: React.FC<Props> = ({
   required,
   name,
   onChange,
+  onKeyDown,
   label,
   id,
   value,
@@ -98,6 +109,7 @@ const Input: React.FC<Props> = ({
           className={`${inputClassName} ${containerClassName}`}
           onChange={onChange}
           placeholder={placeholder}
+          onKeyDown={onKeyDown}
         />
       );
     case "styled-dropdown":
@@ -108,9 +120,11 @@ const Input: React.FC<Props> = ({
               {label} {required && <span className="text-red-600">*</span>}
             </label>
           )}
-          <div className={`${containerClassName} relative w-full overflow-hidden`}>
+          <div
+            className={`${containerClassName} relative w-full overflow-hidden`}
+          >
             {icon && (
-              <span className="pointer-events-none absolute left-4 top-2 pt-0.5 text-lg font-bold text-gray-400 z-10">
+              <span className="pointer-events-none absolute left-4 top-2 z-10 pt-0.5 text-lg font-bold text-gray-400">
                 {icon}
               </span>
             )}
@@ -122,7 +136,9 @@ const Input: React.FC<Props> = ({
               $isIcon={!!icon}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                 if (onChange) onChange(e);
-              }}>
+              }}
+              onKeyDown={onKeyDown}
+            >
               <option value="" disabled hidden>
                 {placeholder}
               </option>
@@ -147,13 +163,21 @@ const Input: React.FC<Props> = ({
               {label} {required && <span className="text-red-600">*</span>}
             </label>
           )}
-          <div className={`${containerClassName} relative w-full overflow-hidden`}>
+          <div
+            className={`${containerClassName} relative w-full overflow-hidden`}
+          >
             {icon && (
-              <span className="pointer-events-none absolute left-4 top-2 pt-0.5 text-lg font-bold text-gray-400 z-10">
+              <span className="pointer-events-none absolute left-4 top-2 z-10 pt-0.5 text-lg font-bold text-gray-400">
                 {icon}
               </span>
             )}
-            <NoStyleSelect id={name} name={name} className="w-full" $isIcon={!!icon}>
+            <NoStyleSelect
+              id={name}
+              name={name}
+              className="w-full"
+              $isIcon={!!icon}
+              onKeyDown={onKeyDown}
+            >
               {options &&
                 options.map((option, index) => (
                   <option key={index} value={option.value}>
@@ -175,9 +199,11 @@ const Input: React.FC<Props> = ({
               {label} {required && <span className="text-red-600">*</span>}
             </label>
           )}
-          <div className={`${containerClassName} relative w-full overflow-hidden`}>
+          <div
+            className={`${containerClassName} relative w-full overflow-hidden`}
+          >
             {icon && (
-              <span className="pointer-events-none absolute left-4 top-2 pt-0.5 text-lg font-bold text-gray-400 z-10">
+              <span className="pointer-events-none absolute left-4 top-2 z-10 pt-0.5 text-lg font-bold text-gray-400">
                 {icon}
               </span>
             )}
@@ -191,6 +217,7 @@ const Input: React.FC<Props> = ({
               onChange={onChange}
               $isIcon={!!icon && type !== "date" && type !== "checkbox"}
               className={` ${inputClassName}`}
+              onKeyDown={onKeyDown}
             />
           </div>
         </div>
