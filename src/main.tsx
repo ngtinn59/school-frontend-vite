@@ -100,7 +100,7 @@ const router = createBrowserRouter([
             moreMenu={
               <>
                 <li>
-                  <Link to="/employer/list" className="text-white">
+                  <Link to="/job/saved" className="text-white">
                     Tìm Việc
                   </Link>
                 </li>

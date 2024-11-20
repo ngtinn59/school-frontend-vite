@@ -16,11 +16,7 @@ import {
   getProfessionsApi,
 } from "../../../services/api/publicApi";
 import { getUserAuthentication } from "../../../services/redux/user";
-import {
-  COLOR_SECONDARY,
-  HOMEPAGE_SKILLS_TRENDING,
-} from "../../../utils/constants";
-import { axiosInstance } from "../../../utils/baseAxios";
+import { COLOR_SECONDARY } from "../../../utils/constants";
 
 interface SearchBoxProps {
   reuse?: boolean;
@@ -78,7 +74,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 
   console.log("jhgh", fetchedKeywords);
 
-  const keywordData: string[] = fetchedKeywords.map(
+  const keywordData: string[] = fetchedKeywords?.map(
     (keyword: Keyword) => keyword.keyword,
   );
 
@@ -152,7 +148,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
           <Title type="h-3" className="font-semibold text-gray-100">
             Trending now:
           </Title>
-          {keywordData.map((value, index) => (
+          {keywordData?.map((value, index) => (
             <Button
               buttonType="colored"
               className="rounded-2xl border border-solid border-gray-400 px-2 py-1 text-sm hover:bg-gray-600 hover:text-white hover:opacity-100"

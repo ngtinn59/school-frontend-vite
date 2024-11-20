@@ -115,6 +115,13 @@ export const JobSaved = () => {
           x: 1440,
         }}
         rowKey="id"
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              console.log(record);
+            },
+          };
+        }}
         // loading={loading || isLoading}
         loading={isLoading}
         dataSource={JobSaved ?? []}
