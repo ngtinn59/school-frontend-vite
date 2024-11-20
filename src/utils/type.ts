@@ -316,3 +316,10 @@ export type EmployerProfileType = {
   longitude: number;
   description: string;
 };
+
+export type CVType = {
+  id: number;
+  desired_position: string;
+  attached_file: string;
+  file: string;
+};

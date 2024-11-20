@@ -24,3 +24,13 @@ export const getSearchJobs = async (searchQuery: string) => {
   );
   return response.data;
 };
+
+export const applyJobApi = async (jobId: number, formData: FormData) => {
+  const config = await generateConfig();
+  const response = await axios.post(
+    `${BASE_URL_API}/api/jobs/${jobId}/apply`,
+    formData,
+    config,
+  );
+  return response.data;
+};

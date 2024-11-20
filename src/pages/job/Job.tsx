@@ -15,7 +15,7 @@ const Job: React.FC = () => {
   const jobId = jobTitleAndId?.[jobTitleAndId.length - 1];
 
   const { data: jobInfo } = useQuery({
-    queryKey: ["jobInfomation", jobId],
+    queryKey: ["jobInformation", jobId],
     queryFn: () => getJobDetail(jobId),
     select: (jobDetailData) => jobDetailData.data,
   });

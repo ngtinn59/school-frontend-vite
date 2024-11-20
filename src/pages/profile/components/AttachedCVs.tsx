@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
@@ -63,7 +62,7 @@ interface AddObjectiveArgs {
 const AttachedCVs: React.FC = () => {
   const [uploadedFile, setUploadedFiles] = useState<File | undefined>();
   const [objective, setObjective] = useState<ObjectiveType>(
-    objectiveInitialState
+    objectiveInitialState,
   );
   const queryClient = useQueryClient();
 
@@ -204,7 +203,7 @@ const AttachedCVs: React.FC = () => {
   };
 
   function handleObjectiveChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
     const { name, value } = e.target;
 
@@ -245,7 +244,7 @@ const AttachedCVs: React.FC = () => {
           onSuccess: () => {
             setObjective(objectiveInitialState);
           },
-        }
+        },
       );
     } else {
       toast.error("Please upload your CV");
@@ -253,8 +252,8 @@ const AttachedCVs: React.FC = () => {
   };
 
   return (
-    <Card className="md:col-span-3 bg-white md:flex hidden flex-col h-fit">
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
+    <Card className="hidden h-fit flex-col bg-white md:col-span-3 md:flex">
+      <div className="flex items-center justify-between border-b border-gray-200 p-4">
         <h3 className="text-lg font-semibold">
           Attached CVs{" "}
           {objectiveData && (
@@ -277,22 +276,27 @@ const AttachedCVs: React.FC = () => {
       <Modal
         title="Objectives"
         handleSave={handleSave}
+        onClose={() => {
+          setObjective(objectiveInitialState);
+          setUploadedFiles(undefined);
+        }}
         width="50%"
         buttonContent={
-          <Button buttonType="primary" className="py-2 px-4 w-full rounded-sm">
+          <>
             <FontAwesomeIcon icon={faArrowUpFromBracket} /> {""}
             Upload CV
-          </Button>
+          </>
         }
+        buttonClassName="w-full rounded-sm px-4 py-2 bg-[var(--color-primary)] text-white"
       >
         <form>
-          <div className="flex items-center justify-between gap-8 mb-4">
-            <div className="flex flex-1 flex-col items-start gap-1 mb-4">
+          <div className="mb-4 flex items-center justify-between gap-8">
+            <div className="mb-4 flex flex-1 flex-col items-start gap-1">
               <label htmlFor="cv-file" className="mb-2">
                 Your CV <span className="text-red-600">*</span>
               </label>
-              <div className="flex items-center justify-between gap-4 relative">
-                <button className="py-2 text-[white] bg-[var(--color-primary)] px-3 border-none cursor-pointer text-base">
+              <div className="relative flex items-center justify-between gap-4">
+                <button className="cursor-pointer border-none bg-[var(--color-primary)] px-3 py-2 text-base text-[white]">
                   <FontAwesomeIcon icon={faArrowUpFromBracket} /> Upload file
                 </button>
                 <div className="text-base">
@@ -303,7 +307,7 @@ const AttachedCVs: React.FC = () => {
                   accept=".pdf,.doc,.docx"
                   id="file"
                   name="file"
-                  className="absolute h-full top-0 left-0 w-full opacity-0 cursor-pointer overflow-hidden file-upload"
+                  className="file-upload absolute left-0 top-0 h-full w-full cursor-pointer overflow-hidden opacity-0"
                   onChange={handleFileChange}
                 />
               </div>
@@ -321,7 +325,7 @@ const AttachedCVs: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-between gap-8 mb-4">
+          <div className="mb-4 flex items-center justify-between gap-8">
             <div className="flex-1">
               <Input
                 label="Desired position"
@@ -348,7 +352,7 @@ const AttachedCVs: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between gap-8 mb-4">
+          <div className="mb-4 flex items-center justify-between gap-8">
             <div className="flex-1">
               <Input
                 label="Education level"
@@ -378,7 +382,7 @@ const AttachedCVs: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between gap-8 mb-4">
+          <div className="mb-4 flex items-center justify-between gap-8">
             <div className="flex-1">
               <Input
                 label="Profession"
@@ -408,7 +412,7 @@ const AttachedCVs: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between gap-8 mb-4">
+          <div className="mb-4 flex items-center justify-between gap-8">
             <div className="flex-1">
               <Input
                 label="City"
@@ -437,7 +441,7 @@ const AttachedCVs: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between gap-8 mb-4">
+          <div className="mb-4 flex items-center justify-between gap-8">
             <div className="flex-1">
               <Input
                 label="Work address"
@@ -464,7 +468,7 @@ const AttachedCVs: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between gap-8 mb-4">
+          <div className="mb-4 flex items-center justify-between gap-8">
             <div className="flex-1">
               <Input
                 label="Minimum expected salary"
@@ -488,8 +492,8 @@ const AttachedCVs: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between mb-4">
-            <div className="basis-[calc(50%-1rem)] ">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="basis-[calc(50%-1rem)]">
               <Input
                 label="Employment type"
                 placeholder="Select employment type"
