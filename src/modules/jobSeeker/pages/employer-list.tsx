@@ -8,6 +8,8 @@ import { Button, Space, Table, TableColumnsType } from "antd";
 import { useNavigate } from "react-router-dom";
 
 export const EmployerList = () => {
+  const navigate = useNavigate();
+
   const { data: employerList, isLoading } = useQuery({
     queryKey: [JobSeekerRoute.employerList],
     queryFn: async () => {
@@ -17,8 +19,6 @@ export const EmployerList = () => {
       return data.data.data;
     },
   });
-
-  const navigate = useNavigate();
 
   const columns: TableColumnsType<any> = [
     {
@@ -42,14 +42,16 @@ export const EmployerList = () => {
     {
       title: "Actions",
       key: "actions",
+      dataIndex: "id",
       width: "50px",
-      render(_: any, record: any) {
+      render: (value: any, record: any) => {
         return (
           <Space size="middle">
             <Button
               onClick={() =>
                 navigate(
-                  JobSeekerRoute.employerDetail.replace(":id", record.id)
+                  `/company/${record.name.replace(/ /g, "-")}` +
+                    `-${record.id}`,
                 )
               }
             >
@@ -62,8 +64,8 @@ export const EmployerList = () => {
   ];
 
   return (
-    <div className="mt-5 max-w-[1024px] mx-auto">
-      <div className="px-4 mb-5 sm:px-0 flex justify-between">
+    <div className="mx-auto mt-5 max-w-[1024px]">
+      <div className="mb-5 flex justify-between px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           Employer List
         </h3>

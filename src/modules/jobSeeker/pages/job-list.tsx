@@ -152,12 +152,12 @@ export const JobList = () => {
       title: "Salary",
       dataIndex: "salary",
       key: "salary",
-      width: 200,
+      width: 100,
       render: (value: any) => {
         return (
           <div className="font-semibold text-green-600">
-            ${(value.salary_from / 23000).toLocaleString()} - $
-            {(value.salary_to / 23000).toLocaleString()}
+            {value.salary_from.toLocaleString()} VND -{" "}
+            {value.salary_to.toLocaleString()} VND
           </div>
         );
       },
@@ -186,7 +186,7 @@ export const JobList = () => {
       align: "center",
       title: "Action",
       dataIndex: "id",
-      width: 100,
+      width: 150,
       render: (value: any) => {
         return (
           <div className="flex items-center justify-center gap-4">

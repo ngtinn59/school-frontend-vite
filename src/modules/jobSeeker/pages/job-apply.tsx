@@ -56,6 +56,21 @@ export const JobsApply = () => {
       dataIndex: "status",
       width: 50,
       key: "status",
+      render: (value: any) => {
+        return (
+          <div className="flex justify-center text-center">
+            {value === "pending" ? (
+              <p className="w-fit rounded-md border-2 border-red-500 p-1 font-semibold text-red-500">
+                {value.toUpperCase()}
+              </p>
+            ) : (
+              <p className="w-fit rounded-md border-2 border-green-600 p-1 font-semibold text-green-600">
+                {value.toUpperCase()}
+              </p>
+            )}
+          </div>
+        );
+      },
     },
     {
       align: "center",
@@ -66,8 +81,8 @@ export const JobsApply = () => {
       render: (value: any) => {
         return (
           <div className="font-semibold text-green-600">
-            ${(value.salary_from / 23000).toLocaleString()} - $
-            {(value.salary_to / 23000).toLocaleString()}
+            {value.salary_from.toLocaleString()} VND -{" "}
+            {value.salary_to.toLocaleString()} VND
           </div>
         );
       },
