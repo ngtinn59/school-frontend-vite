@@ -1,30 +1,33 @@
 import { faLocationDot, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+import { FaUserTie } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { Form } from "react-router-dom";
 import Button from "../../../components/Button";
 import Dropdown from "../../../components/Dropdown";
 import Input from "../../../components/Input";
 import Title from "../../../components/Title";
 import Wrapper from "../../../components/Wrapper";
 import {
-  COLOR_SECONDARY,
-  HOMEPAGE_SKILLS_TRENDING,
-} from "../../../utils/constants";
-import { useSelector } from "react-redux";
-import { getUserAuthentication } from "../../../services/redux/user";
-import { FaUserTie } from "react-icons/fa";
-import { useQuery } from "@tanstack/react-query";
-import {
   getCitiesApi,
+  getKeywordTrendingApi,
   getProfessionsApi,
 } from "../../../services/api/publicApi";
-import { useState } from "react";
+import { getUserAuthentication } from "../../../services/redux/user";
+import { COLOR_SECONDARY } from "../../../utils/constants";
 
 interface SearchBoxProps {
   reuse?: boolean;
   professionId?: string;
   cityId?: string;
   keyword?: string;
+}
+
+interface Keyword {
+  id: number;
+  keyword: string;
 }
 
 const SearchBox: React.FC<SearchBoxProps> = ({
@@ -63,6 +66,27 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       }))
     : [];
 
+  const { data: fetchedKeywords, isLoading } = useQuery({
+    queryKey: ["keywordValue"],
+    queryFn: () => getKeywordTrendingApi(),
+    select: (keywordData) => keywordData.data,
+  });
+
+  console.log("jhgh", fetchedKeywords);
+
+  const keywordData: string[] = fetchedKeywords?.map(
+    (keyword: Keyword) => keyword.keyword,
+  );
+
+  console.log("keywordData", keywordData);
+
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handleSkillClick = (skill: string) => {
+    setKeywordValue(skill);
+    searchButtonRef.current?.click();
+  };
+
   return (
     <section className="bg-gradient-to-r from-gray-950 from-40% to-blue-800 py-4 pb-12">
       <Wrapper className="grid grid-cols-1 gap-4">
@@ -78,7 +102,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         >
           <Dropdown
             name="city"
-            options={cities}
+            options={[{ value: "", label: "Select a city" }, ...cities]}
             icon={<FontAwesomeIcon icon={faLocationDot} />}
             containerClassName="h-12 font-semibold"
             onChange={(e) => setCityIdValue(e.target.value)}
@@ -87,7 +111,10 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 
           <Dropdown
             name="profession"
-            options={professions}
+            options={[
+              { value: "", label: "Select a profession" },
+              ...professions,
+            ]}
             icon={<FaUserTie className="mt-1" />}
             containerClassName="h-12 font-semibold"
             onChange={(e) => setProfessionIdValue(e.target.value)}
@@ -99,7 +126,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
               containerClassName="flex-1 flex flex-col"
               type="text"
               name="keyword"
-              required
+              // required
               placeholder="Enter keyword skill (Java, iOS...), job title, company..."
               value={keywordValue}
               onChange={(e) => setKeywordValue(e.target.value)}
@@ -109,6 +136,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
               buttonType="primary"
               type="submit"
               className="-ml-1 h-12 rounded-e-lg rounded-s-none px-4 md:ml-0 md:rounded-lg"
+              ref={searchButtonRef}
             >
               <FontAwesomeIcon icon={faSearch} />
               <span className="ml-2 hidden md:inline">Search</span>
@@ -116,24 +144,23 @@ const SearchBox: React.FC<SearchBoxProps> = ({
           </div>
         </Form>
 
-        {!reuse && (
-          <div className="flex flex-row flex-wrap gap-2">
-            <Title type="h-3" className="font-semibold text-gray-100">
-              Trending now:
-            </Title>
-            {HOMEPAGE_SKILLS_TRENDING.map((skill, index) => (
-              <Button
-                buttonType="colored"
-                className="rounded-2xl border border-solid border-gray-400 px-2 py-1 text-sm hover:bg-gray-600 hover:text-white hover:opacity-100"
-                backgroundColor={COLOR_SECONDARY}
-                textColor="rgb(107,114,128)"
-                key={index}
-              >
-                {skill}
-              </Button>
-            ))}
-          </div>
-        )}
+        <div className="flex flex-row flex-wrap gap-2">
+          <Title type="h-3" className="font-semibold text-gray-100">
+            Trending now:
+          </Title>
+          {keywordData?.map((value, index) => (
+            <Button
+              buttonType="colored"
+              className="rounded-2xl border border-solid border-gray-400 px-2 py-1 text-sm hover:bg-gray-600 hover:text-white hover:opacity-100"
+              backgroundColor={COLOR_SECONDARY}
+              textColor="rgb(107,114,128)"
+              key={index}
+              onClick={() => handleSkillClick(value)}
+            >
+              {value}
+            </Button>
+          ))}
+        </div>
       </Wrapper>
     </section>
   );

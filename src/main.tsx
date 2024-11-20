@@ -34,12 +34,7 @@ import { CreateJD } from "./pages/employer/create-jd.tsx";
 import { ListJD } from "./pages/employer/list-jd.tsx";
 import { EditJD } from "./pages/employer/edit-jd.tsx";
 import { ListApplication } from "./pages/employer/list-application.tsx";
-import {
-  EmployerList,
-  EmployerDetail,
-  JobDetail,
-  JobList,
-} from "./modules/jobSeeker";
+import { EmployerList, EmployerDetail, JobSaved } from "./modules/jobSeeker";
 import WrapperLayout from "./modules/jobSeeker/layout/wraper.tsx";
 import { JobsApply } from "./modules/jobSeeker/pages/job-apply.tsx";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -105,7 +100,7 @@ const router = createBrowserRouter([
             moreMenu={
               <>
                 <li>
-                  <Link to="/employer/list" className="text-white">
+                  <Link to="/job/saved" className="text-white">
                     Tìm Việc
                   </Link>
                 </li>
@@ -191,9 +186,8 @@ const router = createBrowserRouter([
         path: "/job",
         element: <WrapperLayout />,
         children: [
-          { path: "list", element: <JobList /> },
+          { path: "saved", element: <JobSaved /> },
           { path: "applied", element: <JobsApply /> },
-          { path: "detail/:id", element: <JobDetail /> },
         ],
       },
     ],

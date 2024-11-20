@@ -1,20 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
-import { TableColumnsType, Table } from "antd";
+import { Table, TableColumnsType } from "antd";
 import { axiosInstance } from "../../../utils/baseAxios";
+import { JobSeekerRoute } from "../constants/routes.constant";
 import { JobType } from "../../../utils/type";
 import { useNavigate } from "react-router-dom";
 
-export const JobsApply = () => {
+export const JobSaved = () => {
   const navigate = useNavigate();
-  const { data: JobsApply, isLoading } = useQuery({
-    queryKey: ["job-apply"],
+  const { data: JobSaved, isLoading } = useQuery({
+    queryKey: [JobSeekerRoute.jobSaved],
     queryFn: async () => {
-      return await axiosInstance.get("api/jobs/applied");
+      return await axiosInstance.get("api/jobs/favorites/saved");
     },
     select(data) {
       return data.data.data;
     },
   });
+  console.log(JobSaved);
 
   function handleClickedJob(job: JobType) {
     const jobTitle = job.title.replace(/\s/g, "-");
@@ -41,7 +43,6 @@ export const JobsApply = () => {
       },
       width: 100,
     },
-
     {
       title: "Title",
       align: "center",
@@ -60,32 +61,10 @@ export const JobsApply = () => {
     },
     {
       align: "center",
-      title: "Status",
-      dataIndex: "status",
-      width: 50,
-      key: "status",
-      render: (value: any) => {
-        return (
-          <div className="flex justify-center text-center">
-            {value === "pending" ? (
-              <p className="w-fit rounded-md border-2 border-red-500 p-1 font-semibold text-red-500">
-                {value.toUpperCase()}
-              </p>
-            ) : (
-              <p className="w-fit rounded-md border-2 border-green-600 p-1 font-semibold text-green-600">
-                {value.toUpperCase()}
-              </p>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      align: "center",
       title: "Salary",
       dataIndex: "salary",
       key: "salary",
-      width: 200,
+      width: 100,
       render: (value: any) => {
         return (
           <div className="font-semibold text-green-600">
@@ -115,18 +94,31 @@ export const JobsApply = () => {
         return <div className="text-red-500">{value}</div>;
       },
     },
+    // {
+    //   align: "center",
+    //   title: "Action",
+    //   dataIndex: "id",
+    //   width: 150,
+    //   render: (value: any) => {
+    //     return (
+    //       <div className="flex items-center justify-center gap-4">
+    //         <ApplyButton jobId={value} />
+    //         <SaveButton jobId={value} />
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   return (
     <div className="mx-auto mt-5 max-w-[1440px]">
       <div className="mb-5 flex justify-between px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
-          Job Applied
+          Job Saved
         </h3>
       </div>
 
       <Table
-        bordered
         scroll={{
           x: 1440,
         }}
@@ -139,8 +131,9 @@ export const JobsApply = () => {
           };
         }}
         rowClassName="cursor-pointer"
+        // loading={loading || isLoading}
         loading={isLoading}
-        dataSource={JobsApply ?? []}
+        dataSource={JobSaved ?? []}
         columns={columns}
       />
     </div>

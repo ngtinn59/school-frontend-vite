@@ -1,7 +1,7 @@
 export const JobSeekerRoute = {
   employerList: "/employer/list",
   employerDetail: "/employer/detail/:id",
-  jobList: "/job/list",
+  jobSaved: "/job/saved",
 } as const;
 
 export const JobSeekerApiRoute = {

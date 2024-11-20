@@ -14,6 +14,7 @@ type Props = {
   className?: string;
   backgroundColor?: string;
   textColor?: string;
+  ref?: any;
 };
 const StyledButton = styled.button`
   display: block;
@@ -72,6 +73,7 @@ export default function Button({
   className,
   backgroundColor,
   textColor,
+  ref,
 }: Props) {
   switch (buttonType) {
     case "outline":

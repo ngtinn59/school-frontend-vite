@@ -6,12 +6,8 @@ export default function WrapperLayout() {
   const path = useLocation().pathname;
   const links = [
     {
-      to: JobSeekerRoute.employerList,
-      label: "Employer List",
-    },
-    {
-      to: JobSeekerRoute.jobList,
-      label: "Job List",
+      to: JobSeekerRoute.jobSaved,
+      label: "Job Saved",
     },
     {
       to: "/job/applied",
@@ -19,16 +15,16 @@ export default function WrapperLayout() {
     },
   ];
   return (
-    <div className="bg-gray-100 h-full pb-8">
-      <nav className=" bg-white shadow-sm">
+    <div className="h-full bg-gray-100 pb-8">
+      <nav className="bg-white shadow-sm">
         <Wrapper className="pt-2">
           <div className="flex flex-row gap-2">
             {links.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
-                className={`text-lg font-semibold p-2 hover:border-b-4 hover:border-solid hover:border-gray-200 focus:border-blue-600 ${
-                  path == link.to ? "text-blue-600 border-b-4 border-solid" : ""
+                className={`p-2 text-lg font-semibold hover:border-b-4 hover:border-solid hover:border-gray-200 focus:border-blue-600 ${
+                  path == link.to ? "border-b-4 border-solid text-blue-600" : ""
                 }`}
               >
                 {link.label}
