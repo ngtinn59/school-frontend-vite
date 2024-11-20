@@ -33,14 +33,14 @@ export const getCountriesApi = async () => {
 
 export const getCitiesApi = async (countryId: number) => {
   const response = await axios.get(
-    `${BASE_URL_API}/api/countries/${countryId}/cities`
+    `${BASE_URL_API}/api/countries/${countryId}/cities`,
   );
   return response.data;
 };
 
 export const getDistrictsApi = async (cityId: number) => {
   const response = await axios.get(
-    `${BASE_URL_API}/api/cities/${cityId}/districts`
+    `${BASE_URL_API}/api/cities/${cityId}/districts`,
   );
   return response.data;
 };
@@ -57,5 +57,10 @@ export const getCompanyTypesApi = async () => {
 
 export const getCompanySizesApi = async () => {
   const response = await axios.get(`${BASE_URL_API}/api/company-sizes`);
+  return response.data;
+};
+
+export const getKeywordTrendingApi = async () => {
+  const response = await axios.get(`${BASE_URL_API}/api/keyword`);
   return response.data;
 };

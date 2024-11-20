@@ -38,10 +38,9 @@ export async function action({ request }: ActionFunctionArgs) {
         : value.toString().trim().replace(/\s/g, "-").toLowerCase();
     formDataObject[key] = convertValue;
   }
-  if (formDataObject.keyword !== "") {
-    return redirect(
-      `/search-jobs/profession_id=${formDataObject.profession}&city_id=${formDataObject.city}&keyword=${formDataObject.keyword}`,
-    );
-  }
+
+  return redirect(
+    `/search-jobs/profession_id=${formDataObject.profession}&city_id=${formDataObject.city}&keyword=${formDataObject.keyword}`,
+  );
   return null;
 }

@@ -12,6 +12,7 @@ import Title from "../../../components/Title";
 import Wrapper from "../../../components/Wrapper";
 import {
   getCitiesApi,
+  getKeywordTrendingApi,
   getProfessionsApi,
 } from "../../../services/api/publicApi";
 import { getUserAuthentication } from "../../../services/redux/user";
@@ -19,12 +20,18 @@ import {
   COLOR_SECONDARY,
   HOMEPAGE_SKILLS_TRENDING,
 } from "../../../utils/constants";
+import { axiosInstance } from "../../../utils/baseAxios";
 
 interface SearchBoxProps {
   reuse?: boolean;
   professionId?: string;
   cityId?: string;
   keyword?: string;
+}
+
+interface Keyword {
+  id: number;
+  keyword: string;
 }
 
 const SearchBox: React.FC<SearchBoxProps> = ({
@@ -62,6 +69,20 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         label: city.name,
       }))
     : [];
+
+  const { data: fetchedKeywords, isLoading } = useQuery({
+    queryKey: ["keywordValue"],
+    queryFn: () => getKeywordTrendingApi(),
+    select: (keywordData) => keywordData.data,
+  });
+
+  console.log("jhgh", fetchedKeywords);
+
+  const keywordData: string[] = fetchedKeywords.map(
+    (keyword: Keyword) => keyword.keyword,
+  );
+
+  console.log("keywordData", keywordData);
 
   const searchButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -109,7 +130,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
               containerClassName="flex-1 flex flex-col"
               type="text"
               name="keyword"
-              required
+              // required
               placeholder="Enter keyword skill (Java, iOS...), job title, company..."
               value={keywordValue}
               onChange={(e) => setKeywordValue(e.target.value)}
@@ -131,16 +152,16 @@ const SearchBox: React.FC<SearchBoxProps> = ({
           <Title type="h-3" className="font-semibold text-gray-100">
             Trending now:
           </Title>
-          {HOMEPAGE_SKILLS_TRENDING.map((skill, index) => (
+          {keywordData.map((value, index) => (
             <Button
               buttonType="colored"
               className="rounded-2xl border border-solid border-gray-400 px-2 py-1 text-sm hover:bg-gray-600 hover:text-white hover:opacity-100"
               backgroundColor={COLOR_SECONDARY}
               textColor="rgb(107,114,128)"
               key={index}
-              onClick={() => handleSkillClick(skill)}
+              onClick={() => handleSkillClick(value)}
             >
-              {skill}
+              {value}
             </Button>
           ))}
         </div>
