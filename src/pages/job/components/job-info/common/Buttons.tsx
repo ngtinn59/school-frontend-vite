@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaHeart, FaRegHeart, FaShare } from "react-icons/fa";
 import { FaRegFilePdf } from "react-icons/fa6";
@@ -8,13 +8,18 @@ import Input from "../../../../../components/Input";
 import Modal from "../../../../../components/Modal";
 import RadioGroup from "../../../../../components/Radio";
 import { getUserCVsApi } from "../../../../../services/api/cvApi";
-import { applyJobApi } from "../../../../../services/job/jobs-service";
+import {
+  applyJobApi,
+  getJobDetail,
+  saveJobApi,
+  unSaveJobApi,
+} from "../../../../../services/job/jobs-service";
 import { CVType } from "../../../../../utils/type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 interface ApplyJobArgs {
-  jobId: number;
+  jobId?: string;
   formData: FormData;
 }
 
@@ -22,13 +27,27 @@ const Buttons: React.FC = () => {
   const jobTitleAndId = useParams<{
     jobTitleAndId: string;
   }>().jobTitleAndId?.split("-");
-  const jobId = Number(jobTitleAndId?.[jobTitleAndId.length - 1]);
+  const jobId = jobTitleAndId?.[jobTitleAndId.length - 1];
   const [selectedCVId, setSelectedCVId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [uploadedFile, setUploadedFile] = useState<File | undefined>();
   const [cvType, setCVType] = useState<string>("");
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+
+  const { data: jobInfo } = useQuery({
+    queryKey: ["jobInformation", jobId],
+    queryFn: () => getJobDetail(jobId),
+    select: (jobDetailData) => jobDetailData.data,
+  });
+
+  useEffect(() => {
+    if (jobInfo) {
+      setIsSaved(jobInfo.is_saved);
+    }
+  }, [jobInfo]);
 
   const { data: cvList } = useQuery({
     queryKey: ["cvList"],
@@ -38,7 +57,7 @@ const Buttons: React.FC = () => {
 
   const { mutate: apply } = useMutation({
     mutationFn: ({ jobId, formData }: ApplyJobArgs) =>
-      applyJobApi(jobId, formData),
+      applyJobApi(jobId || "", formData),
     onSuccess: () => {
       toast.success("Applied successfully");
     },
@@ -46,6 +65,42 @@ const Buttons: React.FC = () => {
       toast.error("Failed to apply");
     },
   });
+
+  const { mutate: saveJob } = useMutation({
+    mutationFn: (jobId: string) => saveJobApi(jobId),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      // setIsSaved(true);
+      queryClient.invalidateQueries({
+        queryKey: ["jobInformation", jobId],
+      });
+    },
+    onError: () => {
+      toast.error("Failed to save job");
+    },
+  });
+
+  const { mutate: unSaveJob } = useMutation({
+    mutationFn: (jobId: string) => unSaveJobApi(jobId),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({
+        queryKey: ["jobInformation", jobId],
+      });
+      // setIsSaved(false);
+    },
+    onError: () => {
+      toast.error("Failed to save job");
+    },
+  });
+
+  function handleSaveJob() {
+    if (isSaved) {
+      unSaveJob(jobId || "");
+    } else {
+      saveJob(jobId || "");
+    }
+  }
 
   const cvOptions = cvList?.map((cv: CVType) => ({
     label: (
@@ -194,10 +249,12 @@ const Buttons: React.FC = () => {
         </form>
       </Modal>
 
-      <button className="flex items-center gap-1 rounded-md border border-[var(--color-primary)] px-4 py-2 text-[var(--color-primary)]">
-        <FaHeart />
-        <FaRegHeart />
-        Save
+      <button
+        className={`flex items-center gap-1 rounded-md border border-[var(--color-primary)] px-4 py-2 ${isSaved ? "bg-[var(--color-primary)] text-white" : "bg-white text-[var(--color-primary)]"}`}
+        onClick={handleSaveJob}
+      >
+        {isSaved ? <FaHeart /> : <FaRegHeart />}
+        {isSaved ? "Unsaved" : "Save"}
       </button>
 
       <button className="flex items-center gap-1 rounded-md border border-[var(--color-primary)] px-4 py-2 text-[var(--color-primary)]">
