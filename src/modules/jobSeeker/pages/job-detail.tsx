@@ -81,7 +81,7 @@ export const JobDetail = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto pt-8">
+    <div className="mx-auto max-w-2xl pt-8">
       <div className="px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           Job Detail

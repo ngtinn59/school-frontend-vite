@@ -15,73 +15,95 @@ export const JobsApply = () => {
 
   const columns: TableColumnsType<any> = [
     {
+      align: "center",
+      title: "Company",
+      dataIndex: "company",
+      key: "company",
+      render: (value: any) => {
+        return (
+          <div className="flex flex-col items-center">
+            <img
+              className="h-12 w-12 rounded-full object-cover"
+              src={value.logo}
+              alt={value.name}
+            />
+            <p className="text-balance text-center">{value.name}</p>
+          </div>
+        );
+      },
+      width: 100,
+    },
+
+    {
       title: "Title",
+      align: "center",
       dataIndex: "title",
       key: "title",
-      width: 300,
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      width: 300,
-      key: "description",
-    },
-    {
-      title: "Salary",
-      dataIndex: "salary",
-      key: "salary",
+      width: 150,
       render: (value: any) => {
-        return value.toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        });
+        return (
+          <div>
+            <p className="text-balance text-center text-base font-semibold text-[var(--color-primary)]">
+              {value}
+            </p>
+          </div>
+        );
       },
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      align: "center",
+      title: "Status",
+      dataIndex: "status",
+      width: 50,
+      key: "status",
     },
     {
-      title: "Job Type",
-      dataIndex: "job_type",
-      key: "job_type",
-      width: 300,
+      align: "center",
+      title: "Salary",
+      dataIndex: "salary",
+      key: "salary",
+      width: 200,
+      render: (value: any) => {
+        return (
+          <div className="font-semibold text-green-600">
+            {value.salary_from.toLocaleString()} VND -{" "}
+            {value.salary_to.toLocaleString()} VND
+          </div>
+        );
+      },
     },
     {
-      title: "Job City",
+      align: "center",
+      title: "City",
       dataIndex: "city",
       key: "city",
-      width: 300,
+      width: 50,
+      render: (value: any) => {
+        return <div>{value.name}</div>;
+      },
     },
     {
-      title: "Skill Experience",
-      dataIndex: "skill_experience",
-      key: "skill_experience",
-      width: 300,
-    },
-    {
-      title: "Benefits",
-      dataIndex: "benefits",
-      width: 300,
-      key: "benefits",
-    },
-    {
+      align: "center",
       title: "Last Date",
       dataIndex: "last_date",
       key: "last_date",
-      width: 300,
+      width: 80,
+      render: (value: any) => {
+        return <div className="text-red-500">{value}</div>;
+      },
     },
   ];
+
   return (
-    <div className="mt-5 max-w-[1440px] mx-auto">
-      <div className="px-4 mb-5 sm:px-0 flex justify-between">
+    <div className="mx-auto mt-5 max-w-[1440px]">
+      <div className="mb-5 flex justify-between px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           Job Applied
         </h3>
       </div>
 
       <Table
+        bordered
         scroll={{
           x: 1440,
         }}
