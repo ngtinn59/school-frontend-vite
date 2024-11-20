@@ -198,9 +198,9 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
         }}
       >
         {dataDetail && (
-          <div className="profile-container p-6 bg-white">
+          <div className="profile-container bg-white p-6">
             {/* Profile and Avatar Section */}
-            <div className="flex items-center mb-6">
+            <div className="mb-6 flex items-center">
               <Avatar
                 size={120}
                 src={dataDetail.profile?.image_url || ""}
@@ -210,7 +210,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
               />
               <div className="flex justify-between">
                 <div>
-                  <h3 className="text-2xl font-semibold mb-2">
+                  <h3 className="mb-2 text-2xl font-semibold">
                     {dataDetail.profile?.name || "No Name"}
                   </h3>
                   <p>
@@ -226,7 +226,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
             <div className="grid grid-cols-2 gap-1">
               {/* Contact Information */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">
+                <h3 className="mb-2 text-xl font-semibold">
                   Contact Information
                 </h3>
                 <p>
@@ -257,7 +257,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Career Objective */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Career Objective</h3>
+                <h3 className="mb-2 text-xl font-semibold">Career Objective</h3>
                 <p>
                   <strong>Desired Position:</strong>{" "}
                   {dataDetail.objective?.desired_position || "--"}
@@ -308,13 +308,13 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* About Me */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">About Me</h3>
+                <h3 className="mb-2 text-xl font-semibold">About Me</h3>
                 <p>{dataDetail.aboutme?.[0]?.description || "--"}</p>
               </div>
 
               {/* Education */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Education</h3>
+                <h3 className="mb-2 text-xl font-semibold">Education</h3>
                 {dataDetail.educations?.map((edu, idx) => (
                   <div key={idx} className="mb-2">
                     <p>
@@ -338,7 +338,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Skills */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Skills</h3>
+                <h3 className="mb-2 text-xl font-semibold">Skills</h3>
                 {dataDetail.skills?.map((skill, idx) => (
                   <p key={idx}>
                     <strong>{skill.name}:</strong> {skill.level}
@@ -348,7 +348,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Personal Projects */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">
+                <h3 className="mb-2 text-xl font-semibold">
                   Personal Projects
                 </h3>
                 {dataDetail.PersonalProject?.map((project, idx) => (
@@ -371,7 +371,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Certificates */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Certificates</h3>
+                <h3 className="mb-2 text-xl font-semibold">Certificates</h3>
                 {dataDetail.Certificate?.map((cert, idx) => (
                   <div key={idx} className="mb-2">
                     <p>
@@ -404,9 +404,10 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Work Experience */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Work Experience</h3>
+                <h3 className="mb-2 text-xl font-semibold">Work Experience</h3>
                 {dataDetail.WorkExperience?.map((work, idx) => (
-                  <div key={idx} className="mb-2">
+                  <div key={idx} className="mb-5">
+                    <p className="font-bold">No.{idx + 1}</p>
                     <p>
                       <strong>Position:</strong> {work.position || "--"}
                     </p>
@@ -428,7 +429,7 @@ const ModalViewProfileCandidate: React.FC<IModalViewProfileCandidateProps> = ({
 
               {/* Awards */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Awards</h3>
+                <h3 className="mb-2 text-xl font-semibold">Awards</h3>
                 {dataDetail.Award?.map((award, idx) => (
                   <div key={idx} className="mb-2">
                     <p>
