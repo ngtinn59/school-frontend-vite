@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { TableColumnsType, Table } from "antd";
 import { axiosInstance } from "../../../utils/baseAxios";
+import { JobType } from "../../../utils/type";
+import { useNavigate } from "react-router-dom";
 
 export const JobsApply = () => {
+  const navigate = useNavigate();
   const { data: JobsApply, isLoading } = useQuery({
     queryKey: ["job-apply"],
     queryFn: async () => {
@@ -12,6 +15,11 @@ export const JobsApply = () => {
       return data.data.data;
     },
   });
+
+  function handleClickedJob(job: JobType) {
+    const jobTitle = job.title.replace(/\s/g, "-");
+    navigate(`/job/${jobTitle}-${job.id}`);
+  }
 
   const columns: TableColumnsType<any> = [
     {
@@ -123,6 +131,14 @@ export const JobsApply = () => {
           x: 1440,
         }}
         rowKey="id"
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              handleClickedJob(record);
+            },
+          };
+        }}
+        rowClassName="cursor-pointer"
         loading={isLoading}
         dataSource={JobsApply ?? []}
         columns={columns}
