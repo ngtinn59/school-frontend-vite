@@ -91,7 +91,6 @@ export const ListJD = () => {
   );
 
   useEffect(() => {
-    if (search === "") return;
     debouncedSearch(search);
     return debouncedSearch.cancel;
   }, [search, debouncedSearch]);
