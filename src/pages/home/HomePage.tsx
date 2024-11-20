@@ -32,11 +32,10 @@ export async function action({ request }: ActionFunctionArgs) {
   const form = await request.formData();
   const formDataObject: { [key: string]: FormDataEntryValue } = {};
   for (const [key, value] of form.entries()) {
-    const convertValue = value
-      .toString()
-      .trim()
-      .replace(/\s/g, "-")
-      .toLowerCase();
+    const convertValue =
+      key === "keyword"
+        ? value.toString().trim()
+        : value.toString().trim().replace(/\s/g, "-").toLowerCase();
     formDataObject[key] = convertValue;
   }
   if (formDataObject.keyword !== "") {
