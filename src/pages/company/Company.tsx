@@ -29,6 +29,7 @@ const Company: React.FC = () => {
   if (!companyDetail) {
     return <Loading />;
   }
+  window.scrollTo(0, 0);
 
   const data: CompanyDetailType = companyDetail;
 

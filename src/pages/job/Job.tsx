@@ -23,6 +23,7 @@ const Job: React.FC = () => {
   if (!jobInfo) {
     return <Loading />;
   }
+  window.scrollTo(0, 0);
 
   const companyData: CompanyType = jobInfo.company;
   const jobData: JobType = jobInfo.job;

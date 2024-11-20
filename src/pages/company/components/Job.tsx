@@ -2,19 +2,19 @@ import { FaFire, FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { IoCalendarOutline } from "react-icons/io5";
 import { MdAttachMoney } from "react-icons/md";
 
-import { CompanyDetailType, JobInCompanyType } from "../../../utils/type";
+import { CompanyDetailType, JobType } from "../../../utils/type";
 import { useNavigate } from "react-router-dom";
 import { changeSalary } from "../../../hooks";
 
 interface JobProps {
   company: CompanyDetailType;
-  job: JobInCompanyType;
+  job: JobType;
 }
 
 const Job: React.FC<JobProps> = ({ company, job }) => {
   const navigate = useNavigate();
 
-  function handleClickedJob(job: JobInCompanyType) {
+  function handleClickedJob(job: JobType) {
     const jobTitle = job.title.replace(/\s/g, "-");
     navigate(`/job/${jobTitle}-${job.id}`);
   }
@@ -65,7 +65,7 @@ const Job: React.FC<JobProps> = ({ company, job }) => {
 
           <p className="flex items-center text-sm">
             <FaMapMarkerAlt className="text-red-500" />
-            {job.city}
+            {job.city.name}
           </p>
 
           <p className="flex items-center text-sm">

@@ -240,23 +240,12 @@ export type CompanyDetailType = {
   latitude: string;
   longitude: string;
   description: string;
-  jobs: JobInCompanyType[];
+  jobs: JobType[];
 };
 
 export type SalaryType = {
   salary_from: number;
   salary_to: number;
-};
-
-export type JobInCompanyType = {
-  id: number;
-  title: string;
-  featured: number;
-  is_hot: number;
-  company: string;
-  salary: SalaryType;
-  city: string;
-  last_date: string;
 };
 
 export type JobType = {
