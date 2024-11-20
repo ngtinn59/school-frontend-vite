@@ -9,14 +9,20 @@ type Props = {
   buttonClassName?: string;
   title: string;
   handleSave: () => void;
+  onClose?: () => void;
   width?: string | number;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  okText?: string;
+  cancelText?: string;
 };
 export default function Modal({
   buttonContent,
   buttonClassName,
   title,
   handleSave,
+  onClose,
+  okText,
+  cancelText,
   width,
   children,
 }: Props) {
@@ -24,6 +30,9 @@ export default function Modal({
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
+    if (onClose) {
+      onClose();
+    }
   };
 
   const onSave = () => {
@@ -35,53 +44,67 @@ export default function Modal({
     typeof width === "number"
       ? { maxWidth: `${width}px` }
       : typeof width === "string"
-      ? { maxWidth: width }
-      : undefined;
+        ? { maxWidth: width }
+        : undefined;
 
   return (
     <>
       {/* Button to toggle the modal */}
       {
-        <button onClick={toggleModal} className={` py-2 px-4 rounded ${buttonClassName}`}>
+        <button
+          onClick={toggleModal}
+          className={`rounded px-4 py-2 ${buttonClassName}`}
+        >
           {buttonContent || "Open Modal"}
         </button>
       }
 
       {/* Modal */}
       {isOpen && (
-        <div className="fixed z-50 inset-0 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-screen items-center justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+            <div
+              className="fixed inset-0 transition-opacity"
+              aria-hidden="true"
+            >
               <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
             </div>
 
             {/* Modal content */}
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+            <span
+              className="hidden sm:inline-block sm:h-screen sm:align-middle"
+              aria-hidden="true"
+            >
               &#8203;
             </span>
             <div
-              className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-              style={widthStyle}>
-              <div className="bg-white px-4 pt-5 flex flex-row justify-between items-center">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">{title}</h3>
+              className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
+              style={widthStyle}
+            >
+              <div className="flex flex-row items-center justify-between bg-white px-4 pt-5">
+                <h3 className="text-lg font-medium leading-6 text-gray-900">
+                  {title}
+                </h3>
                 <button
                   onClick={toggleModal}
                   type="button"
-                  className="w-full inline-flex justify-center  sm:w-auto text-bold hover:text-black text-xl">
+                  className="inline-flex w-full justify-center text-xl text-bold hover:text-black sm:w-auto"
+                >
                   <FontAwesomeIcon icon={faClose} />
                 </button>
               </div>
               <Divider /> <div className="mt-2 px-4">{children}</div>
               <Divider />
-              <div className="bg-white px-4 pb-5 flex flex-row justify-end items-center gap-2">
+              <div className="flex flex-row items-center justify-end gap-2 bg-white px-4 pb-5">
                 <Button
-                  className="px-4 py-2 rounded-sm !text-gray-500 !border-none hover:!text-bold hover:!bg-gray-100"
+                  className="rounded-sm !border-none px-4 py-2 !text-gray-500 hover:!bg-gray-100 hover:!text-bold"
                   buttonType="outline"
-                  onClick={toggleModal}>
-                  Cancel
+                  onClick={toggleModal}
+                >
+                  {cancelText || "Cancel"}
                 </Button>
-                <Button className="px-6 py-2 rounded-sm" onClick={onSave}>
-                  Save
+                <Button className="rounded-sm px-6 py-2" onClick={onSave}>
+                  {okText || "Save"}
                 </Button>
               </div>
             </div>

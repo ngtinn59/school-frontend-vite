@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL_API, URL_API_OBJECTIVES } from "../../utils/constants";
+import { URL_API_OBJECTIVES } from "../../utils/constants";
 import { ObjectiveType } from "../../utils/type";
 import { generateConfig } from "./common";
 
@@ -34,7 +34,10 @@ export const addObjectiveApi = async (data: ObjectiveType, cvFile?: File) => {
   return response.data;
 };
 
-export const updateObjectiveApi = async (data: ObjectiveType, cvFile?: File) => {
+export const updateObjectiveApi = async (
+  data: ObjectiveType,
+  cvFile?: File,
+) => {
   const config = await generateConfig();
   const formData = new FormData();
   if (cvFile) {
@@ -57,7 +60,11 @@ export const updateObjectiveApi = async (data: ObjectiveType, cvFile?: File) => 
 
   formData.append("_method", "PUT");
 
-  const response = await axios.post(`${URL_API_OBJECTIVES}/${data.id}`, formData, config);
+  const response = await axios.post(
+    `${URL_API_OBJECTIVES}/${data.id}`,
+    formData,
+    config,
+  );
   return response.data;
 };
 

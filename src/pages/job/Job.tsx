@@ -1,13 +1,11 @@
-import { useParams } from "react-router-dom";
-import JobInfo from "./components/job-info/JobInfo";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { getJobDetail } from "../../services/job/jobs-service";
 import { CompanyType, JobType } from "../../utils/type";
-import JobDescription from "./components/job-description/JobDescription";
 import ContactInfo from "./components/contact-info/ContactInfo";
-import JobsList from "./common/JobsList";
-import Title from "../../components/Title";
+import JobDescription from "./components/job-description/JobDescription";
+import JobInfo from "./components/job-info/JobInfo";
 import RelatedJobs from "./components/related-jobs/RelatedJobs";
 
 const Job: React.FC = () => {
@@ -17,7 +15,7 @@ const Job: React.FC = () => {
   const jobId = jobTitleAndId?.[jobTitleAndId.length - 1];
 
   const { data: jobInfo } = useQuery({
-    queryKey: ["jobInfomation", jobId],
+    queryKey: ["jobInformation", jobId],
     queryFn: () => getJobDetail(jobId),
     select: (jobDetailData) => jobDetailData.data,
   });
