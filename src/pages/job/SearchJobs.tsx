@@ -7,6 +7,7 @@ import SearchBox from "../home/components/SearchBox";
 import Job from "./components/search-jobs/Job";
 import SuggestedJobs from "./components/search-jobs/SuggestedJobs";
 import { JobType } from "../../utils/type";
+import JobsList from "./common/JobsList";
 
 const SearchJobs: React.FC = () => {
   const { searchText } = useParams<{
@@ -50,7 +51,10 @@ const SearchJobs: React.FC = () => {
               {`${searchedJob.length} job(s) found for "${keyword}"`}
             </Title>
 
-            {searchedJob && searchedJob.map((job) => <Job job={job} />)}
+            <JobsList
+              jobs={searchedJob}
+              classNameResponsive="grid-cols-1 p-0 md:grid-cols-1 lg:grid-cols-1"
+            />
           </div>
 
           <div className="w-full space-y-4 overflow-hidden rounded-md bg-white p-1 shadow-[0px_0px_5px_1px_rgba(0,0,0,0.24)] md:w-[40%]">
