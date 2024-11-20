@@ -66,8 +66,8 @@ export const JobsApply = () => {
       render: (value: any) => {
         return (
           <div className="font-semibold text-green-600">
-            {value.salary_from.toLocaleString()} VND -{" "}
-            {value.salary_to.toLocaleString()} VND
+            ${(value.salary_from / 23000).toLocaleString()} - $
+            {(value.salary_to / 23000).toLocaleString()}
           </div>
         );
       },
