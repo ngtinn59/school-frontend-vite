@@ -14,7 +14,7 @@ const Job: React.FC<JobProps> = ({ job }) => {
   const navigate = useNavigate();
 
   function handleClickedJob(job: JobType) {
-    const jobTitle = job.title.replace(/\s/g, "-");
+    const jobTitle = job.title.replace(/\s/g, "-").replace(/[/[()]/g, "");
     navigate(`/job/${jobTitle}-${job.id}`);
   }
 
