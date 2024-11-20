@@ -1,9 +1,9 @@
-import { ActionFunctionArgs, Navigate, redirect } from "react-router-dom";
+import { ActionFunctionArgs, redirect } from "react-router-dom";
 import FeatureArticle from "./components/FeatureArticle";
+import FeaturedCompanies from "./components/FeaturedCompanies";
 import PlatformUSP from "./components/PlatformUSP";
 import SearchBox from "./components/SearchBox";
 import TopEmployer from "./components/TopEmployer";
-import FeaturedCompanies from "./components/FeaturedCompanies";
 import UrgentJobs from "./components/UrgentJobs";
 
 export default function HomePage() {
@@ -41,7 +41,7 @@ export async function action({ request }: ActionFunctionArgs) {
   }
   if (formDataObject.keyword !== "") {
     return redirect(
-      `/it-jobs/${formDataObject.keyword}${formDataObject.city ? `/${formDataObject.city}` : ""}`,
+      `/search-jobs/profession_id=${formDataObject.profession}&city_id=${formDataObject.city}&keyword=${formDataObject.keyword}`,
     );
   }
   return null;

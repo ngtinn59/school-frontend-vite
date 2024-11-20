@@ -1,13 +1,24 @@
 import { PiUsersThreeBold } from "react-icons/pi";
 import { CompanyType } from "../../../../../utils/type";
+import { useNavigate } from "react-router-dom";
 
 interface CompanyProps {
   companyData: CompanyType;
 }
 
 const Company: React.FC<CompanyProps> = ({ companyData }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="flex items-center gap-2">
+    <div
+      className="flex cursor-pointer items-center gap-2 rounded-md hover:bg-gray-100"
+      onClick={() =>
+        navigate(
+          `/company/${companyData.name.replace(/ /g, "-")}` +
+            `-${companyData.id}`,
+        )
+      }
+    >
       <img
         src={companyData.logo}
         alt={companyData.name}

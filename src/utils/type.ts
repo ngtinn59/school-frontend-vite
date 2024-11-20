@@ -203,7 +203,7 @@ export type CompanyType = {
   id: number;
   logo: string;
   name: string;
-  size: string;
+  size?: string;
 };
 
 export type CompanyTypeType = {
@@ -264,10 +264,11 @@ export type JobType = {
   title: string;
   featured?: number;
   is_hot?: number;
-  company?: string;
+  company?: CompanyType;
   salary: SalaryType;
   city: CityType;
   last_date: string;
+  score?: number;
 
   experienceLevel?: ExperienceLevelType;
   views?: number;
