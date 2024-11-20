@@ -25,11 +25,31 @@ export const getSearchJobs = async (searchQuery: string) => {
   return response.data;
 };
 
-export const applyJobApi = async (jobId: number, formData: FormData) => {
+export const applyJobApi = async (jobId: string, formData: FormData) => {
   const config = await generateConfig();
   const response = await axios.post(
     `${BASE_URL_API}/api/jobs/${jobId}/apply`,
     formData,
+    config,
+  );
+  return response.data;
+};
+
+export const saveJobApi = async (jobId: string) => {
+  const config = await generateConfig();
+  const response = await axios.post(
+    `${BASE_URL_API}/api/jobs/favorites/${jobId}/save`,
+    {},
+    config,
+  );
+  return response.data;
+};
+
+export const unSaveJobApi = async (jobId: string) => {
+  const config = await generateConfig();
+  const response = await axios.post(
+    `${BASE_URL_API}/api/jobs/favorites/${jobId}/un-save`,
+    {},
     config,
   );
   return response.data;
