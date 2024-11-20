@@ -48,6 +48,7 @@ import ErrorPage from "./pages/ErrorPage.tsx";
 import Job from "./pages/job/Job.tsx";
 import ProfileSaved from "./pages/employer/profile-saved.tsx";
 import FindProfileCandidate from "./pages/employer/find-profile-candidate.tsx";
+import SearchJobs from "./pages/job/SearchJobs.tsx";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +88,11 @@ const router = createBrowserRouter([
       {
         path: "/job/:jobTitleAndId",
         element: <Job />,
+      },
+      {
+        path: "/search-jobs/:searchText",
+        element: <SearchJobs />,
+        action: searchITJobAction,
       },
     ],
   },

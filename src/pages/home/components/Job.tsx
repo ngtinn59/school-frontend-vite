@@ -14,7 +14,8 @@ const Job: React.FC<JobProps> = ({ job }) => {
   const navigate = useNavigate();
 
   function handleClickedJob(job: JobType) {
-    const jobTitle = job.title.replace(/\s/g, "-");
+    const jobTitle = job.title.replace(/[\s/]/g, "%20%");
+
     navigate(`/job/${jobTitle}-${job.id}`);
   }
 
@@ -27,14 +28,14 @@ const Job: React.FC<JobProps> = ({ job }) => {
       <div className="flex justify-between">
         <div className="flex gap-2">
           <img
-            src={job.logo}
-            alt={job.company}
+            src={job.company?.logo}
+            alt={job.company?.name}
             className="h-10 rounded-md border"
           />
 
           <div>
             <p className="text-[var(--color-primary)]">{job.title}</p>
-            <p className="text-xs text-gray-700">{job.company}</p>
+            <p className="text-xs text-gray-700">{job.company?.name}</p>
           </div>
         </div>
 
