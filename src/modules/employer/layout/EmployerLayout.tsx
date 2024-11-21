@@ -8,6 +8,12 @@ import { useAppSelector } from "../../../app/hooks";
 
 import { EMPLOYER_ROUTES } from "../constants/routes.constant";
 import { useEffect } from "react";
+import { EmployerProfile } from "../../../pages/employer/profile";
+import { EditProfile } from "../../../pages/employer/edit-profile";
+import { ListJD } from "../../../pages/employer/list-jd";
+import { ListApplication } from "../../../pages/employer/list-application";
+import ProfileSaved from "../../../pages/employer/profile-saved";
+import FindProfileCandidate from "../../../pages/employer/find-profile-candidate";
 
 export function EmployerLayout() {
   const isLogin = useAppSelector((state) => state.employer.isLogin);
@@ -17,12 +23,12 @@ export function EmployerLayout() {
     {
       key: EMPLOYER_ROUTES.PROFILE,
       label: <NavLink to={EMPLOYER_ROUTES.PROFILE}>Profile</NavLink>,
-      children: <Outlet />,
+      children: <EmployerProfile />,
     },
     {
       key: EMPLOYER_ROUTES.EDIT_PROFILE,
       label: <NavLink to={EMPLOYER_ROUTES.EDIT_PROFILE}>Edit Profile</NavLink>,
-      children: <Outlet />,
+      children: <EditProfile />,
     },
     {
       key: EMPLOYER_ROUTES.LIST_JD,
@@ -31,7 +37,7 @@ export function EmployerLayout() {
           Job Description Management
         </NavLink>
       ),
-      children: <Outlet />,
+      children: <ListJD />,
     },
     {
       key: EMPLOYER_ROUTES.LIST_APPLICATION,
@@ -40,7 +46,7 @@ export function EmployerLayout() {
           Applications Management
         </NavLink>
       ),
-      children: <Outlet />,
+      children: <ListApplication />,
     },
     {
       key: EMPLOYER_ROUTES.LIST_CANDIDATE_PROFILE_SAVED,
@@ -49,7 +55,7 @@ export function EmployerLayout() {
           Candidate Profile Saved
         </NavLink>
       ),
-      children: <Outlet />,
+      children: <ProfileSaved />,
     },
     {
       key: EMPLOYER_ROUTES.FIND_PROFILE_CANDIDATE,
@@ -58,7 +64,7 @@ export function EmployerLayout() {
           Find Profile Candidate
         </NavLink>
       ),
-      children: <Outlet />,
+      children: <FindProfileCandidate />,
     },
   ];
 
@@ -70,22 +76,17 @@ export function EmployerLayout() {
   }, [location.pathname]);
 
   return (
-    <div className="relative  h-screen">
+    <div className="relative h-screen">
       <Toast />
       <Header />
 
-      <div className="absolute top-11 bottom-0  w-full   flex flex-col items-center justify-between">
-        <div className="flex-1 w-full">
+      <div className="absolute bottom-0 top-11 flex w-full flex-col items-center justify-between">
+        <div className="w-full flex-1">
           {isLogin ? (
             <Tabs
               size="large"
               centered
-              activeKey={
-                location.pathname.includes("edit-jd") ||
-                location.pathname.includes("create-jd")
-                  ? EMPLOYER_ROUTES.LIST_JD
-                  : location.pathname
-              }
+              activeKey={location.pathname}
               defaultActiveKey={location.pathname}
               items={items}
             />
@@ -93,7 +94,7 @@ export function EmployerLayout() {
             <Outlet />
           )}
         </div>
-        <Footer className=" w-full pt-8" />
+        <Footer className="w-full pt-8" />
       </div>
     </div>
   );
