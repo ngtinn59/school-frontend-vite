@@ -20,7 +20,7 @@ const SearchJobs: React.FC = () => {
 
   const { data: searchedJobData } = useQuery({
     queryKey: ["searchedJobData", searchText],
-    queryFn: () => getSearchJobs(searchText || ""),
+    queryFn: () => getSearchJobs(cityId, professionId, keyword),
     select: (jobDetailData) => jobDetailData.data,
   });
 
@@ -28,12 +28,8 @@ const SearchJobs: React.FC = () => {
     return <Loading />;
   }
 
-  console.log(searchedJobData);
-
   const searchedJob: JobType[] = searchedJobData.searched_jobs;
   const suggestedJobs: JobType[] = searchedJobData.suggested_jobs;
-  console.log(searchedJob);
-  console.log(suggestedJobs);
 
   return (
     <div className="mt-2">

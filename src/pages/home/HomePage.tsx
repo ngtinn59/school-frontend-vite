@@ -40,7 +40,9 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   return redirect(
-    `/search-jobs/profession_id=${formDataObject.profession}&city_id=${formDataObject.city}&keyword=${formDataObject.keyword}`,
+    encodeURI(
+      `/search-jobs/profession_id=${formDataObject.profession}&city_id=${formDataObject.city}&keyword=${formDataObject.keyword}`,
+    ),
   );
   return null;
 }

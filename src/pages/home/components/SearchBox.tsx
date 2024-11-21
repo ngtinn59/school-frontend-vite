@@ -72,13 +72,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({
     select: (keywordData) => keywordData.data,
   });
 
-  console.log("jhgh", fetchedKeywords);
-
   const keywordData: string[] = fetchedKeywords?.map(
     (keyword: Keyword) => keyword.keyword,
   );
-
-  console.log("keywordData", keywordData);
 
   const searchButtonRef = useRef<HTMLButtonElement>(null);
 

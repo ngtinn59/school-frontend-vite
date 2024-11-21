@@ -27,6 +27,7 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, classNameResponsive }) => {
         className="mb-2 mt-4"
         align="center"
         defaultCurrent={1}
+        hideOnSinglePage
         pageSize={pageSize}
         current={currentPage}
         onChange={(page, pageSize) => {

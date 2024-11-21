@@ -16,12 +16,22 @@ export const getJobDetail = async (id: string | undefined) => {
   return response.data;
 };
 
-export const getSearchJobs = async (searchQuery: string) => {
+export const getSearchJobs = async (
+  cityId: string,
+  professionId: string,
+  keyword: string,
+) => {
   const config = await generateConfig();
-  const response = await axios.get(
-    `${BASE_URL_API}/api/jobs/search?${searchQuery}`,
-    config,
-  );
+  const response = await axios.get(`${BASE_URL_API}/api/jobs/search`, {
+    ...config,
+
+    params: {
+      city_id: cityId,
+      profession_id: professionId,
+      keyword: keyword,
+    },
+  });
+
   return response.data;
 };
 
