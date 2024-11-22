@@ -1,14 +1,17 @@
 import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegFilePdf } from "react-icons/fa";
 import Input from "../../../../../../components/Input";
 import Modal from "../../../../../../components/Modal";
 import RadioGroup from "../../../../../../components/Radio";
 import { getUserCVsApi } from "../../../../../../services/api/cvApi";
-import { applyJobApi } from "../../../../../../services/job/jobs-service";
+import {
+  applyJobApi,
+  getJobDetail,
+} from "../../../../../../services/job/jobs-service";
 import { CVType } from "../../../../../../utils/type";
 
 interface ApplyButtonProps {
@@ -27,12 +30,25 @@ const ApplyButton: React.FC<ApplyButtonProps> = ({ jobId }) => {
   const [email, setEmail] = useState<string>("");
   const [uploadedFile, setUploadedFile] = useState<File | undefined>();
   const [cvType, setCVType] = useState<string>("");
+  const [isApplied, setIsApplied] = useState<boolean>(false);
 
   const { data: cvList } = useQuery({
     queryKey: ["cvList"],
     queryFn: () => getUserCVsApi(),
     select: (cvData) => cvData.data,
   });
+
+  const { data: jobInfo } = useQuery({
+    queryKey: ["jobInformation", jobId],
+    queryFn: () => getJobDetail(jobId),
+    select: (jobDetailData) => jobDetailData.data,
+  });
+
+  useEffect(() => {
+    if (jobInfo) {
+      setIsApplied(jobInfo.is_applied);
+    }
+  }, [jobInfo]);
 
   const { mutate: apply } = useMutation({
     mutationFn: ({ jobId, formData }: ApplyJobArgs) =>
@@ -90,8 +106,11 @@ const ApplyButton: React.FC<ApplyButtonProps> = ({ jobId }) => {
       width="45%"
       handleSave={handleSave}
       onClose={handleClose}
-      buttonContent="Apply"
-      buttonClassName="rounded-md bg-[var(--color-primary)] px-4 py-2 text-white"
+      buttonContent={isApplied ? "Applied" : "Apply"}
+      buttonProps={{
+        disabled: isApplied,
+      }}
+      buttonClassName={`rounded-md cur  px-4 py-2 ${isApplied ? "bg-[var(--color-disable)] text-gray-600 cursor-not-allowed" : "bg-[var(--color-primary)] text-white"}`}
       okText="Apply"
     >
       <form>
@@ -103,7 +122,7 @@ const ApplyButton: React.FC<ApplyButtonProps> = ({ jobId }) => {
             name="desired_level"
             value={cvType}
             type="text"
-            containerClassName="flex flex-col gap-1"
+            containerClassName="flex flex-col gap-1 "
             onChange={(e) => setCVType(e.target.value)}
             options={[
               {

@@ -7,6 +7,7 @@ import Button from "./Button";
 type Props = {
   buttonContent?: React.ReactNode | string;
   buttonClassName?: string;
+  buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   title: string;
   handleSave: () => void;
   onClose?: () => void;
@@ -20,6 +21,7 @@ export default function Modal({
   buttonClassName,
   title,
   handleSave,
+  buttonProps,
   onClose,
   okText,
   cancelText,
@@ -54,6 +56,7 @@ export default function Modal({
         <button
           onClick={toggleModal}
           className={`rounded px-4 py-2 ${buttonClassName}`}
+          {...buttonProps}
         >
           {buttonContent || "Open Modal"}
         </button>
