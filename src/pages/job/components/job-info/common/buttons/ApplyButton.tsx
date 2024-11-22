@@ -32,6 +32,7 @@ const ApplyButton: React.FC<ApplyButtonProps> = ({ jobId }) => {
   const [cvType, setCVType] = useState<string>("");
   const [isApplied, setIsApplied] = useState<boolean>(false);
   const queryClient = useQueryClient();
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const { data: cvList } = useQuery({
     queryKey: ["cvList"],
@@ -94,15 +95,60 @@ const ApplyButton: React.FC<ApplyButtonProps> = ({ jobId }) => {
   function handleSave() {
     const formData = new FormData();
     if (cvType === "UPLOAD") {
+      if (!uploadedFile) {
+        toast.error("Please upload your CV");
+        setHasError(true);
+        return;
+      }
       formData.append("cv", uploadedFile as File);
     } else if (cvType === "ONLINE") {
+      if (!selectedCVId) {
+        toast.error("Please select an online CV");
+        setHasError(true);
+        return;
+      }
       formData.append("selected_cv_id", selectedCVId);
     }
+    if (!name || name.trim() === "") {
+      toast.error("Please enter your name");
+      setHasError(true);
+      return;
+    }
+
+    const phoneRegex = /^[0-9]{10}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!phone || phone.trim() === "") {
+      toast.error("Please enter your phone number");
+      setHasError(true);
+      return;
+    } else if (!phoneRegex.test(phone)) {
+      toast.error("Please enter a valid phone number");
+      setHasError(true);
+      return;
+    }
+
+    if (!email || email.trim() === "") {
+      toast.error("Please enter your email");
+      setHasError(true);
+      return;
+    } else if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email");
+      setHasError(true);
+      return;
+    }
+
     formData.append("name", name);
     formData.append("phone", phone);
+
     formData.append("email", email);
 
-    apply({ jobId, formData });
+    if (!hasError) {
+      apply({ jobId, formData });
+    } else {
+      setHasError(false);
+      return;
+    }
   }
   return (
     <Modal
