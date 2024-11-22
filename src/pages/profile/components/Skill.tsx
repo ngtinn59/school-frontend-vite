@@ -285,8 +285,8 @@ export default function Skill({ skills }: Props) {
         </div>
       </Modal>
       {!!(
-        skills.beginner?.length &&
-        skills.intermediate?.length &&
+        skills.beginner?.length ||
+        skills.intermediate?.length ||
         skills.excellent?.length
       ) && <SkillsWrapper skills={skills} />}
     </CardWithTitle>
