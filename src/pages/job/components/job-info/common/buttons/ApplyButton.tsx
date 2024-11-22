@@ -155,6 +155,7 @@ const ApplyButton: React.FC<ApplyButtonProps> = ({ jobId }) => {
       title="Apply"
       width="45%"
       handleSave={handleSave}
+      hasError={hasError}
       onClose={handleClose}
       buttonContent={isApplied ? "Applied" : "Apply"}
       buttonProps={{

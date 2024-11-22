@@ -15,6 +15,7 @@ type Props = {
   children?: React.ReactNode;
   okText?: string;
   cancelText?: string;
+  hasError?: boolean;
 };
 export default function Modal({
   buttonContent,
@@ -25,6 +26,7 @@ export default function Modal({
   onClose,
   okText,
   cancelText,
+  hasError,
   width,
   children,
 }: Props) {
@@ -39,7 +41,7 @@ export default function Modal({
 
   const onSave = () => {
     handleSave();
-    toggleModal();
+    if (!hasError) toggleModal();
   };
 
   const widthStyle =
