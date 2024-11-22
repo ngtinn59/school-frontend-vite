@@ -1,6 +1,6 @@
 import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegFilePdf } from "react-icons/fa";
@@ -31,6 +31,7 @@ const ApplyButton: React.FC<ApplyButtonProps> = ({ jobId }) => {
   const [uploadedFile, setUploadedFile] = useState<File | undefined>();
   const [cvType, setCVType] = useState<string>("");
   const [isApplied, setIsApplied] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const { data: cvList } = useQuery({
     queryKey: ["cvList"],
@@ -55,6 +56,9 @@ const ApplyButton: React.FC<ApplyButtonProps> = ({ jobId }) => {
       applyJobApi(jobId || "", formData),
     onSuccess: () => {
       toast.success("Applied successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["jobInformation", jobId],
+      });
     },
     onError: () => {
       toast.error("Failed to apply");
