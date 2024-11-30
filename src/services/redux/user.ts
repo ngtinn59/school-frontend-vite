@@ -2,12 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 import { ProfileDataForCV } from "../../utils/type";
 import { UserInformationType } from "../../utils/type/profileType";
-
+import Cookies from "js-cookie";
 // Define a type for the slice state
 export interface UserState {
+  id?: number;
   name: string;
   token: string;
   token_type: string;
+  isAuthenticated: boolean;
   userProfile: ProfileDataForCV;
   userInformation: UserInformationType;
 }
@@ -17,6 +19,7 @@ const initialState: UserState = {
   name: "",
   token: "",
   token_type: "",
+  isAuthenticated: false,
   userInformation: {
     image_url: "",
     name: "",
@@ -53,14 +56,21 @@ export const userSlice = createSlice({
         name: action.payload.name,
         token: action.payload.token,
         token_type: action.payload.token_type,
+        isAuthenticated: !!action.payload.token,
+        id: action.payload.id,
       };
     },
     signOut: (state) => {
+      Cookies.remove("token");
+      Cookies.remove("token_type");
+      Cookies.remove("name");
+      Cookies.remove("id");
       return {
         ...state,
         name: "",
         token: "",
         token_type: "",
+        isAuthenticated: false,
       };
     },
 
@@ -99,7 +109,9 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           education: [
-            ...state.userProfile.education.filter((ele) => ele.id !== education.id),
+            ...state.userProfile.education.filter(
+              (ele) => ele.id !== education.id,
+            ),
             education,
           ],
         },
@@ -110,7 +122,9 @@ export const userSlice = createSlice({
         ...state,
         userProfile: {
           ...state.userProfile,
-          education: state.userProfile.education.filter((ele) => ele.id !== action.payload),
+          education: state.userProfile.education.filter(
+            (ele) => ele.id !== action.payload,
+          ),
         },
       };
     },
@@ -130,7 +144,9 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           workExperience: [
-            ...state.userProfile.workExperience.filter((ele) => ele.id !== workExperience.id),
+            ...state.userProfile.workExperience.filter(
+              (ele) => ele.id !== workExperience.id,
+            ),
             workExperience,
           ],
         },
@@ -142,7 +158,7 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           workExperience: state.userProfile.workExperience.filter(
-            (ele) => ele.id !== action.payload
+            (ele) => ele.id !== action.payload,
           ),
         },
       };
@@ -153,7 +169,10 @@ export const userSlice = createSlice({
         ...state,
         userProfile: {
           ...state.userProfile,
-          personalProjects: [...state.userProfile.personalProjects, personalProject],
+          personalProjects: [
+            ...state.userProfile.personalProjects,
+            personalProject,
+          ],
         },
       };
     },
@@ -164,7 +183,9 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           personalProjects: [
-            ...state.userProfile.personalProjects.filter((ele) => ele.id !== personalProject.id),
+            ...state.userProfile.personalProjects.filter(
+              (ele) => ele.id !== personalProject.id,
+            ),
             personalProject,
           ],
         },
@@ -176,7 +197,7 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           personalProjects: state.userProfile.personalProjects.filter(
-            (ele) => ele.id !== action.payload
+            (ele) => ele.id !== action.payload,
           ),
         },
       };
@@ -205,7 +226,10 @@ export const userSlice = createSlice({
         ...state,
         userProfile: {
           ...state.userProfile,
-          awards: [...state.userProfile.awards.filter((ele) => ele.id !== award.id), award],
+          awards: [
+            ...state.userProfile.awards.filter((ele) => ele.id !== award.id),
+            award,
+          ],
         },
       };
     },
@@ -214,7 +238,9 @@ export const userSlice = createSlice({
         ...state,
         userProfile: {
           ...state.userProfile,
-          awards: state.userProfile.awards.filter((ele) => ele.id !== action.payload),
+          awards: state.userProfile.awards.filter(
+            (ele) => ele.id !== action.payload,
+          ),
         },
       };
     },
@@ -234,7 +260,9 @@ export const userSlice = createSlice({
         userProfile: {
           ...state.userProfile,
           certificates: [
-            ...state.userProfile.certificates.filter((ele) => ele.id !== certificate.id),
+            ...state.userProfile.certificates.filter(
+              (ele) => ele.id !== certificate.id,
+            ),
             certificate,
           ],
         },
@@ -245,7 +273,9 @@ export const userSlice = createSlice({
         ...state,
         userProfile: {
           ...state.userProfile,
-          certificates: state.userProfile.certificates.filter((ele) => ele.id !== action.payload),
+          certificates: state.userProfile.certificates.filter(
+            (ele) => ele.id !== action.payload,
+          ),
         },
       };
     },
@@ -278,8 +308,10 @@ export const {
 // Other code such as selectors can use the imported `RootState` type
 export const getUserAuthentication = (state: RootState) => state.user;
 export const getUserProfile = (state: RootState) => state.user.userProfile;
-export const getUserInformation = (state: RootState) => state.user.userInformation;
-export const getUserEducation = (state: RootState) => state.user.userProfile.education;
+export const getUserInformation = (state: RootState) =>
+  state.user.userInformation;
+export const getUserEducation = (state: RootState) =>
+  state.user.userProfile.education;
 export const getToken = (state: RootState) => state.user.token;
 
 export default userSlice.reducer;

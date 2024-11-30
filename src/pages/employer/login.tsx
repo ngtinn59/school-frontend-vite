@@ -14,6 +14,7 @@ import { axiosInstance } from "../../utils/baseAxios";
 import { employerActions } from "../../modules/employer/redux/employer.slice";
 import {
   COOKIE_ACCESS_TOKEN,
+  COOKIE_EMPLOYER_ID,
   EMPLOYER_BE_API,
   EMPLOYER_ROUTES,
 } from "../../modules/employer";
@@ -61,6 +62,7 @@ export const LoginEmployer = () => {
       onSuccess: (result: Record<string, string>) => {
         toast.success("Đăng Nhập thành công");
         Cookies.set(COOKIE_ACCESS_TOKEN, result.access_token);
+        Cookies.set(COOKIE_EMPLOYER_ID, result.id);
         dispatch(employerActions.setLogin(true));
         navigate(EMPLOYER_ROUTES.PROFILE);
       },

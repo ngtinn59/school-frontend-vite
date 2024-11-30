@@ -6,7 +6,7 @@ export type ApiLoginResponse = {
     name?: string;
     token?: string;
     message?: string;
-
+    id?: number;
     token_type?: string;
     success?: boolean;
   };
@@ -16,6 +16,7 @@ export type ApiLoginResponse = {
 };
 
 export type LoaderLoginResponse = {
+  id?: number;
   isLogin: boolean;
   token?: string;
   token_type?: string;

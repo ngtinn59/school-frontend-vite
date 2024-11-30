@@ -14,10 +14,18 @@ import {
   getUserProfileApi,
   getWorkExperienceApi,
 } from "../services/api/profileApi";
-import { signIn, updateUserInformation, updateUserProfile } from "../services/redux/user";
+import {
+  signIn,
+  updateUserInformation,
+  updateUserProfile,
+} from "../services/redux/user";
 import { LoaderLoginResponse } from "../utils/type";
 
-export default function LoadUserAuthenticationData({ children }: { children: React.ReactNode }) {
+export default function LoadUserAuthenticationData({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const dispatch = useAppDispatch();
   const loginData: LoaderLoginResponse = useLoaderData() as LoaderLoginResponse;
 
@@ -28,7 +36,8 @@ export default function LoadUserAuthenticationData({ children }: { children: Rea
           token: loginData.token,
           token_type: loginData.token_type,
           name: loginData.name,
-        })
+          id: loginData.id,
+        }),
       );
     } else {
       dispatch(
@@ -36,7 +45,8 @@ export default function LoadUserAuthenticationData({ children }: { children: Rea
           token: "",
           token_type: "",
           name: "",
-        })
+          id: undefined,
+        }),
       );
     }
   }, [loginData, loginData.isLogin, dispatch]);
@@ -55,37 +65,41 @@ export default function LoadUserAuthenticationData({ children }: { children: Rea
               toast.error(
                 "Failed to fetch user information: " +
                   //@ts-expect-error  Property 'message' does not exist on type '{}'.ts(2339)
-                  axiosErr.response.data.message
+                  axiosErr.response.data.message,
               );
             } else {
-              toast.error("Failed to fetch user information: An unexpected error occurred.");
+              toast.error(
+                "Failed to fetch user information: An unexpected error occurred.",
+              );
             }
           } else {
-            toast.error("Failed to fetch user information: An unexpected error occurred.");
+            toast.error(
+              "Failed to fetch user information: An unexpected error occurred.",
+            );
           }
         });
 
       // Call api to get user profile
       const aboutMePromise = getAboutMeApi().catch((err) =>
-        toast.error("Error when get 'about me' data: " + err)
+        toast.error("Error when get 'about me' data: " + err),
       );
       const educationPromise = getEducationApi().catch((err) =>
-        toast.error("Error when get 'education' data: " + err)
+        toast.error("Error when get 'education' data: " + err),
       );
       const workExperiencePromise = getWorkExperienceApi().catch((err) =>
-        toast.error("Error when get 'work experience' data: " + err)
+        toast.error("Error when get 'work experience' data: " + err),
       );
       const personalProjectsPromise = getPersonalProjectApi().catch((err) =>
-        toast.error("Error when get 'personal projects' data: " + err)
+        toast.error("Error when get 'personal projects' data: " + err),
       );
       const certificatePromise = getCertificateApi().catch((err) =>
-        toast.error("Error when get 'certificates' data: " + err)
+        toast.error("Error when get 'certificates' data: " + err),
       );
       const awardPromise = getAwardApi().catch((err) =>
-        toast.error("Error when get 'awards' data: " + err)
+        toast.error("Error when get 'awards' data: " + err),
       );
       const userProfilePromise = getSkillApi().catch((err) =>
-        toast.error("Error when get 'skills' data: " + err)
+        toast.error("Error when get 'skills' data: " + err),
       );
       getUserProfileApi(
         aboutMePromise,
@@ -94,12 +108,14 @@ export default function LoadUserAuthenticationData({ children }: { children: Rea
         personalProjectsPromise,
         certificatePromise,
         awardPromise,
-        userProfilePromise
+        userProfilePromise,
       )
         .then((res) => {
           dispatch(updateUserProfile(res));
         })
-        .catch((err) => toast.error("Error when get user profile data: " + err));
+        .catch((err) =>
+          toast.error("Error when get user profile data: " + err),
+        );
     }
   }, [dispatch, loginData.isLogin]);
 

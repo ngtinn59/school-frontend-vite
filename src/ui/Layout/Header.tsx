@@ -10,8 +10,12 @@ import {
 import Button from "../../components/Button";
 import { signOutApi } from "../../services/api/authenticationApi";
 import deleteCookie from "../../utils/function/deleteCookie";
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import ModalChangePassword from "../../pages/employer/Modal/ModalChangePassword";
+import { COMMON_ROUTES } from "../../modules/messages/constants";
+import { NotifcationIcon } from "../../modules/notifications/NotificationIcon";
+import { RiChat1Line } from "react-icons/ri";
 
 const Header: React.FC<{ moreMenu?: React.JSX.Element }> = ({ moreMenu }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -32,6 +36,7 @@ const Header: React.FC<{ moreMenu?: React.JSX.Element }> = ({ moreMenu }) => {
     deleteCookie("name");
     dispatch(signOut());
   };
+
   return (
     <header className="fixed left-0 right-0 top-0 z-50 h-fit max-w-full bg-gray-800">
       <div className="mx-auto flex items-center justify-between px-4 py-2 xl:max-w-[1280px]">
@@ -64,12 +69,21 @@ const Header: React.FC<{ moreMenu?: React.JSX.Element }> = ({ moreMenu }) => {
 
             {moreMenu}
 
+            {user.name && (
+              <>
+                <li>
+                  <Link to={COMMON_ROUTES.CONVERSATIONS} className="text-white">
+                    <RiChat1Line size={20} />
+                  </Link>
+                </li>
+                <li>
+                  <NotifcationIcon />
+                </li>
+              </>
+            )}
+
             <li>
-              {!(
-                user.name === "" &&
-                user.token === "" &&
-                user.token_type === ""
-              ) ? (
+              {user.isAuthenticated ? (
                 <span className="group relative">
                   <Link
                     to="/profile"

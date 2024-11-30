@@ -9,6 +9,7 @@ export const EMPLOYER_ROUTES = {
   LIST_APPLICATION: "/employer/list-application",
   LIST_CANDIDATE_PROFILE_SAVED: "/employer/candidate-profile-saved",
   FIND_PROFILE_CANDIDATE: "/employer/find-profile-candidate",
+  CONVERSATIONS: "/employer/conversations",
 } as const;
 
 export const EMPLOYER_BE_API = {

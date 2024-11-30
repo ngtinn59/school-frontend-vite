@@ -15,7 +15,7 @@ import { ListApplication } from "../../../pages/employer/list-application";
 import ProfileSaved from "../../../pages/employer/profile-saved";
 import FindProfileCandidate from "../../../pages/employer/find-profile-candidate";
 
-export function EmployerLayout() {
+export function EmployerLayout(props: { hideTab?: boolean }) {
   const isLogin = useAppSelector((state) => state.employer.isLogin);
   const location = useLocation();
 
@@ -82,7 +82,7 @@ export function EmployerLayout() {
 
       <div className="absolute bottom-0 top-11 flex w-full flex-col items-center justify-between">
         <div className="w-full flex-1">
-          {isLogin ? (
+          {isLogin && !props.hideTab ? (
             <Tabs
               size="large"
               centered

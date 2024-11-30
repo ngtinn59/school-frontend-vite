@@ -40,7 +40,7 @@ export const getUserInformationApi = async () => {
 // Update user information api
 export const updateUserInformationApi = async (
   data: UserInformationType,
-  image: File | undefined
+  image: File | undefined,
 ) => {
   const formDataToSend = new FormData();
   formDataToSend.append("name", data.name);
@@ -56,7 +56,11 @@ export const updateUserInformationApi = async (
   }
 
   const config = await generateConfig();
-  const response = await axios.post(`${URL_API_PROFILE}`, formDataToSend, config);
+  const response = await axios.post(
+    `${URL_API_PROFILE}`,
+    formDataToSend,
+    config,
+  );
   return response.data;
 };
 
@@ -70,7 +74,11 @@ export const getAboutMeApi = async () => {
 // Update about me api
 export const updateAboutMeApi = async (description: string) => {
   const config = await generateConfig();
-  const response = await axios.post(`${URL_API_ABOUT_ME}`, { description: description }, config);
+  const response = await axios.post(
+    `${URL_API_ABOUT_ME}`,
+    { description: description },
+    config,
+  );
   return response.data;
 };
 
@@ -93,7 +101,7 @@ export const addEducationApi = async (education: EducationType) => {
       end_date: education.end_date,
       additionalDetail: education.additionalDetail || "",
     },
-    config
+    config,
   );
   return response.data;
 };
@@ -110,7 +118,7 @@ export const updateEducationApi = async (education: EducationType) => {
       end_date: education.end_date,
       additionalDetail: education.additionalDetail || "",
     },
-    config
+    config,
   );
   return response.data;
 };
@@ -118,7 +126,10 @@ export const updateEducationApi = async (education: EducationType) => {
 // Delete user education api
 export const deleteEducationApi = async (educationId: number) => {
   const config = await generateConfig();
-  const response = await axios.delete(`${URL_API_EDUCATION}/${educationId}`, config);
+  const response = await axios.delete(
+    `${URL_API_EDUCATION}/${educationId}`,
+    config,
+  );
   return response.data;
 };
 
@@ -130,7 +141,9 @@ export const getWorkExperienceApi = async () => {
 };
 
 // add user experiences api
-export const addWorkExperienceApi = async (workExperience: WorkExperienceType) => {
+export const addWorkExperienceApi = async (
+  workExperience: WorkExperienceType,
+) => {
   const config = await generateConfig();
   const response = await axios.post(
     `${URL_API_EXPERIENCE}`,
@@ -141,18 +154,20 @@ export const addWorkExperienceApi = async (workExperience: WorkExperienceType) =
       end_date: workExperience.end_date,
       responsibilities: workExperience.responsibilities,
     },
-    config
+    config,
   );
   return response.data;
 };
 
 // Update user experiences api
-export const updateWorkExperienceApi = async (workExperience: WorkExperienceType) => {
+export const updateWorkExperienceApi = async (
+  workExperience: WorkExperienceType,
+) => {
   const config = await generateConfig();
   const response = await axios.put(
     `${URL_API_EXPERIENCE}/${workExperience.id}`,
     workExperience,
-    config
+    config,
   );
   return response.data;
 };
@@ -160,7 +175,10 @@ export const updateWorkExperienceApi = async (workExperience: WorkExperienceType
 // Delete user experiences api
 export const deleteWorkExperienceApi = async (workExperienceId: string) => {
   const config = await generateConfig();
-  const response = await axios.delete(`${URL_API_EXPERIENCE}/${workExperienceId}`, config);
+  const response = await axios.delete(
+    `${URL_API_EXPERIENCE}/${workExperienceId}`,
+    config,
+  );
   return response.data;
 };
 
@@ -172,7 +190,9 @@ export const getSkillApi = async () => {
 };
 
 // Update skill api
-export const updateSkillApi = async (skill: { name: string; level: string }[]) => {
+export const updateSkillApi = async (
+  skill: { name: string; level: string }[],
+) => {
   const config = await generateConfig();
   const response = await axios.post(`${URL_API_SKILLS}`, skill, config);
   return response.data;
@@ -186,7 +206,9 @@ export const getPersonalProjectApi = async () => {
 };
 
 // Add project api
-export const addPersonalProjectApi = async (personalProject: PersonalProjectType) => {
+export const addPersonalProjectApi = async (
+  personalProject: PersonalProjectType,
+) => {
   const config = await generateConfig();
   const response = await axios.post(
     `${URL_API_PERSONAL_PROJECT}`,
@@ -196,18 +218,20 @@ export const addPersonalProjectApi = async (personalProject: PersonalProjectType
       start_date: personalProject.start_date,
       end_date: personalProject.end_date,
     },
-    config
+    config,
   );
   return response.data;
 };
 
 // update project api
-export const updatePersonalProjectApi = async (personalProject: PersonalProjectType) => {
+export const updatePersonalProjectApi = async (
+  personalProject: PersonalProjectType,
+) => {
   const config = await generateConfig();
   const response = await axios.put(
     `${URL_API_PERSONAL_PROJECT}/${personalProject.id}`,
     personalProject,
-    config
+    config,
   );
   return response.data;
 };
@@ -215,7 +239,10 @@ export const updatePersonalProjectApi = async (personalProject: PersonalProjectT
 // Delete project api
 export const deletePersonalProjectApi = async (personalProjectId: string) => {
   const config = await generateConfig();
-  const response = await axios.delete(`${URL_API_PERSONAL_PROJECT}/${personalProjectId}`, config);
+  const response = await axios.delete(
+    `${URL_API_PERSONAL_PROJECT}/${personalProjectId}`,
+    config,
+  );
   return response.data;
 };
 
@@ -238,7 +265,7 @@ export const addCertificateApi = async (certificate: CertificateType) => {
       provider: certificate.provider,
       certificateUrl: certificate.certificateUrl,
     },
-    config
+    config,
   );
   return response.data;
 };
@@ -255,7 +282,7 @@ export const updateCertificateApi = async (certificate: CertificateType) => {
       provider: certificate.provider,
       certificateUrl: certificate.certificateUrl,
     },
-    config
+    config,
   );
   return response.data;
 };
@@ -263,7 +290,10 @@ export const updateCertificateApi = async (certificate: CertificateType) => {
 // Delete certificate api
 export const deleteCertificateApi = async (certificateId: string) => {
   const config = await generateConfig();
-  const response = await axios.delete(`${URL_API_CERTIFICATES}/${certificateId}`, config);
+  const response = await axios.delete(
+    `${URL_API_CERTIFICATES}/${certificateId}`,
+    config,
+  );
   return response.data;
 };
 
@@ -285,7 +315,7 @@ export const addAwardApi = async (award: AwardType) => {
       issueDate: award.issueDate,
       provider: award.provider,
     },
-    config
+    config,
   );
   return response.data;
 };
@@ -301,7 +331,7 @@ export const updateAwardApi = async (award: AwardType) => {
       issueDate: award.issueDate,
       provider: award.provider,
     },
-    config
+    config,
   );
   return response.data;
 };
@@ -321,7 +351,7 @@ export const getUserProfileApi = async (
   personalProjectsPromise: Promise<{ data: PersonalProjectType }>,
   certificatePromise: Promise<{ data: CertificateType }>,
   awardPromise: Promise<{ data: AwardType }>,
-  skillsPromise: Promise<{ data: SkillType }>
+  skillsPromise: Promise<{ data: SkillType }>,
 ) => {
   try {
     const [

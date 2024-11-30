@@ -20,6 +20,7 @@ export async function loadLoginStatus(): Promise<LoaderLoginResponse> {
       token: cookies.token,
       token_type: cookies.token_type,
       name: cookies.name,
+      id: +cookies.id,
     });
   } else {
     return Promise.resolve({ isLogin: false });

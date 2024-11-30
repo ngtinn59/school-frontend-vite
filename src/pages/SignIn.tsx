@@ -178,6 +178,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     document.cookie = `token=${res.data.token}`;
     document.cookie = `token_type=${res.data.token_type}`;
     document.cookie = `name=${res.data.name}`;
+    document.cookie = `id=${res.data.id}`;
     console.log("res", res.data);
     toast.success("Login successfully!");
     return redirect("/");

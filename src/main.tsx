@@ -44,13 +44,19 @@ import Job from "./pages/job/Job.tsx";
 import ProfileSaved from "./pages/employer/profile-saved.tsx";
 import FindProfileCandidate from "./pages/employer/find-profile-candidate.tsx";
 import SearchJobs from "./pages/job/SearchJobs.tsx";
+import { COMMON_ROUTES } from "./modules/messages/constants.ts";
+import { ConversationProvider } from "./modules/messages/conversationContext.tsx";
+import { ConversationPage } from "./modules/messages/Conversation.tsx";
+import { PusherProvider } from "./modules/messages/pusherContext.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <LoadUserAuthenticationData>
-        <Layout />
+        <PusherProvider>
+          <Layout />
+        </PusherProvider>
       </LoadUserAuthenticationData>
     ),
     errorElement: <ErrorPage />,
@@ -88,6 +94,14 @@ const router = createBrowserRouter([
         path: "/search-jobs/:searchText",
         element: <SearchJobs />,
         action: searchITJobAction,
+      },
+      {
+        path: COMMON_ROUTES.CONVERSATIONS,
+        element: (
+          <ConversationProvider>
+            <ConversationPage />
+          </ConversationProvider>
+        ),
       },
     ],
   },
@@ -214,7 +228,9 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <EmployerAuthProvider>
-        <EmployerLayout />
+        <PusherProvider>
+          <EmployerLayout />
+        </PusherProvider>
       </EmployerAuthProvider>
     ),
     children: [
@@ -258,6 +274,27 @@ const router = createBrowserRouter([
         path: EMPLOYER_ROUTES.FIND_PROFILE_CANDIDATE,
         element: <FindProfileCandidate />,
       },
+      {},
+    ],
+  },
+  {
+    path: "/",
+    element: (
+      <EmployerAuthProvider>
+        <PusherProvider>
+          <EmployerLayout hideTab={true} />
+        </PusherProvider>
+      </EmployerAuthProvider>
+    ),
+    children: [
+      {
+        path: EMPLOYER_ROUTES.CONVERSATIONS,
+        element: (
+          <ConversationProvider>
+            <ConversationPage />
+          </ConversationProvider>
+        ),
+      },
     ],
   },
 ]);
@@ -265,7 +302,7 @@ const router = createBrowserRouter([
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,
+      staleTime: 0,
     },
   },
 });
