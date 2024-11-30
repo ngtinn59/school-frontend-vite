@@ -21,6 +21,19 @@ export const useGetListCompanyApplied = (userId?: number) => {
   });
 };
 
+export const useGetListApplicants = (employerId?: number) => {
+  return useQuery({
+    queryKey: [COMMON_API_ROUTES.LIST_EMPLOYER_CONVERSATIONS, employerId],
+    queryFn: async () => {
+      const response = await axiosInstance.get(
+        COMMON_API_ROUTES.LIST_EMPLOYER_CONVERSATIONS,
+      );
+      return response.data?.data;
+    },
+    enabled: !!employerId,
+  });
+};
+
 export const useMutateSendMessage = () => {
   return useMutation({
     mutationFn: async ({

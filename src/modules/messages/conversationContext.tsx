@@ -52,6 +52,7 @@ export const ConversationProvider: React.FC<{ children: ReactNode }> = ({
     useState<NewConversation>();
   const updateCurrentConversation = React.useCallback(
     (currentConversation?: NewConversation) => {
+      setMessages([]);
       setCurrentConversation(currentConversation);
     },
     [],

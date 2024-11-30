@@ -35,21 +35,17 @@ export const ConversationPage = () => {
     updateConversations,
   ]);
 
-  const classView = isUser ? "w-6/12" : "w-9/12";
-
   return (
     <div className="flex h-full pt-2">
       <div className="h-full w-3/12 border-r p-2">
         <ListConversations />
       </div>
-      <div className={`${classView}`}>
+      <div className="w-6/12">
         <ConversationView />
       </div>
-      {isUser && (
-        <div className="h-full w-3/12 border-l p-2">
-          <ListCompanyApplied />
-        </div>
-      )}
+      <div className="h-full w-3/12 border-l p-2">
+        <ListCompanyApplied />
+      </div>
     </div>
   );
 };

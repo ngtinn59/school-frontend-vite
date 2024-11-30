@@ -3,7 +3,12 @@ import { NewConversation, useConversation } from "../conversationContext.tsx";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store.ts";
-import { useGetListCompanyApplied } from "../conversationActions.ts";
+import {
+  useGetListApplicants,
+  useGetListCompanyApplied,
+} from "../conversationActions.ts";
+import Cookies from "js-cookie";
+import { COOKIE_EMPLOYER_ID } from "../../employer/index.ts";
 
 export const ListConversations = () => {
   return (
@@ -16,8 +21,9 @@ export const ListConversations = () => {
 
 const ConversationContainer = () => {
   const user = useSelector((state: RootState) => state.user);
+  const employerId = parseInt(Cookies.get(COOKIE_EMPLOYER_ID) ?? "");
   const { data: companies } = useGetListCompanyApplied(user.id);
-
+  const { data: applicants } = useGetListApplicants(employerId);
   const { conversations, currentConversation } = useConversation();
   const [newConversation, setNewConversation] = useState<
     NewConversation | undefined
@@ -30,8 +36,10 @@ const ConversationContainer = () => {
       ? currentConversation?.id
       : undefined;
 
+    const data = user.id ? companies : applicants;
+
     if (newConversationId) {
-      const newC = companies?.find((c) => c.id === newConversationId);
+      const newC = data?.find((c: any) => c.id === newConversationId);
       if (newC) {
         setNewConversation({
           id: newC.id,
@@ -42,7 +50,7 @@ const ConversationContainer = () => {
         setNewConversation(undefined);
       }
     }
-  }, [companies, conversations, currentConversation]);
+  }, [applicants, companies, conversations, currentConversation, user.id]);
 
   if (!conversations) {
     return (
@@ -58,11 +66,9 @@ const ConversationContainer = () => {
         <ConversationItem key={newConversation.id} {...newConversation} />
       )}
       {conversations &&
-        conversations
-          .filter((c) => c.logo)
-          .map((conversation) => (
-            <ConversationItem key={conversation.id} {...conversation} />
-          ))}
+        conversations.map((conversation) => (
+          <ConversationItem key={conversation.id} {...conversation} />
+        ))}
     </ul>
   );
 };

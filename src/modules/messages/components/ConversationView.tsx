@@ -3,7 +3,7 @@ import { useConversation } from "../conversationContext";
 import { BiFile, BiSolidSend } from "react-icons/bi";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RiCloseFill, RiFileFill, RiUserFill } from "react-icons/ri";
-import { create, uniqueId } from "lodash";
+import { uniqueId } from "lodash";
 import Cookies from "js-cookie";
 
 import {
@@ -11,7 +11,6 @@ import {
   Message,
   useMutateSendMessage,
 } from "../conversationActions";
-import Pusher from "pusher-js";
 import { useQueryClient } from "@tanstack/react-query";
 import { COOKIE_EMPLOYER_ID, COOKIE_USER_ID } from "../../employer";
 import { usePuser } from "../pusherContext";
@@ -60,7 +59,10 @@ const ConversationContent = () => {
     }
   }, [listMessage, updateMessages]);
   useEffect(() => {
-    if (!currentConversation?.id || !pusher) return;
+    if (!currentConversation?.id || !pusher) {
+      updateMessages([]);
+      return;
+    }
     const userId = parseInt(Cookies.get(COOKIE_USER_ID) ?? "");
     const employerId = parseInt(Cookies.get(COOKIE_EMPLOYER_ID) ?? "");
     const channel = pusher.subscribe(`chat.${userId || employerId}`);

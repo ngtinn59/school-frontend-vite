@@ -1,31 +1,50 @@
-import { useSelector } from "react-redux";
 import { Tooltip, Typography, Button, Spin } from "antd";
 import { useConversation } from "../conversationContext.tsx";
-import { useGetListCompanyApplied } from "../conversationActions.ts";
-import { RootState } from "../../../app/store.ts";
+import {
+  CompanyApplied,
+  Message,
+  useGetListApplicants,
+  useGetListCompanyApplied,
+} from "../conversationActions.ts";
+import Cookies from "js-cookie";
+import { COOKIE_EMPLOYER_ID, COOKIE_USER_ID } from "../../employer/index.ts";
+import { useEffect, useState } from "react";
 
 export const ListCompanyApplied = () => {
-  const user = useSelector((state: RootState) => state.user);
+  const userId = parseInt(Cookies.get(COOKIE_USER_ID) ?? "");
+  const employerId = parseInt(Cookies.get(COOKIE_EMPLOYER_ID) ?? "");
 
-  const { data: companies, isLoading } = useGetListCompanyApplied(user.id);
+  const { data: companies, isLoading } = useGetListCompanyApplied(userId);
+  const { data: applicants, isLoading: employerLoading } =
+    useGetListApplicants(employerId);
+
+  const [data, setData] = useState<CompanyApplied[]>([]);
+
+  useEffect(() => {
+    if (userId && Array.isArray(companies)) {
+      setData(companies);
+    }
+    if (employerId) {
+      setData(applicants);
+    }
+  }, [companies, applicants, userId, employerId]);
 
   return (
     <div className="flex h-full flex-col gap-3">
-      <h1>Danh sách công ty ứng tuyển</h1>
-      {isLoading ? (
+      <h1>
+        {userId
+          ? "Danh sách công ty ứng tuyển"
+          : "Danh sách ứng viên ứng tuyển"}
+      </h1>
+      {isLoading || employerLoading ? (
         <div className="flex h-full items-center justify-center">
           <Spin />
         </div>
       ) : (
         <ul className="flex h-full flex-col gap-2">
-          {companies?.map((company) => (
-            <li key={company.id}>
-              <CompanyCard
-                key={company.id}
-                id={company.id}
-                name={company.name}
-                logo={company.logo}
-              />
+          {data?.map((d: any) => (
+            <li key={d.id}>
+              <CompanyCard {...d} />
             </li>
           ))}
         </ul>
