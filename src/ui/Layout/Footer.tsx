@@ -42,9 +42,9 @@ const Footer: React.FC<Props> = ({ className }) => {
               Contact Us
             </h3>
             <p className="text-gray-400">
-              Email: thanhb2004808@student.ctu.edu.vn
+              Email: 
             </p>
-            <p className="text-gray-400">Phone: +84 79 544 2122</p>
+            <p className="text-gray-400">Phone: </p>
           </div>
         </div>
       </div>

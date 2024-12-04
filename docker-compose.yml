@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5174:5174"  # Đảm bảo ánh xạ cổng chính xác
+    volumes:
+      - .:/app  # Giúp đồng bộ mã nguồn giữa máy chủ và container
+    environment:
+      - NODE_ENV=development  # Đảm bảo môi trường là development
+    command: npm run dev  # Đảm bảo chạy lệnh npm run dev khi container khởi động

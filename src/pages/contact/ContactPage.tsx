@@ -5,8 +5,6 @@ import Divider from "../../components/Divider";
 const ContactPage: React.FC = () => {
   const students = [
     { name: "Nguyễn Thành Tín", id: "B2004814" },
-    { name: "Trần Thanh Thiên", id: "B2004810" },
-    { name: "Lê Phước Thành", id: "B2004808" },
   ];
 
   return (
