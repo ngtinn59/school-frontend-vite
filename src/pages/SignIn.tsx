@@ -61,14 +61,14 @@ export default function Login() {
   return (
     <Wrapper>
       <div className="flex flex-col gap-4">
-        <Title type="h2">Welcome to ITViec!</Title>
+        <Title type="h2">Chào mừng đến với ITViec!</Title>
         <div className="flex w-full flex-col-reverse gap-10 md:flex-row md:gap-40">
           <div className="flex flex-col gap-4">
             <div className="text-base">
-              By signing in, you agree to ITviec’s{" "}
-              <Link to="terms-conditions"> Terms & Conditions</Link> and{" "}
-              <Link to="privacy-policy">Privacy Policy</Link> in relation to
-              your privacy information.
+              Bằng cách đăng nhập, bạn đồng ý với{" "}
+              <Link to="terms-conditions">Điều khoản & Điều kiện</Link> và{" "}
+              <Link to="privacy-policy">Chính sách bảo mật</Link> của ITviec
+              liên quan đến thông tin cá nhân của bạn.
             </div>
             <div>
               <Button
@@ -80,32 +80,32 @@ export default function Login() {
                   <span>
                     <img src={icon_google} className="h-8" />
                   </span>
-                  <span>Login with Google</span>
+                  <span>Đăng nhập bằng Google</span>
                 </div>
               </Button>
             </div>
             <div className="flex flex-row items-center">
               <div className="flex-grow border-t-2 border-solid border-slate-200"></div>
-              <div className="grid-1 px-2">or</div>
+              <div className="grid-1 px-2">hoặc</div>
               <div className="flex-grow border-t-2 border-solid border-slate-200"></div>
             </div>
 
             <Form method="POST" className="flex flex-col gap-4 text-base">
               <Input
-                placeholder="Email"
+                placeholder="Vui lòng nhập địa chỉ Email"
                 type="text"
                 name="email"
                 id="login-email"
                 containerClassName="flex flex-col gap-1"
                 // required
-                label="Email"
+                label="Địa chỉ Email"
               />
 
               <Input
-                placeholder="Password"
+                placeholder="Vui lòng nhập mật khẩu"
                 type="password"
                 name="password"
-                label="Password"
+                label="Mật khẩu"
                 id="login-password"
                 containerClassName="flex flex-col gap-1"
                 // required
@@ -116,7 +116,7 @@ export default function Login() {
                   buttonType="primary"
                   className="h-12 w-full rounded-md"
                 >
-                  Login
+                  Đăng nhập
                 </Button>
                 <div
                   onClick={() => {
@@ -124,19 +124,19 @@ export default function Login() {
                   }}
                   className="block cursor-pointer text-end"
                 >
-                  Forgot password?
+                  Quên mật khẩu?
                 </div>
               </span>
             </Form>
             <div className="text-center">
-              <span>Do not have an account? </span>
-              <Link to="/sign-up">Sign up now!</Link>
+              <span>Chưa có tài khoản? </span>
+              <Link to="/sign-up">Đăng ký ngay!</Link>
             </div>
           </div>
           <div className="flex flex-col gap-4">
             <Title type="h2" className="">
-              Sign in to get instant access to thousands of reviews and salary
-              information
+              Đăng nhập để có quyền truy cập ngay vào hàng ngàn đánh giá và
+              thông tin lương
             </Title>
             <ul className="flex flex-col">
               {LOGIN_PAGE_TEXT_USP.map((text, idx) => (
@@ -180,7 +180,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     document.cookie = `name=${res.data.name}`;
     document.cookie = `id=${res.data.id}`;
     console.log("res", res.data);
-    toast.success("Login successfully!");
+    toast.success("Đăng nhập thành công!");
     return redirect("/");
   } else {
     res.errors &&
