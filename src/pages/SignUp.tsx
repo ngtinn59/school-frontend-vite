@@ -16,74 +16,44 @@ export default function SignUp() {
   return (
     <Wrapper>
       <div className="flex flex-col gap-4">
-        <Title type="h2">Chào mừng bạn đến với ITViet!</Title>
-        <div className="flex flex-col-reverse md:flex-row md:gap-40 gap-10 w-full">
-          <div className="flex flex-col gap-4 flex-1 ">
-            <div className="text-base ">
-              <Input
-                type="checkbox"
-                placeholder=""
-                name="sign-with-google"
-                onChange={() => {
-                  setIsAgreeGoogle(!isAgreeGoogle);
-                }}
-                containerClassName="contents"
-                inputClassName="h-6 w-6 transform translate-y-1.5 mr-1 "
-              />
-              By signing up with Google, I agree to ITviec’s{" "}
-              <Link to="terms-conditions"> Terms & Conditions</Link> and{" "}
-              <Link to="privacy-policy">Privacy Policy</Link> in relation to your privacy
-              information.
-            </div>
-            <div>
-              <Button
-                buttonType={isAgreeGoogle ? "disabled" : "outline"}
-                type="button"
-                className="w-full h-12 rounded-md">
-                <div className="flex flex-row justify-center items-center gap-4">
-                  <span>
-                    <img src={icon_google} className="h-8" />
-                  </span>
-                  <span>Sign Up with Google</span>
-                </div>
-              </Button>
-            </div>
+        <Title type="h2">Chào mừng bạn đến với việc làm cái bè!</Title>
+        <div className="flex w-full flex-col-reverse gap-10 md:flex-row md:gap-40">
+          <div className="flex flex-1 flex-col gap-4">
             <div className="flex flex-row items-center">
-              <div className="flex-grow border-t-2 border-slate-200 border-solid"></div>
-              <div className="grid-1 px-2">or</div>
-              <div className="flex-grow border-t-2 border-slate-200 border-solid"></div>
+              <div className="flex-grow border-t-2 border-solid border-slate-200"></div>
+              <div className="flex-grow border-t-2 border-solid border-slate-200"></div>
             </div>
 
-            <Form method="POST" className="text-base flex flex-col gap-4">
+            <Form method="POST" className="flex flex-col gap-4 text-base">
               <Input
-                placeholder="Name"
+                placeholder="Vui lòng nhập họ và tên"
                 type="text"
                 name="name"
                 id="sign-up-name"
                 required
-                label="Name"
+                label="Họ và tên"
                 containerClassName="flex flex-col gap-1"
               />
               <Input
-                placeholder="Email"
+                placeholder="Vui lòng nhập địa chỉ Email"
                 type="text"
                 name="email"
                 id="sign-up-email"
                 required
-                label="Email"
+                label="Địa chỉ Email"
                 containerClassName="flex flex-col gap-1"
               />
 
               <Input
-                placeholder="Password"
+                placeholder="Vui lòng nhập mật khẩu"
                 type="password"
                 name="password"
-                label="Password"
+                label="Mật khẩu"
                 id="sign-up-password"
                 containerClassName="flex flex-col gap-1"
                 required
               />
-              <div className="text-base ">
+              <div className="text-base">
                 <Input
                   type="checkbox"
                   placeholder=""
@@ -95,28 +65,32 @@ export default function SignUp() {
                     setIsAgreeTerms(!isAgreeTerms);
                   }}
                 />{" "}
-                I have read and agree to ITviec’s{" "}
-                <Link to="terms-conditions"> Terms & Conditions</Link> and{" "}
-                <Link to="privacy-policy">Privacy Policy</Link> in relation to your privacy
-                information.
+                Tôi đã đọc và đồng ý với{" "}
+                <Link to="terms-conditions">Điều khoản & Điều kiện</Link> và{" "}
+                <Link to="privacy-policy">Chính sách Bảo mật</Link> liên quan
+                đến thông tin riêng tư của bạn.
               </div>
               <span>
                 <Button
                   type="submit"
                   buttonType={isAgreeTerms ? "disabled" : "primary"}
-                  className="w-full h-12 rounded-md">
-                  Sign Up
+                  className="h-12 w-full rounded-md"
+                >
+                  Đăng ký
                 </Button>
               </span>
             </Form>
 
             <div className="text-center">
-              <span>Already have an account? </span>
-              <Link to="/sign-in">Sign In Now!</Link>
+              <span>Đã có tài khoản?</span>
+              <Link to="/sign-in">Đăng nhập ngay bây giờ!</Link>
             </div>
           </div>
-          <div className="flex-1 gap-4 lg:block hidden">
-            <img src="src/assets/sign-up-robot-image.png" className=" w-full max-w-96" />
+          <div className="hidden flex-1 gap-4 lg:block">
+            <img
+              src="src/assets/sign-up-robot-image.png"
+              className="w-full max-w-96"
+            />
           </div>
         </div>
       </div>
@@ -143,7 +117,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       res.errors &&
         Object.keys(res.errors).forEach((key) => {
           res.errors &&
-            toast.error(`${key[0].toUpperCase() + key.slice(1)}: ${res.errors[key].join(", ")}`);
+            toast.error(
+              `${key[0].toUpperCase() + key.slice(1)}: ${res.errors[key].join(", ")}`,
+            );
         });
       return redirect("/sign-up");
     }
