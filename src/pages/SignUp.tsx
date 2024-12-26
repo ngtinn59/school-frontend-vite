@@ -16,7 +16,7 @@ export default function SignUp() {
   return (
     <Wrapper>
       <div className="flex flex-col gap-4">
-        <Title type="h2">Welcome to ITViet!</Title>
+        <Title type="h2">Chào mừng bạn đến với ITViet!</Title>
         <div className="flex flex-col-reverse md:flex-row md:gap-40 gap-10 w-full">
           <div className="flex flex-col gap-4 flex-1 ">
             <div className="text-base ">

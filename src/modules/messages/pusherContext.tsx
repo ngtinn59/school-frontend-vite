@@ -11,7 +11,7 @@ export const PusherProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const pusherRef = useRef<Pusher>(
-    new Pusher("e18109c4b9ff5b7d7c55", { cluster: "ap1" }),
+    new Pusher("3cd1ba9bc8746d6a85f0", { cluster: "ap1" }),
   );
 
   return (
